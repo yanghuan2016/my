@@ -1,8 +1,0 @@
-:local(.table){
-    background-color: #fff;
-}
-
-:local(.pagination){
-    float: right;
-    margin: 10px 5px 0 10px;
-}

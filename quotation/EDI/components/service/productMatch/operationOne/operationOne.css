@@ -1,7 +1,0 @@
-:local(.modalOneDivsion div) {
-    border-bottom: 1px solid #e6e6e6;
-}
-
-:local(.modalOneDivsion div:last-child) {
-    border-bottom: none;
-}
