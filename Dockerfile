@@ -1,4 +1,4 @@
-FROM yh/ubuntu:14.04
+FROM ubuntu:14.04
 COPY . /src
 RUN \
    apt-get update && \
