@@ -1,0 +1,27 @@
+:local(.box){
+    padding:3% 3% 2%;
+    font-size:12px;
+    color:#101010;
+    border-bottom: 1px solid #BBBBBB;
+}
+:local(.title){
+    font-size:20px;
+    color: green;
+    padding: 25px 25px 25px 5px;
+}
+:local(.address){
+    padding: 5px;
+}
+:local(.dates){
+    padding: 5px;
+}
+:local(.phone){
+    padding: 5px;
+}
+:local(.payment){
+    padding:  5px;
+}
+:local(.pay){
+    color: red;
+    font-size:14px;
+}

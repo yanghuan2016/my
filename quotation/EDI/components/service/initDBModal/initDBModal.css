@@ -1,0 +1,7 @@
+:local(.content) {
+    height: 90px;
+    line-height: 90px;
+    text-align: center;
+    font-weight: 100;
+    font-size: 14px;
+}

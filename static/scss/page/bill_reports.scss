@@ -1,0 +1,33 @@
+.settle-modal {
+  background-color: white;
+  display: none;
+  height: 250px;
+  width: 562px;
+  border: 1px solid #bbbbbb;
+  border-radius: 5px;
+  margin-top: 50px;
+  font-size: 12px;
+
+
+  .sub-node{
+    div:nth-of-type(1) {
+      text-align: center;
+      margin-top:29px
+    }
+    div:nth-of-type(2) {
+      text-align: right;
+      margin-top: 13px;
+    }
+  }
+}
+
+.settle-modal-header {
+  border-radius: 5px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  border-bottom: 1px solid #bbb;
+  background-color: #F5F5F5;
+  padding-left: 20px;
+  text-align:left;
+}

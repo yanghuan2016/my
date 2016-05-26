@@ -1,0 +1,94 @@
+<% var active = "clients"; %>
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page" style="min-height:801px;">
+            <!--Breadcrumbs-->
+            <div style="position: fixed;z-index: 88888;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+            </div>
+            <iframe src="/customer/client/guide" scrolling="auto" style="width: 470px;height: 250px;background-color: transparent;position: fixed;z-index: 99999;display: none" allowTransparency="true" id="selectGoods">
+            </iframe>
+            <div class="container page-content">
+                <div class="row space-top">
+                    <!-- Sidebar-->
+                    <% include ../_nav_customer_left.ejs%>
+                    <!-- Sidebar CLose-->
+                    <section class="col-md-10 pull-right space-bottom page-content-right">
+                        <% var clientSumsGroupByStatus=data.clientsSumsGroupByStatus %>
+                        <aside class="page-content-right-head" style="background: rgb(236, 236, 236);">
+                            <label style="margin-right: 30px;margin-left: 8px;">
+                                <a class="click-link" href="/customer/client">已开通客户</a>
+                            </label>
+                            <label style="margin-right: 30px;">
+                                <a class="click-link" href="/customer/client/toReview">待审核客户</a>
+                                <% var hasCheckedNum=clientSumsGroupByStatus.sumsInCREATED>0; %>
+                                <div style="height:30px;line-height:30px;<%=hasCheckedNum?"":'display:none' %>"><div class="checkListCircle"></div></div>
+                            </label>
+                            <label style="margin-right: 30px;">
+                                <a class="click-link" href="/customer/client/reject">已退回客户</a>
+                            </label>
+                            <label style="margin-right: 30px;">
+                                <a class="active" href="/customer/client/updateInfoClient">资料更新审核</a>
+                                <% var hasCheckedNum=clientSumsGroupByStatus.sumsInUPDATEINFO>0; %>
+                                <div style="height:30px;line-height:30px;<%=hasCheckedNum?"":'display:none' %>"><div class="checkListCircle"></div></div>
+                            </label>
+
+                            <div class="page-content-sort" style="position:relative">
+                                <!--todo why div blow .add float:right will change the horizontal -->
+                                <div class="filter-input"   style="vertical-align:middle;position:static;line-height:50px">
+                                    <form method="get" role="search" class="updatedClientsForm" style="position:static;" >
+                                        <input class="form-control  checkedClientSearchInput" type="text"    placeholder="请输入客户名..."  value="<%=data.clientName %>">
+                                        <button type="button"  style="right:6px"  class="checkedClientBtn" ><i class="fa fa-filter" style="border:none"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </aside>
+                            <table class="table page-table">
+                                <thead>
+                                <tr>
+                                    <td><strong>客户名称</strong></td>
+                                    <td><strong>手机号码</strong></td>
+                                    <td><strong>申请时间</strong></td>
+                                    <td><strong>状态</strong></td>
+                                    <td><strong>操作</strong></td>
+                                </tr>
+                                <tbody>
+                                <% var clients = data.clients; %>
+                                <% for(var i = 0; i < clients.length; i += 1){ %>
+                                <% var item = clients[i]; %>
+                                <td><%= item.clientName %></td>
+                                <td><%= item.mobile %></td>
+                                <% var d = new Date(item.createdOn); %>
+                                <td><%= d.getFullYear() + "-" + (d.getMonth() +1) + "-" + d.getDate() %></td>
+                                <td>待审核</td>
+                                <td>
+                                    <a href="/customer/client/review?id=<%= item.id %>" class="tooltipped" title="审核" data-toggle="tooltip" data-placement="left"><i class="fa fa-legal"></i></a>
+                                </td>
+                                </tr>
+                                <% } %>
+                                </tbody>
+                            </table>
+                    </section><!--Catalog List Close-->
+                    <section class="col-md-10 space-top pull-right">
+                        <% var url = "/customer/client/updateInfoClient?" %>
+                        <% include ../../_paginator.ejs%>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>

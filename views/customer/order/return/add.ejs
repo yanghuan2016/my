@@ -1,0 +1,99 @@
+<% include ../../header.ejs%>
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+        <% include ../../_nav_top.ejs %>
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../../_nav_head.ejs%>
+        <!--Header Close-->
+
+        <!--Page Content--><!-- InstanceBeginEditable name="content" -->
+        <div class="page double-padding-bottom">
+
+            <div class="container page-content">
+                <div class="row">
+
+                    <!--Sidebar-->
+                    <% var active = "return"; %>
+                    <% include ../../_order_sidebar.ejs %>
+                    <!--Sidebar Close-->
+
+                    <div style="position: fixed;z-index: 1023;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+                    </div>
+                    <iframe style="font-size: 14px;padding: 4px;display:none;width:50%;height:940px;" id="addProductToShipIframe" src="/goods/goodsList?nextToUrl=addProductToReturnOrder">
+                    </iframe>
+
+                    <section class="col-md-10 space-top space-bottom">
+                        <div class="filterDiv">
+                            <div class="filterHead">
+                                <div>新增退货单</div>
+                            </div>
+                            <div>
+                                <a class="btn btn-primary" id="selectProductDialog">添加商品</a>
+                            </div>
+                        </div>
+                        <div class="space-top">
+                            <table class="sm-page-table">
+                                <thead>
+                                <tr>
+                                    <td class="goods-info"><strong>商品信息</strong></td>
+                                    <td><strong>货号</strong></td>
+                                    <td><strong>申退数量</strong></td>
+                                    <td><strong>备注</strong></td>
+                                    <td><strong>操作</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr name="ItemTemplate" style="display: none">
+                                    <td class="goods-info">
+                                        <div class="goods-img">
+                                            <img src=""/>
+                                        </div>
+                                        <div class="goods-name-info">
+                                            <h6 name="commonName"><a href="/goods/detail?goodsId="></a></h6>
+                                            <h6 name="birthPlace"></h6>
+                                            <h6 name="spec"></h6>
+                                        </div>
+                                    </td>
+                                    <td name="goodsNo"></td>
+                                    <td>
+                                        <label>
+                                            <input type="text" class="normal-input text-center" name="applyQuantity"/>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label>
+                                            <input type="text" class="normal-input text-center" name="goodsRemark"  placeholder="请输入备注"/>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <a id=""><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <div style="text-align: start;padding: 10px;">
+                                            申请备注：<input type="text" placeholder="添加备注" class="form-control" style="width: 80%;" name="addReturnRemark"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="space-top content-flex-space-end">
+                            <a class="btn btn-primary" id="submitReturnInfo">提交申请</a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--Page Content Close-->
+    </div><!--Layout Close-->
+    <% include ../../_nav_bottom.ejs%>
+</div>
+
+<% include ../../footer.ejs %>
+<script  type="text/javascript" src="/static/source/js/client/return.js"></script>

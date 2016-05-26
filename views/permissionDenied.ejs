@@ -1,0 +1,40 @@
+<% include customer/header.ejs%>
+<!--Off-Canvas-->
+<div style="position:relative;padding-bottom: 100px;">
+    <!--Header Toolbar-->
+    <div class="header-toolbar tool-head">
+        <div class="container">
+            <div class="cont-info pull-left">
+                你好，欢迎来到新疆神木药业！
+            </div>
+            <div class="cont-info pull-right">
+
+                <div>
+                    <a id="login_link" href="/login"><i class="fa fa-user"></i>
+                        未登录
+                    </a>
+                </div>
+                <div><a href="#"><i class="fa fa-file-text"></i>我的订单</a></div>
+                <div><a href="#"><i class="fa fa-android"></i>手机APP</a></div>
+                <div><a href="#"><i class="fa fa-phone"></i>400-021-2541</a></div>
+            </div>
+        </div>
+    </div>
+    <!--Header Toolbar Close-->
+    <section class="specialty-page" style="min-height:801px">
+        <div class="notFound notFoundNoRight">
+            <ul>
+                <li>
+                    <img src="/static/img/error/no_right.png"/>
+                </li>
+                <li>对不起</li>
+                <li>您的帐号没有访问该页面的权限</li>
+                <li>
+                    <a href="/">返回</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+<% include customer/_nav_bottom.ejs%>
+<% include customer/footer.ejs %>

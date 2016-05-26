@@ -1,0 +1,415 @@
+<% include customer/header.ejs%>
+
+<link rel="stylesheet" href="/static/masterslider/skins/light-6/style.css"/>
+
+<style>
+    html{
+        height:100% !important;
+    }
+
+</style>
+
+<!--[if IE]>
+<script type="text/javascript" >
+    var IEversion = detectIE();
+
+    if (IEversion !== false) {
+        if(IEversion<9)
+            alert('亲,您使用IE浏览器版本太低了,请使用IE10或更高ie版本,谷歌浏览器或火狐浏览器');
+    }
+
+    /**
+     * detect IE
+     * returns version of IE or false, if browser is not Internet Explorer
+     */
+    function detectIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        if (msie > 0) {
+            // IE 10 or older => return version number
+            return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+        }
+        var trident = ua.indexOf('Trident/');
+        if (trident > 0) {
+            // IE 11 => return version number
+            var rv = ua.indexOf('rv:');
+            return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+        }
+        var edge = ua.indexOf('Edge/');
+        if (edge > 0) {
+            // IE 12 => return version number
+            return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+        }
+        // other browser
+        return false;
+    }
+
+</script>
+<![endif]-->
+<div style="position:relative;width:100%;height: 100%">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+            <% include customer/_nav_top.ejs %>
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+            <% var display = "true";%>
+            <% var length = 10;%>
+            <% var active = "index";%>
+            <% include customer/_nav_head.ejs%>
+            <!--Header Close-->
+
+            <!--Page Content--><!-- InstanceBeginEditable name="content" -->
+            <div class="page blog" style="margin-bottom: 60px;">
+                <!-- slider -->
+                <section class="container space-bottom" style="padding-right: 0">
+
+                    <div class="flexslider carouselATag" style="overflow:hidden;height: 390px;margin: 10px 17.916667% 0 15.416667%;border: none;">
+                        <ul class="slides  " style="height: 390px">
+                          <%var carouselsLength=data.carousels.length%>
+                          <%if( carouselsLength==0){%>
+                                <li>
+                                  <img src="/static/img/TEST.jpg" title="暂时无活动" style="height: 390px;"/>
+                                </li>
+                          <%}%>
+                          <%for(var i=0;i<carouselsLength;i++){%>
+                                <%var currentCarousel=data.carousels[i]%>
+                                <li style="height: 390px;background-color:white;position:relative;">
+                                        <a target="_blank"   style="width:100%;height:390px;"  href="<%=currentCarousel.link%>">
+                                            <img src="<%=currentCarousel.imgUrl%>" style="height:100%;width:auto;margin:0 auto"/>
+                                            <div class="index-carousel-container modalContent" >
+                                                <div class="index-carousel-background-container" ></div>
+                                                <div class="index-carousel-text-container" >
+                                                    <div class="index-carousel-text-ultimate-container">
+                                                      <span class="index-carousel-text">
+                                                          <%= currentCarousel.displayText %>
+                                                      </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                </li>
+                          <%}%>
+                        </ul>
+                    </div>
+
+                    <div class="promisePanel">
+                        <div class="promiseList">
+                            <div class="title">
+                                <span>商家承诺</span>
+                            </div>
+                            <div class="content container-fluid">
+                                <div class="col-md-4">
+                                    <span class="contentTitle">低</span>
+                                    <span class="contentContent">价格最低</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <span class="contentTitle">正</span>
+                                    <span class="contentContent">正品保证</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <span class="contentTitle">全</span>
+                                    <span class="contentContent">种类齐全</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="newsList">
+                            <div class="title">
+                                <span>新闻公告</span>
+                                <a href="/newsList">更多<i class="fa fa-angle-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <ul>
+                                    <%var newsLength=data.news.length%>
+                                    <%if(newsLength==0){%>
+                                    <li>
+                                        <a>亲,暂时没有新闻～<i title="热点" class="fa fa-fire"></i></a>
+                                    </li>
+                                    <%}%>
+                                    <%for(var j=0;j<newsLength;j++){%>
+                                    <%var currentNews=data.news[j]%>
+                                    <li>
+                                        <a href="/news/<%= currentNews.id%>">
+                                            <%= currentNews.newsTitle %>
+                                        </a>
+                                    </li>
+                                    <%}%>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- slider Close-->
+                <% var showcases = data.showcases; %>
+                <% var scLength = showcases.length %>
+                <% if(scLength==0) {%>
+
+                <section class="container space-top">
+                    暂时没有推荐商品
+                </section>
+                <% } else { %>
+                    <% for( var k = 0; k < scLength; k++){ %>
+                    <% var currentShowcase = showcases[k]; %>
+                    <% if(currentShowcase.mode=='LIST'){%>
+                    <% var imgUrl=currentShowcase.detail[0].img; %>
+                    <% var isValidImgUrl=imgUrl==null||typeof(imgUrl)=="undefined"||imgUrl=="undefined"||imgUrl=="" %>
+                <section class="container space-top">
+                    <div class="showcase-list">
+                        <div class="showcase-title">
+                            <h3><%= currentShowcase.title %></h3>
+                        </div>
+                        <div class="showcase-content">
+                            <div class="content-left">
+                                <div class="content-left-img-url">
+                                    <a href="/goods/detail?goodsId=<%= currentShowcase.detail[0].goodsId  %>">
+                                        <img src="<%= isValidImgUrl?"/static/img/blog/posts/post01.jpg":currentShowcase.detail[0].img %>"/>
+                                    </a>
+                                </div>
+                                <div class="content-left-img-info">
+                                    <div>
+                                        <div>
+                                            <div class="showcase-price">
+                                                <%if(typeof(data._userInfo)!="undefined"&&data._userInfo.operatorType=="CLIENT"){%>
+                                                <% var _clientGoodsPrice=currentShowcase.detail[0].clientGoodPrice; %>
+                                                <%if(_clientGoodsPrice!="undefined"&&_clientGoodsPrice!=null&&Number(_clientGoodsPrice)!=0){%>
+                                                &yen;<%= Number(_clientGoodsPrice).toFixed(4) %>
+                                                <%}else{%>
+                                                暂无信息
+                                                <%}%>
+                                                <%}else{%>
+                                                <% var _refRetailPrice=currentShowcase.detail[0].price; %>
+                                                <%if(_refRetailPrice!="undefined"&&_refRetailPrice!=null&&Number(_refRetailPrice)!=0){%>
+                                                &yen;<%= Number(_refRetailPrice).toFixed(4) %>
+                                                <%}else{%>
+                                                暂无信息
+                                                <%}%>
+                                                <%}%>
+                                            </div>
+                                            <div class="showcase-commonName">
+                                                <a href="/goods/detail?goodsId=<%= currentShowcase.detail[0].goodsId%>" title="<%=currentShowcase.detail[0].commonName %>">
+                                                    <%=currentShowcase.detail[0].commonName %>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="showcase-producer">
+                                                <a title="<%=currentShowcase.detail[0].producer %>">
+                                                    <%=currentShowcase.detail[0].producer %>
+                                                </a>
+                                            </div>
+                                            <div class="showcase-producer">
+                                                <a title="<%=currentShowcase.detail[0].spec %>">
+                                                    <%=currentShowcase.detail[0].spec %>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="number-box">
+                                            <span>
+                                                <a class="indexShowcaseUpdateNum" type="decrease"><i class="fa fa-minus"></i></a>
+                                                <input type="text" value="1" class="input_nu">
+                                                <a class="indexShowcaseUpdateNum" type="increase"><i class="fa fa-plus"></i></a>
+                                            </span>
+                                            <%if(data._userInfo&&data._userInfo.operatorType =="CUSTOMER"){%>
+                                            <a class="click-link tooltipped"  data-display="pic" data-toggle="tooltip" data-placement="bottom">
+                                                <i class="fa fa-shopping-cart" style="color:grey"></i>
+                                            </a>
+                                            <%}else{%>
+                                            <div>
+                                                <a goodsId="<%= currentShowcase.detail[0].goodsId %>" data-checkLogin="<%= isLogin%>"
+                                                   class="click-link tooltipped indexAddtoCart" title="加入购物车" data-toggle="tooltip" data-placement="bottom">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </a>
+                                            </div>
+                                            <%}%>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content-right">
+                                <% for(var o = 1;o < currentShowcase.detail.length;o++){ %>
+                                <%
+                                    var currentSCgoods = currentShowcase.detail[o],
+                                        listItemClassName=o==6?'content-right-list-item-without-bottom':'content-right-list-item';
+                                %>
+                                <div class="<%= listItemClassName %>">
+                                    <div class="goods-info">
+                                        <div class="goods-img">
+                                            <img src="<%= isValidImgUrl?"/static/img/blog/posts/post01.jpg":currentSCgoods.img %>"/>
+                                        </div>
+                                        <div class="goods-name-info">
+                                            <div class="showcase-commonName">
+                                                <a href="/goods/detail?goodsId=<%= currentSCgoods.goodsId%>" title="<%=currentSCgoods.commonName %>">
+                                                    <%= currentSCgoods.commonName %>
+                                                </a>
+                                            </div>
+                                            <div class="showcase-producer">
+                                                <a title="<%=currentSCgoods.producer %>">
+                                                    <%= currentSCgoods.producer %>
+                                                </a>
+                                            </div>
+                                            <div class="showcase-producer">
+                                                <a title="<%=currentSCgoods.spec %>">
+                                                    <%= currentSCgoods.spec %>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-item-right">
+                                        <div class="showcase-price">
+                                            <%if(typeof(data._userInfo)!="undefined"&&data._userInfo.operatorType=="CLIENT"){%>
+                                            <% var _clientGoodsPrice=currentSCgoods.clientGoodPrice; %>
+                                            <%if(_clientGoodsPrice!="undefined"&&_clientGoodsPrice!=null&&Number(_clientGoodsPrice)!=0){%>
+                                            &yen;<%= Number(_clientGoodsPrice).toFixed(4) %>
+                                            <%}else{%>
+                                            暂无信息
+                                            <%}%>
+                                            <%}else{%>
+                                            <% var _refRetailPrice=currentSCgoods.price; %>
+                                            <%if(_refRetailPrice!="undefined"&&_refRetailPrice!=null&&Number(_refRetailPrice)!=0){%>
+                                            &yen;<%= Number(_refRetailPrice).toFixed(4) %>
+                                            <%}else{%>
+                                            暂无信息
+                                            <%}%>
+                                            <%}%>
+                                        </div>
+                                        <div class="number-box">
+
+                                            <% var defaultNum = currentSCgoods.isSplit == 1 ? 1 : currentSCgoods.middlePackNum %>
+                                            <% var storage=currentSCgoods.negSell == 1?"-1":currentSCgoods.storage %>
+                                            <% var isSplit = currentSCgoods.isSplit %>
+                                            <% var i = currentSCgoods.goodsId %>
+
+                                            <% include ./customer/portal/addToCartNumbar.ejs%>
+
+                                            <% var isLogin = !(typeof(data._userInfo) === "undefined"); %>
+                                            <%if(data._userInfo&&data._userInfo.operatorType =="CUSTOMER"){%>
+                                            <a class="click-link tooltipped"  data-display="pic" data-toggle="tooltip" data-placement="bottom">
+                                                <i class="fa fa-shopping-cart" style="color:grey"></i>
+                                            </a>
+                                            <%}else{%>
+                                            <div>
+                                                <a goodsId="<%= currentSCgoods.goodsId %>" data-checkLogin="<%= isLogin%>"
+                                                   class="click-link tooltipped indexAddtoCart" title="加入购物车" data-toggle="tooltip" data-placement="bottom">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </a>
+                                            </div>
+                                            <%}%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                                <% if (currentShowcase.detail.length <  7){%>
+                                <div class="content-right-list-item" style="border-bottom: none;">
+                                    <div class="not-more">推荐栏没有更多的商品了～</div>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                    <%}
+                        else if(currentShowcase.mode=='ICONLIST'){
+                    %>
+                        <section class="container space-top">
+                            <h3  class="sc_header"><%= currentShowcase.title %></h3>
+                            <div class="borderGreen"></div>
+                            <section style="height: 560px;position: relative">
+                                <section class="icon_sc_leftContainer grid-view" style="height: inherit;">
+                                    <!--IMG-->
+                                    <div class="icon_sc_imgContainer">
+                                        <a href="<%= currentShowcase.advertiseHref  %>">
+                                            <img class="icon_sc_img" src="<%= currentShowcase.advertiseImg %>" alt=""/>
+                                        </a>
+                                    </div>
+                                </section>
+                                <section class=" icon_sc_rightContainer page-content-right pull-right " style="height: inherit">
+
+                                        <div style="display:flex;flex-wrap:wrap;height:100%;width:100%">
+                                            <% for(var m=0;m<8;m++){%>
+                                            <%var currentSCgoods=currentShowcase.detail[m]
+                                                var cellClassName='icon_sc_firstRow_goodCell';
+                                                if(m>=4){
+                                                    cellClassName='icon_sc_firstRow_goodCell_topBorder';
+                                                }
+                                                ;%>
+                                            <% if(typeof(currentSCgoods)!='undefined'){%>
+                                            <div class="<%= cellClassName%>">
+                                                <div class="icon_sc_cell_imgContainer">
+                                                    <a href="/goods/detail?goodsId=<%= currentSCgoods.goodsId %>">
+                                                        <img class="goodCell_img" src="<%= currentSCgoods.img==null||typeof(currentSCgoods.img)=='undefined'?'/static/img/index/noPic.png':currentSCgoods.img %>" alt=""/>
+                                                    </a>
+                                                </div>
+                                                <div class="icon_sc_cell_infoContainer">
+                                                    <div class="icon_sc_cell_price">
+                                                        <%if(typeof(data._userInfo)!="undefined"&&data._userInfo.operatorType=="CLIENT"){%>
+                                                        <% var _clientGoodsPrice=currentSCgoods.clientGoodPrice; %>
+                                                        <%if(_clientGoodsPrice!="undefined"&&_clientGoodsPrice!=null&&Number(_clientGoodsPrice)!=0){%>
+                                                        &yen;<text><%= Number(_clientGoodsPrice).toFixed(4) %></text>
+                                                        <%}else{%>
+                                                        暂无信息
+                                                        <%}%>
+                                                        <%}else{%>
+                                                        <% var _refRetailPrice=currentSCgoods.price; %>
+                                                        <%if(_refRetailPrice!="undefined"&&_refRetailPrice!=null&&Number(_refRetailPrice)!=0){%>
+                                                        &yen;<text><%= Number(_refRetailPrice).toFixed(4) %></text>
+                                                        <%}else{%>
+                                                        暂无信息
+                                                        <%}%>
+                                                        <%}%>
+
+                                                    </div>
+                                                    <div   title="<%=currentSCgoods.commonName%>" class="icon_sc_cell_commonName index_space_down">
+                                                        <%=currentSCgoods.commonName%>
+                                                    </div>
+
+                                                    <div  class="icon_sc_cell_company_spec">
+                                                        <%= currentSCgoods.producer||'暂无生产厂家' %>
+                                                    </div>
+                                                    <div  class="icon_sc_cell_company_spec">
+                                                        <%= currentSCgoods.spec %>
+                                                    </div>
+
+                                                    <div class="icon_sc_cell_bottom">
+                                                        <% var defaultNum = currentSCgoods.isSplit == 1 ? 1 : currentSCgoods.middlePackNum %>
+                                                        <% var storage=currentSCgoods.negSell == 1?"-1":currentSCgoods.storage %>
+                                                        <% var isSplit = currentSCgoods.isSplit %>
+                                                        <% var i = currentSCgoods.goodsId %>
+
+                                                        <% include ./customer/portal/addToCartNumbar.ejs%>
+                                                        <% var isLogin = !(typeof(data._userInfo) === "undefined"); %>
+                                                        <%if(data._userInfo&&data._userInfo.operatorType =="CUSTOMER"){%>
+                                                        <div   class=" iconCartDisabled icon_sc_cell_cart_container">
+                                                            <i class=" fa fa-shopping-cart "></i>
+                                                        </div>
+                                                        <%}else{%>
+                                                        <div  data-checkLogin="<%= isLogin%>"  goodsId="<%=currentSCgoods.goodsId  %>" data-stock="<%= currentSCgoods.inventory %>" class=" addToCart iconCartColor icon_sc_cell_cart_container">
+                                                            <i class=" fa fa-shopping-cart "></i>
+                                                        </div>
+                                                        <%}%>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <%}else{%>
+                                                <div class="<%= cellClassName%>">
+                                                </div>
+                                            <%}%>
+
+                                            <%}%>
+                                        </div>
+                                </section>
+                            </section>
+                        </section>
+                    <%}%>
+                    <% } %>
+                <% } %>
+            </div>
+    <% include customer/_nav_bottom.ejs%>
+    </div>
+</div>
+
+
+
+<!--Javascript (jQuery) Libraries and Plugins-->
+<% include customer/footer.ejs%>
+<script src="/static/source/js/index.js"></script>

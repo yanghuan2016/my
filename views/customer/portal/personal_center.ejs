@@ -1,0 +1,195 @@
+<% include ../header.ejs %>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+        <% include ../_nav_top.ejs %>
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs %>
+        <!--Header Close-->
+
+        <!--Page Content--><!-- InstanceBeginEditable name="content" -->
+        <div class="page blog">
+            <div class="container">
+                <div class="row">
+                    <!--Sidebar-->
+                    <% var active = "personal_center"; %>
+                    <% include ../_order_sidebar.ejs %>
+                    <!--Sidebar Close-->
+
+                    <!--Catalog List-->
+                    <section class="col-md-10 pull-right space-top space-bottom page-content">
+                        <!--Item-->
+                        <div>
+                            <h5><%= data._userInfo.clientName %></h5>
+                        </div>
+                        <% var counts = data.orderCount %>
+                        <% var shippedNum = 0 %>
+                        <% var rejectedNum = 0 %>
+                        <% var returnNum = data.returnCount.num %>
+                        <% for(var i in counts){ %>
+                        <% if(counts[i].status == "CREATED"){ %>
+                        <% shippedNum = counts[i].num} %>
+                        <% if(counts[i].status == "CLOSED"){ %>
+                        <% rejectedNum = counts[i].num} %>
+                        <% } %>
+                        <div class="page-content-right page-content-border">
+                            <table class="table page-table table-center">
+                                <tbody>
+                                <% if(data._client.paymentType == "CREDIT"){ %>
+                                <tr>
+                                    <td width="25%">
+                                        <h6>授信额度</h6>
+                                        <h3><%= data.clientFinance.credits %></h3>
+                                    </td>
+                                    <td width="25%">
+                                        <h6>可用余额</h6>
+                                        <h3><%= data.clientFinance.arrearsBalance %></h3>
+                                    </td>
+                                    <td width="25%">
+                                        <h6>结款日期</h6>
+                                        <h3>每月<%= data.accoutDays %>日</h3>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                <tr>
+                                    <td width="25%">
+                                        <a href="/order?cf=diliveryStatus&cv=SHIPPED" class="click-link">
+                                            <h6>待收货</h6>
+                                            <div>
+                                                <span style="font-size: 24px;color: #333333;"><%= shippedNum %></span>
+                                                <div><img src="/static/img/revision-img/right_gif"/></div>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td width="25%">
+                                        <a href="/order/return?cf=订单状态&cv=APPROVED" class="click-link">
+                                            <h6>退货待发货</h6>
+                                            <div>
+                                                <span style="font-size: 24px;color: #333333;"><%= returnNum %></span>
+                                                <div><img src="/static/img/revision-img/right_gif"/></div>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td width="25%">
+                                        <a href="/portal/personal/complaints" class="click-link">
+                                            <h6>投诉建议</h6>
+                                            <div>
+                                                <span style="font-size: 24px;color: #333333;"><%= data.unreadComplainCount %></span>
+                                                <div><img src="/static/img/revision-img/right_gif"/></div>
+                                            </div>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--Item-->
+
+                        <div class="space-top table-head-nav">
+                            <span>常购产品</span>
+                            <a id="changeGoods" href="javascript:void(0)"><i class="fa fa-refresh"></i>换一批</a>
+                        </div>
+                        <div class="product">
+                            <!-- product -->
+                            <section>
+                                <ul>
+                                    <% for (var i in  data.orderFreqBuy){ %>
+                                    <% var item = data.orderFreqBuy[i] %>
+                                    <% if ((Number(i) + 1) >= data.num - 4 && (Number(i) + 1) <= data.num){ %>
+                                    <li>
+                                        <!--Blog Posts-->
+                                        <section class="col-md-3 grid-view">
+                                            <!--Row-->
+                                            <div class="post">
+                                                <div class="featured-img"
+                                                     style="border:1px solid #cecece;height:226px;
+                                                     background-color:white;
+                                                     display:table-cell;vertical-align:middle;margin-bottom:5px;">
+                                                    <% var invalidImageUrl = item.imageUrl == null || item.imageUrl == 'undefined'; %>
+                                                    <a href="/goods/detail?goodsId=<%= item.goodsId %>"><img
+                                                                style="width:226px;"
+                                                                src="<%= invalidImageUrl?"/static/img/blog/posts/post01.jpg":item.imageUrl %>"
+                                                                alt=""/></a>
+                                                </div>
+                                                <footer class="product-footer"
+                                                        style="width:228px;padding:5px 10px;margin-bottom:0px">
+                                                    <div style="position:relative;height:100%">
+                                                        <div style="height:74px;vertical-align:bottom">
+                                                            <div style="color:#f51a1a;">
+                                                                ¥ <%= item.wholesalePrice %></div>
+                                                            <div>
+                                                                <a href="/goods/detail?goodsId=<%= item.goodsId %>">
+                                                                    <div style="color:#666666;font-size:14px;word-wrap:break-word;overflow:hidden;height:40px;">
+                                                                        <%= item.commonName %>
+                                                                        <% if(item.alias){ %>
+                                                                        (<%= item.alias %>)
+                                                                        <% } %>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div style="display:block;height:20px;margin-top:-4px;text-overflow: ellipsis;width:206px;font-size:13px;
+                                                                  overflow: hidden;
+                                                                  white-space: nowrap;
+                                                                  -o-text-overflow: ellipsis;
+                                                                  -ms-text-overflow: ellipsis;
+                                                                  text-overflow: ellipsis;
+                                                                " title="<%= item.producer %>"><%= item.producer %>
+                                                        </div>
+                                                        <div>
+                                                            <%= item.spec %>/<%= item.measureUnit %>
+                                                        </div>
+                                                        <div class="taxonomy" style="width:100%; margin-top:5px;">
+                                                            <table>
+                                                                <tr>
+                                                                    <% var defaultNum = item.isSplit == 1 ? 1 : item.middlePackNum %>
+                                                                    <% var storage = item.negSell == 1 ? "-1" : item.storage %>
+                                                                    <% var isSplit = item.isSplit %>
+                                                                    <td>
+                                                                        <% include ./addToCartNumbar.ejs %>
+                                                                    </td>
+
+                                                                    <td style="padding-top:5px;">
+                                                                        <% var isLogin = !(typeof(data._userInfo) === "undefined"); %>
+                                                                        <a href="javascript:void(0)"
+                                                                           class="click-link tooltipped infoAddCart"
+                                                                           data-checkLogin="<%= isLogin %>"
+                                                                           data-display="pic"
+                                                                           goodsid="<%= item.goodsId %>" title="加入购物车"
+                                                                           data-toggle="tooltip" data-placement="bottom"
+                                                                           style="margin-right: 45px;font-size: 12px;">
+                                                                            <i class="fa fa-shopping-cart fa-2x text-primary "></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </footer>
+                                            </div>
+                                        </section>
+                                        <!--Blog Posts Close-->
+                                    </li>
+                                    <% } %>
+                                    <% } %>
+                                </ul>
+                            </section>
+                            <!-- product Close-->
+                        </div>
+                    </section>
+                    <!--Catalog List Close-->
+
+                </div>
+            </div>
+        </div>
+        <!--Page Content Close-->
+    </div><!--Layout Close-->
+    <% include ../_nav_bottom.ejs %>
+</div>
+
+<% include ../footer.ejs %>
+<!--<script src="/static/source/js/index.js"></script>-->

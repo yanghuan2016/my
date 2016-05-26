@@ -1,0 +1,194 @@
+<% var paginator = data.paginator || {}; %>
+<div style="width: 100%">
+    <div class="sm-nav-head">
+        <div class="container">
+            <div class="col-md-2 sm-nav-head-logo">
+                <a href="/"><img src="/static/img/smlogo_png.png" alt="神木医药网"/></a>
+            </div>
+            <div class="col-md-8 sm-nav-head-search">
+                <form>
+                    <%
+                    var paginator_keywordsValue = '';
+                    if (typeof paginator != 'undefined') {
+                        if (typeof paginator.kav != 'undefined') {
+                            paginator_keywordsValue = (paginator.kav == "%") ? "" : paginator.kav;
+                        }
+                    }
+                    %>
+                    <input value="<%= paginator_keywordsValue %>" id="kav" type="text" autocomplete="off" accesskey="s"
+                           placeholder="请输入商品名称/货号/生产厂家">
+                    <% var paginatorData = {
+                        url: "/goods?",
+                        kav: 'keywordsValueToBeReplaced',
+                        paginator: {
+                            cf: "",
+                            cv: "",
+                            kaf: "",
+                            kav: "",
+                            kbf: "",
+                            kbv: "",
+                            kf: "",
+                            kv: "",
+                            sf: "",
+                            sv: "",
+                            ps: "",
+                            p: ""
+                        }
+                    };
+                    %>
+                    <button type="submit" class="search_goods" data-url=<%= JSON.stringify(paginatorData) %>>搜索</button>
+                </form>
+            </div>
+            <div class="col-md-2 sm-nav-head-cart">
+                <button class="sm-cart" onclick="(function(){window.location.href='/cart'}())">
+                    <a><i class="fa fa-shopping-cart"></i></a>
+                    <span>我的购物车</span>
+                    <span class="icon-cart cartItemCount"><%= data._cartItemCount %></span>
+                </button>
+            </div>
+        </div>
+        <div class="sm-nav-float" style="display: none">
+            <div id="sm-nav-head-logo-float" class="sm-nav-head-logo">
+                <a href="/"><img src="/static/img/smlogo_png.png" alt="神木医药网"/></a>
+            </div>
+            <div id="sm-nav-head-search-float" class="sm-nav-head-search">
+                <form>
+                    <%
+                    var paginator_keywordsValue = '';
+                    if (typeof paginator != 'undefined') {
+                        if (typeof paginator.kav != 'undefined') {
+                            paginator_keywordsValue = (paginator.kav == "%") ? "" : paginator.kav;
+                        }
+                    }
+                    %>
+                    <input value="<%= paginator_keywordsValue %>" id="kav" type="text" autocomplete="off" accesskey="s"
+                           placeholder="请输入商品名称,货号，生产厂家">
+                    <% var paginatorData = {
+                        url: "/goods?",
+                        kav: 'keywordsValueToBeReplaced',
+                        paginator: {
+                            cf: "",
+                            cv: "",
+                            kaf: "",
+                            kav: "",
+                            kbf: "",
+                            kbv: "",
+                            kf: "",
+                            kv: "",
+                            sf: "",
+                            sv: "",
+                            ps: "",
+                            p: ""
+                        }
+                    };
+                    %>
+                    <button type="submit" class="search_goods" data-url=<%= JSON.stringify(paginatorData) %>>搜索</button>
+                </form>
+            </div>
+            <div id="sm-nav-head-cart-float" class="sm-nav-head-cart">
+                <div class="sm-cart" onclick="(function(){window.location.href='/cart'}())">
+                    <a><i class="fa fa-shopping-cart"></i></a>
+                    <span class="icon-cart cartItemCount"><%= data._cartItemCount %></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sm-nav-bottom">
+        <div class="container">
+            <% var displayss = (typeof(display) == "undefined") ? "false" : display %>
+            <% var CSS = displayss == "true" ? "sm-nav-bottom-top" : "sm-nav-bottom-top-first" %>
+            <div class=<%= CSS %>>
+                <div class="title">
+                    <a>全部商品类别</a>
+                    <a><i class="fa fa-th"></i></a>
+                </div>
+                <div class="sm-nav-bottom-top-content">
+                    <ul>
+                        <% if(data._goodsTypes.children.length > 0){ %>
+                        <% var types = data._goodsTypes %>
+                        <% var length1 = (typeof(length) == "undefined") ? types.children.length : (Number(length) > types.children.length ? types.children.length : Number(length)) %>
+                        <% for(var items = 0; items < length1;items++){ %>
+                        <% var item = types.children[items] %>
+                        <% var paginatorData = {
+                            url: "/goods?",
+                            caf: "产品类别",
+                            cav: typeof(item) != 'undefined' ? item.erpId : 0,
+                            kav: "",
+                            kbv: "",
+                            p: 1,
+                            paginator: paginator
+                        };
+                        %>
+                        <li>
+                            <a onclick="joinPaginator(<%= JSON.stringify(paginatorData) %>)"
+                               value="<%- item.name %>"><%- item.name %></a>
+                            <% if(types.children[items].children.length > 0){ %>
+                            <i class="fa fa-angle-right"></i>
+                            <% } %>
+                            <% if(types.children[items].children.length > 0){ %>
+                            <% var minheight = Number(length1 * 40) %>
+                            <div class="subItem" style="min-height: <%= minheight + 'px' %>">
+                                <ul>
+                                    <% for(var element in types.children[items].children){ %>
+                                    <% var ele = types.children[items].children[element] %>
+                                    <% var paginatorData = {
+                                        url: "/goods?",
+                                        caf: "产品类别",
+                                        p: 1,
+                                        cav: typeof(ele) != 'undefined' ? ele.erpId : 0,
+                                        kav: "",
+                                        kbv: "",
+                                        paginator: paginator
+                                    };
+                                    %>
+                                    <li>
+                                        <a onclick="joinPaginator(<%= JSON.stringify(paginatorData) %>)"><%= ele.name %></a>
+                                        <ul>
+                                            <% for(var tempt in ele.children){ %>
+                                            <% var temp2 = ele.children[tempt] %>
+                                            <% var paginatorData = {
+                                                url: "/goods?",
+                                                caf: "产品类别",
+                                                p: 1,
+                                                cav: typeof(temp2) != 'undefined' ? temp2.erpId : 0,
+                                                kav: "",
+                                                kbv: "",
+                                                paginator: paginator
+                                            };
+                                            %>
+                                            <li>
+                                                <a onclick="joinPaginator(<%= JSON.stringify(paginatorData) %>)"><%= temp2.name %></a>
+                                            </li>
+                                            <% } %>
+                                        </ul>
+                                    </li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                            <% } %>
+                        </li>
+                        <% } %>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+            <div class="sm-nav-bottom-top-next">
+                <% var activetemp = ((typeof(active) == "undefined") ? "" : active) %>
+                <ul data="<%= activetemp %>">
+                    <li>
+                        <a href="/" class="<%= (activetemp == "index" ? "indexTopActive" : "") %>">网站首页</a>
+                    </li>
+                    <li>
+                        <a href="/goods" class="<%= (activetemp == "goods" ? "indexTopActive" : "") %>">商品中心</a>
+                    </li>
+                    <li>
+                        <a href="/newsList" class="<%= (activetemp == "newsList" ? "indexTopActive" : "") %>">新闻公告</a>
+                    </li>
+                    <li>
+                        <a href="/aboutUs" class="<%= (activetemp == "aboutUs" ? "indexTopActive" : "") %>">联系我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

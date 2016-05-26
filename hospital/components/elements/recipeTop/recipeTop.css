@@ -1,0 +1,16 @@
+:local(.item) {
+    line-height: 40px;
+}
+
+:local(.topButton) {
+    text-align: end;
+}
+
+:local(.topButton button) {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+:local(.topButton button:last-child) {
+    margin-left: 20px;
+}

@@ -1,0 +1,256 @@
+<% include ../../../header.ejs%>
+<%
+var goodsType = data._goodsTypes.children;
+
+%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+<div style="position:relative;width:100%;height:100%;">
+    <% include  ../../../_nav_head_mobile.ejs %>
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../../_nav_head.ejs%>
+        <div class="page double-padding-bottom">
+
+            <div style="position: fixed;z-index: 1022;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+            </div>
+            <div id="settleModal" class="settle-modal">
+                <div class="settle-modal-header">收款确认</div>
+
+                <div class="sub-node">
+
+
+                    <div >
+                        <table style="margin-left:63px;border-radius:2px;">
+                            <tr style="margin-bottom:10px;height:30px;">
+                                <td style="text-align:right;padding-right:4px;">
+                                    请输入本次结款金额:
+                                </td>
+                                <td style="text-align:left">
+                                    <input id="settleSum" oninput="checkSum(this)" type="text" placeholder=""/>
+                                    <span class="tips"></span>
+                                </td>
+                            </tr>
+
+                            <tr style="height:30px;">
+                                <td>请再次输入本次结款金额:</td>
+                                <td style="text-align:left;padding-right:4px;">
+                                    <input id="reSettleSum" oninput="reCheckSum(this)"  type="text" placeholder=""/>
+                                    <span class="retips"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:right;padding-right:4px;">请输入备注:</td>
+                                <td style="text-align:left">
+                                    <textarea id="creditSettleRemark"  style="resize:none" name="" id="" cols="40" rows="3"></textarea>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <!--请输入本次结款金额: <input type="text" placeholder="单行输入"/>-->
+                    </div>
+                    <!-- <div style="text-align:center">
+                         请再次输入本次结款金额: <input type="text" placeholder="单行输入"/>
+                     </div>-->
+                    <div >
+                        <input type="hidden" id="hiddenData" />
+                        <button  id="creditSettleBtn" class="btn btn-primary">确认结算</button>
+                        <button  id="cancelCreditSettleBtn" class="btn ">取消</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container page-content">
+                <div class="row space-top">
+                    <% var active = "financeCenter"; %>
+                    <% include ../../_nav_customer_left.ejs%>
+                    <section class="col-md-10 pull-right space-bottom">
+                        <div class="filterDivTab">
+                            <div class="tabList">
+                                <a href="/customer/bill/financecenter" class="itemActive">授信客户结款</a>
+                                <a href="/customer/bill/cod">货到付款结款</a>
+                                <a href="/customer/bill/refundCheck">退款审核</a>
+                                <a href="/customer/bill/refundPerform">退款执行</a>
+                                <a href="/customer/bill/tradeDetail">交易明细</a>
+                            </div>
+                        </div>
+                        <div class="margin-top-sm finance-filter-container">
+                            从<div class="defaultdropdown" style="display:inline-block">
+                                <div class="btn-group">
+                                    <button type="button" class="dropdown-toggle filter-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span id="spanGetStartYear"><%= data.startYear%></span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu getYears" style="height: 250px;overflow: scroll;overflow-x: hidden;">
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="defaultdropdown" style="display:inline-block">
+                                <div class="btn-group">
+                                    <button type="button" class="dropdown-toggle filter-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span id="spanGetStartMonth"><%= data.startMonth %></span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu getMonth" style="height: 250px;overflow: scroll;overflow-x: hidden;">
+                                    </ul>
+                                </div>
+                            </div>
+
+                            到 <div class="defaultdropdown" style="display:inline-block">
+                                <div class="btn-group">
+                                    <button type="button" class="dropdown-toggle filter-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span id="spanGetEndYear"><%= data.endYear%></span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu getYears" style="height: 250px;overflow: scroll;overflow-x: hidden;">
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="defaultdropdown"  style="display:inline-block;margin-right:40px;">
+                                <div class="btn-group">
+                                    <button type="button" class="dropdown-toggle filter-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span id="spanGetEndMonth"><%=data.endMonth%></span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu getMonth" style="height: 250px;overflow: scroll;overflow-x: hidden;">
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="defaultdropdown  "  style="display:inline-block;">
+                                <div class="btn-group">
+                                    <button type="button" class="dropdown-toggle filter-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <%
+                                        var statusText='';
+                                        if(data.status=='ALL'){
+                                            statusText='全部状态';
+                                        }else if(data.status=='CLEARED'){
+                                            statusText='已结清'
+                                        }
+                                        else if(data.status=='UNCLEARED'){
+                                            statusText='未结清';
+                                        }else if(data.status=='PENDING'){
+                                            statusText='未出账'
+                                        }
+                                        %>
+                                        <span id="spanCreditType">
+                                            <%= statusText%>
+                                        </span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a>全部状态</a></li>
+                                        <li><a>未出账</a></li>
+                                        <li><a>已结清</a></li>
+                                        <li><a>未结清</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <input style="width: 250px;display: inline-block;height: 30px"  value="<%= data.clientName %>"   type="text" id="getClientName" placeholder="请输入客户名称" class="form-control"/>
+                            <button class="btn" id="selectFinance">查询</button>
+                            <button class="btn btn-primary" style="float:right"> 导出</button>
+                        </div>
+
+                        <div class="finance-sum">
+                            <span>合计</span>
+                            <% var sumData=data.financeData%>
+                            <span class="margin-right-lg">应结款:</span>
+                            <span class="n-bill clearSum">&yen; <%= (sumData.needToPayStateSum).toFixed(data.pointDigit.DEFAULT)%></span>
+                            <span class="margin-right-lg">已结款:</span>
+                            <span class="finish-bill">&yen; <%= (sumData.clearSum).toFixed(data.pointDigit.DEFAULT)%></span>
+                            <span class="margin-right-lg">待结款:</span>
+                            <span class="pend-bill ">&yen; <%= (sumData.waitForStateSum).toFixed(data.pointDigit.DEFAULT)%></span>
+                        </div>
+
+                        <div class="space-top">
+                            <table class="sm-page-table ">
+                                <thead>
+                                <tr>
+                                    <td><strong>客户名称</strong></td>
+                                    <td><strong>结款周期</strong></td>
+                                    <td><strong>期初余额</strong></td>
+
+                                    <td><strong>订单金额</strong></td>
+
+                                    <td><strong>红冲金额</strong></td>
+                                    <td><strong>应结款</strong></td>
+                                    <td><strong>已结款</strong></td>
+
+                                    <td><strong>期末余额</strong></td>
+                                    <td><strong>操作</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody class="finance-table">
+
+
+                                <% var financeDetails=data.financeData.statementDetails;  %>
+
+                                <% for(var i=0;i<financeDetails.length;i++){%>
+                                <% var currentItem=financeDetails[i];%>
+
+                                <% if(currentItem.isChargeOff!=0) {%>
+                                <tr  data-id="<%= currentItem.id%>"  data-index="<%= i%>"  data-clientid="<%= currentItem.clientId %>">
+                                    <td><%= currentItem.clientName%></td>
+                                    <td class="billMonth"><%= currentItem.billMonth %></td>
+                                    <td><%= currentItem.originAmount.toFixed(data.pointDigit.DEFAULT) %></td>
+                                    <td>&yen;<span><%= currentItem.receivableState.toFixed(data.pointDigit.DEFAULT)%></span></td>
+
+                                    <td class="font-color-red">&yen;<span class=" redflushAmount"><%= currentItem.redflushAmount.toFixed(data.pointDigit.DEFAULT)%></span></td>
+                                    <td class="font-color-blue">&yen;<a href="/customer/bill/creditClientFigure?clientId=<%= currentItem.clientId %>&filterMonth=<%= currentItem.billMonth%>" ><span class="receivableState" ><%= currentItem.needToPayState.toFixed(data.pointDigit.DEFAULT)%></span></a> </td>
+                                    <td class="font-color-green">&yen;<a href="/customer/bill/creditClientReceive?clientId=<%= currentItem.clientId %>"><span class="clearAmount"><%= currentItem.clearAmount.toFixed(data.pointDigit.DEFAULT)%></span></a></td>
+                                    <td><%= currentItem.ultimateAmount.toFixed(data.pointDigit.DEFAULT) %></td>
+                                    <td style="text-align:center">
+                                        <% if(currentItem.isEdit==0){%>
+                                        <a href="javascript:void(0)"><i class="fa fa-check-circle"></i></a>
+                                        <%}else{%>
+                                        <div class="finance-operation  creditSettlementBtn">
+                                            <a   href="javascript:void(0)">
+                                                <i class="fa fa-check-circle"></i>
+                                            </a>
+                                        </div>
+                                        <%}%>
+                                    </td>
+                                </tr>
+                                <%}%>
+
+                                <%}%>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div   id="creditSettlePage" class="margin-top-md">
+                            <% var url = "/customer/bill/financeCenter?"%>
+                            <% include ../../../_paginator.ejs%>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../../_nav_bottom.ejs%>
+</div>
+<% include  ../../../footer.ejs %>
+<script type="text/javascript">
+    var myDate = new Date().getUTCFullYear();
+    var str1 = "";
+    for (var i = myDate; i > 1990; i--) {
+        str1 += "<li><a>" + i + "</a></li>";
+    }
+    var str2 = "";
+    for (var i = 12; i > 0; i--) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        str2 += "<li><a>" + i + "</a></li>";
+    }
+    $(".getYears").append(str1);
+    $(".getMonth").append(str2);
+</script>

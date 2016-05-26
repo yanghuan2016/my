@@ -1,0 +1,20 @@
+:local(.body) {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    position: relative;
+}
+
+:local(.body .left) {
+    width: 20%;
+    height: 100%;
+    background: #252f3d;
+    float: left;
+}
+
+:local(.body .right) {
+    width: 80%;
+    height: auto;
+    position: relative;
+    float: right;
+}

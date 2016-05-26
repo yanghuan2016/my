@@ -1,0 +1,323 @@
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+            <% include ../../_nav_top.ejs %>
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+            <% include ../_nav_head.ejs%>
+            <div class="page double-padding-bottom">
+                <div style="position: fixed;z-index: 88888;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+                </div>
+                <iframe src="/customer/goods/guide" scrolling="auto" style="width: 470px;height: 250px;background-color: transparent;position: fixed;z-index: 99999;display: none" allowTransparency="true" id="selectGoods">
+                </iframe>
+            <!--Header Close-->
+        <div class="container page-content">
+            <div class="row space-top">
+
+                <!-- Sidebar-->
+                <% var active = "lists"; %>
+                <% include ../_nav_customer_left.ejs%>
+                <!-- Sidebar CLose-->
+
+                <section class="col-md-10 pull-right  space-bottom page-content-right">
+                    <aside class="page-content-right-head">
+                        <div class="filter-item">
+                            筛选:
+                            <% if(paginator.cav == "1" && paginator.caf == "状态"){%>
+                                已上架<i class="flaticon-downwards"></i>
+                            <% } else if(paginator.cav == "0" && paginator.caf == "状态"){%>
+                                已下架<i class="flaticon-downwards"></i>
+                            <% } else {%>
+                                全部状态<i class="flaticon-downwards"></i>
+                            <% } %>
+                            <ul class="dropDown-list" data-display="hide" style="left: 3.4%;">
+                                <li>
+                                    <% var paginatorNull = {
+                                        url: "product",
+                                        paginator: {}
+                                    }%>
+                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorNull)%>)">全部状态</a>
+                                </li>
+                                <li>
+                                    <% var paginatorData = {
+                                        url : "product?",
+                                        caf : "状态",
+                                        cav : "1",
+                                        p : 1,
+                                        paginator : paginator
+                                    };
+                                    %>
+                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">已上架</a>
+                                </li>
+                                <li>
+                                    <% var paginatorData = {
+                                        url : "product?",
+                                        caf : "状态",
+                                        cav : "0",
+                                        p : 1,
+                                        paginator : paginator
+                                    };
+                                    %>
+                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">已下架</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="goodsCatagoryDropDown">
+                            <div class="btn-group">
+                                <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    全部类别
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <% var paginatorNull = {
+                                            url: "product?",
+                                            caf: paginator.caf,
+                                            cav: paginator.cav,
+                                            paginator: {}
+                                        }%>
+                                        <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorNull)%>)">全部类别</a>
+                                    </li>
+                                    <% var index = 0;%>
+                                    <% var goodsType = data._goodsTypes.children;%>
+                                    <% var length1 = goodsType.length;%>
+                                    <% for(var item = 0; item < length1; item++){%>
+                                    <% var key = goodsType[item]%>
+                                    <% index++;%>
+                                    <li>
+                                        <% var paginatorData = {
+                                            url : "product?",
+                                            cbf : "产品类别",
+                                            cbv : key.erpId,
+                                            p : 1,
+                                            paginator : paginator
+                                        };
+                                        %>
+                                        <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%=key.name%></a>
+                                        <% if(key.children.length != 0) { %>
+                                        <i class="fa fa-angle-right"></i>
+                                        <div class="subItem" style="min-height: <%= ((length1+1) * 40 + 10)+'px'%>">
+                                            <ul>
+                                                <% for(var itemTwo in key.children){%>
+                                                <% var ele = key.children[itemTwo]%>
+                                                <li>
+                                                    <% var paginatorData = {
+                                                        url : "product?",
+                                                        cbf : "产品类别",
+                                                        cbv : ele.erpId,
+                                                        p : 1,
+                                                        paginator : paginator
+                                                    };
+                                                    %>
+                                                    <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%= ele.name%></a>
+                                                    <% if(ele.children.length > 0){ %>
+                                                    <i class="fa fa-angle-right"></i>
+                                                    <div class="subItem" style="min-height: <%= (key.children.length * 40)+'px'%>">
+                                                        <ul>
+                                                            <% for(var tempThree in ele.children){%>
+                                                            <% var element = ele.children[tempThree]%>
+                                                            <li>
+                                                                <% var paginatorData = {
+                                                                    url : "product?",
+                                                                    cbf : "产品类别",
+                                                                    cbv : element.erpId,
+                                                                    p : 1,
+                                                                    paginator : paginator
+                                                                };
+                                                                %>
+                                                                <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%= element.name%></a>
+                                                            </li>
+                                                            <% } %>
+                                                        </ul>
+                                                    </div>
+                                                    <% } %>
+                                                </li>
+                                                <% } %>
+                                            </ul>
+                                        </div>
+                                        <% } %>
+                                    </li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                        </div>
+                        <aside class="sidebar no-devider" style="display: inline-flex;float: right;margin-top: 10px;width: auto;">
+                            <div class="widget search" style="margin-bottom: 0px;">
+                                <form method="get" role="search" action="" style="margin-right: 10px;">
+                                    <label class="sr-only" for="blog-search"></label>
+                                    <%
+                                    var paginator_keywordsValue = '';
+                                    if (typeof paginator != 'undefined') {
+                                        if (typeof paginator.kv != 'undefined') {
+                                            paginator_keywordsValue = (paginator.kv == "%") ? "" : paginator.kv;
+                                        }
+                                    }
+                                    %>
+                                    <input class="form-control" type="text" placeholder="请输入商品名/货号/商品别名/生产厂家..." style="height: 30px;width:300px;" value="<%= paginator_keywordsValue%>">
+                                    <% var paginatorData = {
+                                        url : "product?",
+                                        p : 1,
+                                        kv : 'keywordsValueToBeReplaced',
+                                        paginator : paginator
+                                    };
+                                    %>
+                                    <button type="submit" class="search_goods" style="right: 0px;top: -12px;" data-url="<%= JSON.stringify(paginatorData)%>">
+                                        <i class="fa fa-filter" style="font-size: 20px;"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <!--<a class="btn btn-primary" id="opener">导入</a>-->
+                            <!--<a class="btn btn-primary displaySelect">导入</a>-->
+                            <div class="modal " id="uploadfile" style="display: none;width: 500px;height: 110px;margin:0 auto;line-height:100px;margin-top: 5%;border:1px solid #AAA;background:white ">
+                                <div class="modal-body">
+                                    <form class="form-signin" role="form" method="post"    enctype='multipart/form-data'>
+                                        <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" style="border: 0px;margin-bottom:10px;padding-left:0px" accept=".xls,.xlsx"/>
+                                        <div style="text-align: right">
+                                            <span class="uploadTip"></span>
+                                            <button id="btnSub" class="btn btn-lg btn-primary" type="submit" >上 传</button>
+                                            <button type="button" id="btnCancelUpload" class="btn btn-lg btn-primary" >取 消</button>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <a class="btn btn-primary" href="/customer/product/edit">新增</a>
+                        </aside>
+
+                    </aside>
+                    <div class="col-sm-12">
+                    <table class="table page-table">
+                    <tr>
+                        <td class="checkbox-item"><strong></strong></td>
+                        <td class="goods-name-info goods-info-img"><strong>商品信息</strong></td>
+                        <td><strong>货号</strong></td>
+                        <td><strong>商品类别</strong></td>
+                        <td><strong>库存</strong></td>
+                        <td><strong>状态</strong></td>
+                        <td><strong>操作</strong></td>
+                    </tr>
+                    <% for(var i in product) {
+                        var proOnsell=product[i].onSell;
+                        var fontColor="#3a3a3a";
+                        if(proOnsell!=null&&proOnsell==0) {
+                            fontColor="#999";
+                        }
+                    %>
+                    <form method="post">
+                    <tr style="color:<%=fontColor%>">
+                        <td>
+                            <div class="checkbox" >
+                                <label class="chkItem"><input type="checkbox" class="chkproduct"  name="chkProduct"  value="<%=product[i].id%>"> </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="goods-img">
+                                <img src="<%= product[i].imageUrl%>"/>
+                            </div>
+                            <div class="goods-info">
+                                <h6><span style="color:<%=fontColor%>; font-size:13px">
+                                        <a href="/goods/detail?goodsId=<%= product[i].id%>"><%=  product[i].commonName %></a>
+                                    </span></h6>
+                                <h6><span style="color:<%=fontColor%>;font-size:13px"><%=  product[i].producer %></span></h6>
+                                <h6><span style="color:<%=fontColor%>;font-size:13px"><%=  product[i].spec %></span></h6>
+                            </div>
+                        </td>
+                        <td> <%= product[i].goodsNo %></td>
+                        <td> <%= product[i].goodsType %></td>
+                        <td>
+                            <% if(product[i].amount!=null){%>
+                            <label><%= product[i].amount %></label>件
+                            <%} else {%>
+                            暂无信息
+                            <% } %> </td>
+                        <td>
+                            <% if(product[i].onSell!=null){%>
+                            <label style="margin: 0px;">
+                                <% if(product[i].onSell){%>
+                                 上架中
+                                <%}else{%>
+                                已下架
+                                <%}%>
+                            </label>
+                            <%} else {%>
+                            暂无信息
+                            <% } %> </td>
+
+                        <td class="customer-operation">
+                            <div>
+                                <a <%= fontColor=="#999"?"style=color:#999":""%> href="/customer/product/edit?goodsId=<%=product[i].id%>">
+                                    <i class="fa fa-pencil-square-o tooltipped" data-toggle="tooltip" data-placement="left" title="修改" style="margin-right: 2px"></i>
+                                </a>
+                            </div>
+
+                            <div class="nav-item">
+                                    <a <%= fontColor=="#999"?"style=color:#999":""%>>
+                                        <i class="fa fa-yen tooltipped"></i>
+                                    </a>
+                                    <ul class="nav-list">
+                                        <li>
+                                            <a <%= fontColor=="#999"?"style=color:#999":""%> href="/customer/goods/clientprice?goodsId=<%=product[i].id%>">客户价格设定</a>
+                                        </li>
+                                        <li>
+                                            <a <%= fontColor=="#999"?"style=color:#999":""%> href="/customer/goods/categoryprice?goodsId=<%=product[i].id%>">客户类价格设定</a>
+                                        </li>
+                                    </ul>
+                            </div>
+
+                            <% if(product[i].onSell== 0){%>
+                            <div>
+                                <a <%= fontColor=="#999"?"style=color:#999":""%> href="/customer/updateGoodsOnsell?goodsId=<%=product[i].id%>&onSell=true">
+                                   <i class="fa fa-arrow-circle-up  tooltipped" data-toggle="tooltip" data-placement="top" title="上架"></i>
+                                </a>
+                            </div>
+
+                            <%} else{ %>
+                            <div>
+                                <a <%= fontColor=="#999"?"style=color:#999":""%> href="/customer/updateGoodsOnsell?goodsId=<%=product[i].id%>&onSell=false"><i class="fa fa-arrow-circle-down tooltipped" data-toggle="tooltip" data-placement="top" title="下架"></i></a>
+                            </div>
+                            <% } %>
+
+                            <div style = 'display: none'>
+                                <a <%= fontColor=="#999"?"style=color:#999":""%>  class="customerDeletedGoods" productId="<%=product[i].id%>">
+                                    <i class="fa fa-trash  tooltipped" data-toggle="tooltip" data-placement="top" title="删除"></i>
+                                </a>
+                            </div>
+
+                        </td>
+                    </tr>
+                    </form>
+                    <% } %>
+                </table>
+                </div>
+
+                </section><!--Catalog List Close-->
+
+                <section class="col-md-10 pull-right space-top">
+                    <div class="pull-left">
+                        <button type="button" class="btn-outlined btn-sm chckproductAll">全选</button>
+                        <a class="batch-goods-action" onsell="true" >批量上架</a>
+                        <a class="batch-goods-action" onsell="false" >批量下架</a>
+                    </div>
+                    <% var url = "product?"%>
+                    <% include ../../_paginator.ejs%>
+                </section>
+                </div>
+
+            <section class="specialty-page">
+            </section>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>

@@ -1,0 +1,66 @@
+<% var active = "lists"; %>
+<%
+/*
+ # Copyright © 2015
+ # -----------------------------------------------------------------
+ # ---当下没有使用--
+ */
+%>
+<% include ../../header.ejs%>
+<style>
+    body{
+        background-color: transparent !important;
+    }
+</style>
+<div style="font-size: 14px;padding: 4px;background-color: #fff;border: 1px solid #000;">
+    <div style="display: inline-block;padding: 4px;">
+        <input id="inputValue" style="width: 200px;" placeholder="请选择客户类别...">
+        <ul class="dropdown">
+            <%for(var i in data.clientCategorys){%>
+                <li data-id="<%= data.clientCategorys[i].categoryId%>"><%= data.clientCategorys[i].categoryName%></li>
+            <% } %>
+        </ul>
+    </div>
+    <div style="display: inline-block;padding: 4px;">
+        <input id="putClientPrice" style="width: 200px;" placeholder="请设置价格(￥),例如:11.05">
+    </div>
+    <div style="display: inline-block;padding: 4px;">
+        <button class="btn btn-primary setClientCategoryPrice">确定</button>
+    </div>
+    <div style="display: inline-block; float: right;padding: 4px;">
+        <button class="closeIframeGuide">关闭</button>
+    </div>
+    <div class="page-content space-top">
+        <section class="page-content-right" style="width: 100%;">
+            <table class="table page-table">
+                <thead>
+                <tr class="table-head">
+                    <td>参考价格：</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tr>
+                    <td>批发价格</td>
+                    <td>零售价格</td>
+                    <td>价格１</td>
+                    <td>价格２</td>
+                    <td>价格３</td>
+                </tr>
+                <tbody>
+                <tr>
+                    <td><%= Number(goodsPrice.wholesalePrice)!=0?("￥"+goodsPrice.wholesalePrice.toFixed(4)):"暂无信息"%></td>
+                    <td><%= Number(goodsPrice.refRetailPrice)!=0?("￥"+goodsPrice.refRetailPrice.toFixed(4)):"暂无信息"%></td>
+                    <td><%= Number(goodsPrice.price1)!=0?("￥"+goodsPrice.price1.toFixed(4)):"暂无信息"%></td>
+                    <td><%= Number(goodsPrice.price2)!=0?("￥"+goodsPrice.price2.toFixed(4)):"暂无信息"%></td>
+                    <td><%= Number(goodsPrice.price3)!=0?("￥"+goodsPrice.price3.toFixed(4)):"暂无信息"%></td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+
+<% include  ../../footer.ejs %>

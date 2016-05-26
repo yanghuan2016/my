@@ -1,0 +1,106 @@
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.pageSize) || 10;
+var page = parseInt(paginator.page) || 1;
+%>
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+            <% include ../_nav_head.ejs%>
+            <!--Header Close-->
+
+            <!--Page Content--><!-- InstanceBeginEditable name="content" -->
+            <div class="page double-padding-bottom">
+                <div style="position: fixed;z-index: 1006;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+                </div>
+                <iframe src="/customer/goods/clientprice/add?goodsId=<%= data.goodsId%>" scrolling="auto" style="width: 1000px;height: 300px;background-color: transparent;position: fixed;z-index: 300;display: none" allowTransparency="true" id="selectGoods">
+                </iframe>
+
+                <div class="container page-content" style="min-height:801px">
+                    <div class="row space-top">
+
+                        <!-- Sidebar-->
+                        <% var active = "lists"; %>
+                        <% include ../_nav_customer_left.ejs%>
+                        <!-- Sidebar CLose-->
+
+                        <section class="col-md-10 pull-right  space-bottom page-content-right">
+                            <div class="page-content-right-head">
+                                <label>客户价格设定</label>
+                                <aside style="display: inline">
+
+                                    <aside class="sidebar no-devider" style="display: inline-flex;float: right;margin-top: 10px;width: auto;">
+                                        <div class="widget search" style="margin-bottom: 0px;">
+                                            <form id="customer_search_priceset" method="get" role="search" action="" style="margin-right: 10px;">
+                                                <label class="sr-only" for="blog-search"></label>
+                                                <input class="form-control" id="customerPriceSearchInput"  value="<%= data.clientName %>" type="text" placeholder="请输入客户名字" style="height: 30px;">
+                                                <button type="submit" id="customerPriceSearchBtn" style="right: 0px;top: -12px;"><i class="fa fa-filter" style="font-size: 20px;"></i></button>
+                                            </form>
+                                        </div>
+                                        <a class="btn btn-primary displaySelect">添加</a>
+                                    </aside>
+
+                                </aside>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <table class="table page-table" id="clientPriceSet" data-goodsId="<%= data.goodsId%>">
+                                    <thead>
+                                    <tr>
+                                        <td class="goods-name-info"><strong>客户名称</strong></td>
+                                        <td><strong>客户编号</strong></td>
+                                        <td><strong>客户类别</strong></td>
+                                        <td><strong>所属区域</strong></td>
+                                        <td><strong>价格</strong></td>
+                                        <td><strong>操作</strong></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% for(var i in client) {%>
+                                    <tr data-clientId="<%= client[i].id %>" data-goodsId="<%= data.goodsId%>">
+                                        <td class="goods-name-info">
+                                            <%= client[i].clientName %>
+                                        </td>
+                                        <td>
+                                            <%= client[i].number %>
+                                        </td>
+                                        <td>
+                                            <%= client[i].type %>
+                                        </td>
+                                        <td>
+                                            <%= client[i].area %>
+                                        </td>
+                                        <td class="goods-number">
+                                            &yen;<input type="text" readonly="readonly" value="<%= client[i].clientPrice ? client[i].clientPrice:0%>"style="text-align: center;width: 60px;"/>
+                                            <a class="productInputUpdatePrice"><i class="fa fa-pencil-square-o"></i></a>
+                                        </td>
+                                        <td>
+                                            <a class="text-primary productRemoveGoods tooltipped" title="删除" data-toggle="tooltip" data-placement="left"> <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section><!--Catalog List Close-->
+                      <!-- <section class="col-md-10 space-top pull-right">
+                            <div class="pull-left">
+                                <a class="btn btn-primary" href="/customer/product">返回</a>
+                            </div>
+                        </section>-->
+                    </div>
+                </div>
+            </div>
+            <!--Page Content Close-->
+        </div><!--Layout Close-->
+    <% include ../../_nav_bottom.ejs%>
+</div>
+
+<% include ../../footer.ejs %>

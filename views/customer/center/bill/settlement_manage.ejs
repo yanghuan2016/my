@@ -1,0 +1,150 @@
+<% include ../../header.ejs%>
+<div style="position:relative;width:100%;height:100%;height: auto">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+        <% include ../../_nav_top.ejs %>
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% var active = "financeCenter"; %>
+        <% include ../_nav_head.ejs%>
+        <div class="page double-padding-bottom" style="min-height:801px">
+            <!--Breadcrumbs-->
+            <div class="container page-nav">
+                <ol class="breadcrumb">
+                    <li><a href="/" class="click-link">主页</a></li>
+                    <i class="fa fa-angle-right"></i>
+                    <li><a href="#" class="active">结款订单</a></li>
+                </ol>
+            </div><!--Breadcrumbs Close-->
+            <div class="container page-content">
+                <div class="row" >
+
+                    <section class="col-md-10 pull-right space-top space-bottom page-content-right">
+
+
+
+
+                        <aside class="page-content-right-head"  >
+
+                            <div id="orderStatusDiv" class="filter-item filter_status">
+                                筛选:
+                                <% var orderStatus=data.pageData.status; %>
+                                <% if(orderStatus=='CLEARED'){%>
+                                <label data-status="CLEARED">已结算</label><i class="flaticon-downwards"></i>
+                                <%} else if(orderStatus=='PENDING'){%>
+                                <label data-status='PENDING'>未结算</label><i class="flaticon-downwards"></i>
+                                <%} else{%>
+                                <label data-status="ALL">全部状态</label><i class="flaticon-downwards"></i>
+                                <% } %>
+                                <ul class="dropDown-list" data-display="hide"style="left: 3.5%;">
+                                    <li class="ALL" onclick="clickOrderStatus(event,this)">
+                                        <a class="click-link" >全部状态</a>
+                                    </li>
+                                    <li class="CLEARED" onclick="clickOrderStatus(event,this)">
+                                        <a class="click-link" >已结算</a>
+                                    </li>
+                                    <li class="PENDING" onclick="clickOrderStatus(event,this)">
+                                        <a class="click-link" >未结算</a>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+
+
+
+                            <label>时段选择:</label>
+                            <div style="height: 50px;">
+                                <i class="fa fa-calendar"></i>
+                                <input style="vertical-align:middle"  value="<%=data.pageData.beginDate   %>"   id="orderStartDate" type="text" readonly class="cDatePicker selectTime"/>
+                                －
+                                <i class="fa fa-calendar"></i>
+                                <input style="vertical-align:middle"   value="<%=data.pageData.endDate   %>" id="orderEndDate" type="text"  readonly class="cDatePicker selectTime"/>
+                            </div>
+                            <a class="btn btn-primary searchSettlementBillATag" >查询</a>
+
+
+                            <div class="page-content-sort" style="position:relative">
+                                <!--todo why div blow .add float:right will change the horizontal -->
+                                <div class="filter-input"   style="vertical-align:middle;position:static;line-height:50px">
+                                    <form method="get" role="search" style="position:static;" >
+                                        <input class="form-control searchSettlement" type="text" data-edit="settlement"  style="width:238px"  id="settlementSearchKeywords" placeholder="请输入发货单号/订单号/客户名" value="<%=data.pageData.fuzzyCondition %>">
+                                        <button type="button"  style="right:6px"  class="searchSettlementBill" ><i class="fa fa-filter" style="border:none"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+
+
+
+                        </aside>
+                        <div class="col-sm-12">
+                            <table class="table page-table">
+                                <thead>
+                                <tr>
+                                    <td><strong>发货单号</strong></td>
+                                    <td><strong>订单号</strong></td>
+                                    <td><strong>客户名</strong></td>
+                                    <td><strong>结算金额</strong></td>
+                                    <td><strong>日期</strong></td>
+                                    <td><strong>状态</strong></td>
+                                    <td><strong>操作</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% var clearingDetailsList=data.clearingDetailsList %>
+                                <% for (var i=0;i<clearingDetailsList.length;i++){%>
+                                <% var currentCD=clearingDetailsList[i]; %>
+                                    <tr>
+                                        <td><%= currentCD.formId  %></td>
+                                        <td><%= currentCD.orderId;%></td>
+                                        <td><%= currentCD.clientName  %></td>
+                                        <td><%= currentCD.amount  %></td>
+                                        <td><%= currentCD.occurDate  %></td>
+                                        <td>
+                                            <% var orderStatus=currentCD.status %>
+                                            <% if(orderStatus=='PENDING'){%>
+                                            <span style="color:orange">未结算</span>
+                                            <% }else{%>
+                                            <span style="color:green">已结算</span>
+                                            <%}%>
+                                        </td>
+                                        <td>
+                                            <a href="javascript:void(0)" data-cl=<%= currentCD.clearDetailId  %> style="<%=currentCD.status=="CLEARED"?'color:grey;cursor:text':'' %>"  data-status="<%=currentCD.status %>" class="closeOrderSettle">
+                                                <i class="fa fa-check-square"></i>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                <%}%>
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </section>
+
+                    <!-- Sidebar-->
+                    <% include ../_nav_customer_left.ejs%>
+                    <!-- Sidebar CLose-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>
+<script type="text/javascript">
+    $(function(){
+        $('.cDatePicker').datetimepicker({
+            timepicker: false,
+            format:'Y-m-d',
+            minDate:false
+        });
+    });
+</script>

@@ -1,0 +1,11 @@
+:local(.table) {
+    background-color: #fff;
+}
+
+:local(.pager) {
+    float: right;
+    padding: 10px;
+}
+:local(.clearfix) {
+    clear: both;
+}

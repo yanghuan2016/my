@@ -1,0 +1,552 @@
+<% include ../../header.ejs%>
+
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+
+            <!--Header-->
+            <% var active = "order_customer"; %>
+            <% include ../_nav_head.ejs%>
+            <!--Header Close-->
+
+            <!--Page Content--><!-- InstanceBeginEditable name="content" -->
+            <div class="page double-padding-bottom">
+
+                <div class="container">
+                    <div class="row space-top">
+
+
+                        <div style="position: fixed;z-index: 1005;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+                        </div>
+                        <div id="selectGoods" style="display:none;width:700px;height:900px">
+                            <div style="font-size: 14px;padding: 4px;">
+                                <div class="page-content space-top">
+                                    <section class="page-content-right">
+                                        <aside class="page-content-right-head">
+                                            <label>查看发货</label>
+                                        </aside>
+                                        <div class="form" style="padding:30px">
+                                            <div class="row" style="margin-top:10px">
+                                                <span class="col-sm-3">批次号:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <input class="col-sm-9 inputBatchNum"  disabled />
+                                            </div>
+                                            <div class="row" style="margin-top:20px">
+                                                <span class="col-sm-3">生产日期:</span>
+                                                <input class="col-sm-9 cDatePicker  inputGoodsProduceDate" type="text" disabled/>
+                                            </div>
+                                            <div class="row" style="margin-top:20px">
+                                            <span class="col-sm-3">
+                                                有效期至:
+                                            </span>
+                                                <input class="col-sm-9 cDatePicker  inputGoodsValidDate" type="text" disabled/>
+                                            </div>
+                                            <div class="row" style="margin-top:20px">
+                                            <span class="col-sm-3">
+                                                数量:
+                                            </span>
+                                                <input class="col-sm-9 inputQuantity" type="text" disabled/>
+                                            </div>
+                                            <div class="row" style="margin-top:20px">
+                                                <div class="col-sm-3" style="display: inline">
+                                                    <span style="vertical-align: top;">电子监管码：</span>
+                                                </div>
+                                                <textarea name="" style="height:150px;resize:none" id="" class="inputDrugESC col-sm-9" disabled></textarea>
+                                            </div>
+                                            <div class="row" style="margin-top:20px">
+                                                <div class="col-sm-3" style="display: inline">
+                                                    <span style="vertical-align: top;">质检报告(附件):</span>
+                                                </div>
+                                                <div class="col-sm-9" style="padding: 0">
+                                                    <form class="form-signin" role="form" method="post" enctype='multipart/form-data' target="picture" style="display: none">
+                                                        <div class="fileContainer">
+                                                            <ul>
+                                                            </ul>
+                                                        </div>
+                                                    </form>
+                                                    <span style="display: none">暂无质检报告信息</span>
+                                                </div>
+                                            </div>
+                                            <div class=" pull-right">
+                                                <a class="btn btn-primary closeIframeGuide">关闭</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar-->
+                        <% include ../_nav_customer_left.ejs%>
+                        <!-- Sidebar CLose-->
+                        <section class="col-md-10 pull-right space-bottom" id="client-new">
+                            <div class="panel-group" id="accordion" style="color:#666;">
+                                <div class="panel panel-default">
+                                    <div class="">
+                                        <div class="panel-title" style="font-size: 16px;">
+                                            <div style="display: inline-block;">订单号：
+                                                <a href="/customer/order/pending?orderId=<%= orders[0].id%>"><%=orders[0].displayOrderId %></a>
+                                                <span>- <%= data._translation.OrderStatus[data.orderStatus]%></span>
+                                            </div>
+                                            <span style="float: right;margin-right: 40px;">
+                                                <span>客户名称：<%= orders[0].receiptTitle %></span>
+                                                <a data-toggle="collapse" data-display="false" data-parent="#accordion"
+                                                   href="#collapseOne" id="more-pendingNew">
+                                                    - <span>展开资质信息</span><i class="fa fa-long-arrow-down"></i><i class="fa fa-long-arrow-down"></i><i class="fa fa-long-arrow-down"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse documents-container" style="border: 1px solid #e6e6e6;font-size: 14px;">
+                                        <div class="panel-body documents-content">
+
+                                            <% var nowtime = new Date(),
+                                                    year=nowtime.getFullYear(),
+                                                    month=nowtime.getMonth()+ 1,
+                                                    day=nowtime.getDate();
+                                            var  now=new Date(year+'/'+month+'/'+day);
+                                            %>
+                                            <%
+                                            var dict = {
+                                                "categoryName": "客户类别",
+                                                "paymentType": "付款方式",
+                                                "clientArea": "客户区域",
+                                                "limitedBusinessRange": "经营范围",
+                                                "businessLicense": "营业执照号",
+                                                "businessLicenseValidateDate": "营业执照期限",
+                                                "limitedBusinessType": "GSP控制类型",
+                                                "taxRegistrationLicenseNumValidateDate": "税务登记证期限",
+                                                "gmpOrGspLicenseNumValidateDate": "GMP/GSP证书期限",
+                                                "medicalInstitutionLicenseNumValidateDate": "医疗机构执业许可证书期限",
+                                                "medicalApparatusLicenseNumValidateDate": "医疗器械许可证期限",
+                                                "institutionLegalPersonCertValidateDate": "事业单位法人期限",
+                                                "orgCodeValidateDate": "组织机构代码证期限",
+                                                "mentalanesthesiaLicenseNumValidateDate": "精神麻醉证书期限",
+                                                "foodCirculationLicenseNumValidateDate": "食品流通许可证书期限",
+                                                "maternalLicenseNumValidateDate": "母婴保健执业许可证期限",
+                                                "productionAndBusinessLicenseNumValidateDate": "生产经营许可证书期限",
+                                                "hazardousChemicalsLicenseNumValidateDate": "危险化学许可证期限",
+                                                "healthProductsLicenseNumValidateDate": "保健品证书期限"
+
+                                            };
+
+                                            for(var index in data.clientQualInfo) {
+                                                var keyName = data.clientQualInfo[index].itemKey;
+
+                                                if('paymentType'==keyName) {
+                                                    data.clientQualInfo[index].itemVal = ('CREDIT' ==data.clientQualInfo[index].itemVal)? '授信支付':'在线支付';
+                                                }
+                                            %>
+                                            <% var overtime=now>new Date(data.clientQualInfo[index].itemVal) %>
+                                            <%if('limitedBusinessRange'==keyName){%>
+                                                <div class="documents-box-new">
+                                                    <div class="documents-deadline"><%= dict[keyName] %>：</div>
+                                                    <div class="deadline-time" style="color:<%=overtime?'red':'#237935' %>; padding-top: 10px;width: 775px;float: left;border-top: 1px solid #e6e6e6;margin-top: -1px;"><%= data.clientQualInfo[index].itemVal %></div>
+                                                </div>
+                                            <%} else{%>
+                                                <div class="documents-box">
+                                                    <div class="documents-deadline"><%= dict[keyName] %>：</div>
+                                                    <div class="deadline-time" style="color:<%=overtime?'red':'#237935' %>;"><%= data.clientQualInfo[index].itemVal %></div>
+                                                </div>
+                                            <%}%>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% if(data.shipInfo.length<=0) {%>
+                            <div class="space-top">
+                                <table class="sm-page-table">
+                                    <thead>
+                                    <tr>
+                                        <td class="goods-info"><strong>商品信息</strong></td>
+                                        <td><strong>货号</strong></td>
+                                        <td><strong>价格</strong></td>
+                                        <td><strong>数量</strong></td>
+                                        <td><strong>可销售/锁定/实际库存</strong></td>
+                                        <td><strong>小计</strong></td>
+                                        <td><strong>备注</strong></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% for (var i in orders){%>
+                                    <% var order = orders[i]%>
+                                    <tr>
+                                        <td class="goods-info">
+                                            <% if(order.goodsInfo){%>
+                                            <% var goods = order.goodsInfo%>
+                                            <div class="goods-img">
+                                                <img src="<%= goods.imageUrl%>"/>
+                                            </div>
+                                            <div class="goods-name-info">
+                                                <h6><a href="/goods/detail?goodsId=<%=goods.goodsId%>"><%=goods.commonName%>
+                                                        <%if(goods.alias){%>
+                                                        (<%=goods.alias%>)
+                                                        <%}%>
+                                                    </a></h6>
+                                                <h6><%=goods.producer%></h6>
+                                                <h6><%=goods.spec+ '/'+goods.measureUnit%></h6>
+                                            </div>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <%=order.goodsNo%>
+                                        </td>
+                                        <td>
+                                            &yen;<%=order.soldPrice.toFixed(data.pointDigit.DEFAULT)%>
+                                        </td>
+                                        <td>
+                                            <%=order.quantity%>
+                                        </td>
+                                        <td style="min-width: 120px;">
+                                            <% if(order.goodsInfo){%>
+                                            <% var goods = order.goodsInfo%>
+                                            <%=goods.amount%> / <span><%= goods.lockedAmount %></span> / <span><%= goods.actualAmount %></span>
+                                            <% } %>
+                                        </td>
+                                        <td class="text-mcolor">
+                                            &yen;<%=order.amount.toFixed(data.pointDigit.DEFAULT)%>
+                                        </td>
+                                        <td>
+                                            <%= order.goodsRemark ? order.goodsRemark :"无"%>
+                                        </td>
+                                    </tr>
+                                    <%}%>
+                                    <tr>
+                                        <td colspan="3" class="goods-info">
+                                            <div>【支付方式】<%= data._translation.StatementMonthDetailPaymentType[order.paymentType]%></div>
+                                        </td>
+                                        <td colspan="4" class="text-end">
+                                            <h4 style="margin-bottom: 0;">总计：<span class="text-mcolor" style="font-size: 16px;">&yen;<%=order.total.toFixed(data.pointDigit.DEFAULT)%></span></h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" class="goods-info">
+                                            <div>【发票信息】
+                                            <%if(true==orders[0].hasReceipt){%>
+                                            发票抬头 : <span><%= orders[0].receiptTitle%></span>
+                                            <% } else{%>
+                                            不需要发票
+                                            <% } %>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" class="goods-info">
+                                            <div>【订单备注】 &nbsp;<span><%= orders[0].remark ? orders[0].remark : "无" %></span></div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="space-top space-bottom pull-right">
+                                    <%if(data.orderStatus == "PAID"){%>
+                                    <a class="btn btn-primary reviewPurchaseDealBtn"
+                                       id="customerApprovedOrder" data-displayId="<%=orders[0].displayOrderId %>"
+                                       data-client="<%= orders[0].receiptTitle %>"
+                                       data-clientId="<%= orders[0].clientId %>"
+                                       orderid="<%=orders[0].id%>" status="APPROVED">
+                                        通过
+                                    </a>
+                                    <a class="btn btn-primary clientCancelDialog" orderId="<%= orders[0].id %>"
+                                       data-clientId="<%= orders[0].clientId %>"
+                                       data-type="ORDER_RATIFY"
+                                       data-displayId="<%=orders[0].displayOrderId %>">
+                                        关闭
+                                    </a>
+                                    <% } else if(data.orderStatus == "APPROVED"){%>
+                                    <a class="btn btn-primary" href="/customer/order/waitship?orderId=<%= orders[0].id %>">
+                                        发货
+                                    </a>
+                                    <a class="btn btn-primary clientCancelDialog" orderId="<%= orders[0].id %>"
+                                       data-clientId="<%= orders[0].clientId %>"
+                                       data-displayId="<%=orders[0].displayOrderId %>">
+                                        关闭
+                                    </a>
+                                    <% } else if(data.orderStatus == "UNPAID"){%>
+                                    <a class="btn btn-primary clientCancelDialog" orderId="<%= orders[0].id %>"
+                                       data-clientId="<%= orders[0].clientId %>"
+                                       data-displayId="<%=orders[0].displayOrderId %>">
+                                        关闭
+                                    </a>
+                                    <% } else if(data.orderStatus == "FINISHED" || data.orderStatus == "SHIPPED"){%>
+                                    <a class="btn btn-primary" href="/customer/order/waitship?orderId=<%= orders[0].id %>">
+                                        发货
+                                    </a>
+                                    <% } else if (data.orderStatus == "RETURNED"){%>
+                                    <a href="/customer/return" class="btn btn-primary">查看退货</a>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <%}else{%>
+                            <div class="space-top">
+                                <% var shipInfo= data.shipInfo %>
+                                <% for(var index in shipInfo){%>
+                                <% var shipDetails=shipInfo[index];  %>
+                                <table class="sm-page-table space-bottom">
+                                    <thead>
+                                    <tr>
+                                        <td class="goods-info"><strong>商品信息</strong></td>
+                                        <td><strong>货号</strong></td>
+                                        <td><strong>订单数量</strong></td>
+                                        <td><strong>发货数量</strong></td>
+                                        <td><strong>单价</strong></td>
+                                        <td><strong>［批次］/数量</strong></td>
+                                        <td><strong>小计</strong></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% var old_goodsId = -1%>
+                                    <% var priceSum=0; %>
+                                    <% var temp = [];%>
+                                    <% var temps = [];%>
+                                    <% for(var i in shipDetails){%>
+                                    <% var shipinfo = shipDetails[i]%>
+                                    <% if(shipinfo.goodsId != old_goodsId){%>
+                                    <% old_goodsId = (shipinfo.orderQuantity !== shipinfo.shippedQuantitySum)?shipinfo.goodsId : ''%>
+                                    <% temp.push(old_goodsId);%>
+                                    <% temps.push(shipinfo.goodsId);%>
+                                    <tr>
+                                        <td class="goods-info">
+                                            <div class="goods-img">
+                                                <img src="<%= shipinfo.imageUrl%>"/>
+                                            </div>
+                                            <div class="goods-name-info">
+                                                <h6><a href="/goods/detail?goodsId=<%=shipinfo.goodsId%>"><%=shipinfo.commonName%><%if(shipinfo.alias){%>(<%=shipinfo.alias%>)<%}%></a></h6>
+                                                <h6><%=shipinfo.producer%></h6>
+                                                <h6><%=shipinfo.spec%></h6>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span><%=shipinfo.goodsNo%></span>
+                                        </td>
+                                        <td>
+                                            <%=shipinfo.orderQuantity%>
+                                        </td>
+                                        <% var fontColor = (shipinfo.orderQuantity == shipinfo.shippedQuantitySum) ? "font-green" : "font-orange"%>
+                                        <td class="<%= fontColor%>  receivedQty_<%=shipinfo.goodsId%>"><%= shipinfo.shippedQuantitySum%></td>
+                                        <td>&yen;<%= shipinfo.soldPrice.toFixed(data.pointDigit.DEFAULT)%></td>
+                                        <td>
+                                            <% for(var j in shipDetails){%>
+                                            <% var batchItem = shipDetails[j]%>
+                                            <% if (batchItem.goodsId == shipinfo.goodsId){%>
+                                            <div class="ship-operator">
+                                                <div>
+                                                    [<span><%=batchItem.batchNum%></span>]/
+                                                    <span name="quantity"><%=batchItem.shippedQuantity%></span>
+                                                    <span><%=batchItem.measureUnit%></span>
+                                                </div>
+                                                <div>
+                                                    <a href="javascript:;" class="tooltipped" id="customerDisplayShipInfo_<%= shipinfo.goodsId%>_<%= batchItem.batchNum%>" title="查看" data-toggle="tooltip" data-placement="left"
+                                                       batchNum="<%=batchItem.batchNum%>"
+                                                       shipTotal="<%=shipinfo.shippedQuantitySum%>"
+                                                       goodsId="<%=shipinfo.goodsId%>"
+                                                       shipbatchqty="<%=batchItem.shippedQuantity%>"
+                                                       batchQty="<%=batchItem.shippedQuantity%>"
+                                                       produceDate="<%=batchItem.goodsProduceDate%>"
+                                                       validDate="<%=batchItem.goodsValidDate%>"
+                                                       drugESC="<%=batchItem.drugESC%>"
+                                                       inspectReportURL="<%=batchItem.inspectReportURL%>">
+                                                        <i class="fa fa-binoculars"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                            <% } %>
+                                        </td>
+                                        <%
+                                            var singleSum= Number(shipinfo.soldPrice.toFixed(2)*Number(shipinfo.shippedQuantitySum)).toFixed(2);
+                                            priceSum=Number(priceSum)+Number(singleSum);
+                                        %>
+                                        <td>&yen;<%= singleSum%></td>
+                                    </tr>
+                                    <%}%>
+                                    <%}%>
+                                    <% for(var orderIndex in data.order){%>
+                                    <% var orderInfoGoodsId = data.order[orderIndex].goodsId%>
+
+                                    <% if(temps.indexOf(orderInfoGoodsId) == -1 ){%>
+                                    <% var tempGoodsInfo = data.order[orderIndex].goodsInfo%>
+                                    <tr>
+                                        <td class="goods-info">
+                                            <div class="goods-img">
+                                                <img src="<%= tempGoodsInfo.imageUrl%>"/>
+                                            </div>
+                                            <div class="goods-name-info">
+                                                <h6><a href="/goods/detail?goodsId=<%=tempGoodsInfo.goodsId%>"><%=tempGoodsInfo.commonName%><%if(tempGoodsInfo.alias){%>(<%=tempGoodsInfo.alias%>)<%}%></a></h6>
+                                                <h6><%=tempGoodsInfo.producer%></h6>
+                                                <h6><%=tempGoodsInfo.spec%></h6>
+                                            </div>
+                                        </td>
+                                        <td><%= data.order[orderIndex].goodsNo%></td>
+                                        <td><%= data.order[orderIndex].quantity%></td>
+                                        <td>0</td>
+                                        <td>&yen;<%= data.order[orderIndex].soldPrice.toFixed(2)%></td>
+                                        <td>无</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <% } %>
+                                    <% } %>
+                                    <tr>
+                                        <td colspan="3" class="goods-info">
+                                            <div>【支付方式】<%= data._translation.StatementMonthDetailPaymentType[orders[0].paymentType]%></div>
+                                        </td>
+                                        <td colspan="4" class="text-end">
+                                            <div>
+                                                <span>总计：</span>
+                                                <span style="color:red;font-size:16px">&yen;<%= priceSum.toFixed(data.pointDigit.DEFAULT)%></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" class="goods-info">
+                                            <div>【发票信息】
+                                                <%if(true==orders[0].hasReceipt){%>
+                                                发票抬头 : <span><%= orders[0].receiptTitle%></span>
+                                                <% } else{%>
+                                                不需要发票
+                                                <% } %>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" class="goods-info">
+                                            <div>【订单备注】 &nbsp;<span><%= orders[0].remark ? orders[0].remark : "无" %></span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" class="text-end">
+                                            <% if (data.order.status == "SHIPPED"){%>
+                                            <a href="/order/ship/details?shipId=<%= shipDetails[0].shipId%>" class="btn btn-primary">收货</a>
+                                            <a href="/order/return/apply?shipId=<%= shipDetails[0].shipId%>" class="btn btn-primary">我要退货</a>
+                                            <% } else if (data.order.status == "UNPAID"){%>
+                                            <a href="/order/payment?o=<%= data.order.id%>">去付款</a>
+                                            <a class="tooltipped clientCancelDialog" orderId="<%= shipDetails[0].orderId %>">取消</a>
+                                            <% } else if (data.order.status == "FINISHED"){%>
+                                            <a href="/order/return/apply?shipId=<%= shipDetails[0].shipId%>" class="btn btn-primary">我要退货</a>
+                                            <% } else if (data.order.status == "RETURNED"){%>
+                                            <a href="/order/return/apply?shipId=<%= shipDetails[0].shipId%>" class="btn btn-primary">我要退货</a>
+                                            <a href="/order/return" class="btn btn-primary">查看退货</a>
+                                            <% }%>
+                                            <% if(orders[0].status!='CREATED'&&orders[0].status!='CLOSED'){%>
+                                            <%
+                                                var text = '发货';
+                                                if (data.shipInfo.length > 0) {
+                                                    text = '再次发货';
+                                                } %>
+                                            <a href="/customer/order/waitship?orderId=<%=orders[0].id%>" class="btn btn-primary"><%= text%></a>
+                                            <%}%>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <%}%>
+                            </div>
+                            <%}%>
+                            <div class="space-top">
+                                <table class="sm-page-table">
+                                    <thead>
+                                    <tr>
+                                        <td class="goods-info"><strong>收货地址</strong></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="goods-info">收货地址: <span style="margin-right: 20px"><%=orders[0].consigneeAddress%></span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <% if(typeof shipDetails != "undefined" && shipDetails.length > 0){ %>
+                            <div class="space-top">
+                                <table class="sm-page-table">
+                                    <thead>
+                                    <tr>
+                                        <td class="goods-info"><strong>发货信息</strong></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="goods-info">［开单日期］<%=orders[0].orderTime%></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="goods-info">［发货日期］<%=shipDetails[0].shipTime%></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="goods-info">［物流信息］<%=shipDetails[0].logisticsNo%></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="goods-info">［发货备注］<%=shipDetails[0].remark?shipDetails[0].remark:"无"%></td>
+                                    </tr>
+                                    <% if (data.orderStatus == "FINISHED" || data.orderStatus == "RETURNED"){%>
+                                    <tr>
+                                        <td class="goods-info">［收货备注］<%=shipDetails[0].receiveRemark?shipDetails[0].receiveRemark:"无"%></td>
+                                    </tr>
+                                    <% } %>
+                                    <% if (data.orderStatus == "RETURNED"){%>
+                                    <tr>
+                                        <td class="goods-info">［申退备注］<%=data.returnInfo[0].applyReturnRemak?data.returnInfo[0].applyReturnRemak:"无"%></td>
+                                    </tr>
+                                    <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <% } %>
+                            <div class="filterDiv space-top">
+                                <div class="filterHead">
+                                    <div>订单日志</div>
+                                </div>
+                            </div>
+                            <div class="space-top">
+                                <table class="sm-page-table">
+                                    <thead>
+                                    <tr>
+                                        <td><strong>处理时间</strong></td>
+                                        <td><strong>处理事件</strong></td>
+                                        <td><strong>操作人</strong></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% for (var i in data.orderhistorys){%>
+                                    <% var history = data.orderhistorys[i]%>
+                                    <tr>
+                                        <td>
+                                            <%=history.createdOn%>
+                                        </td>
+                                        <td>
+                                            <%= data._translation.OrderAction[history.action]%>
+                                            <%if(history.remark){%>
+                                            【备注】<%=history.remark%>
+                                            <%}%>
+                                            <%if(history.action =="CREATE" && history.orderId){%>
+                                            【订单号】<a href="/customer/order/pending?orderId=<%=history.orderId%>"><%=history.displayOrderId%></a>
+                                            <%}%>
+                                            <%if(history.action =="SHIP" && history.shipId){%>
+                                            【物流单号】<%=history.logisticsNo%>
+                                            <%}%>
+                                            <%if(history.action =="RECEIVE" && history.logisticsNo){%>
+                                            <%}%>
+                                            <%if(history.action =="REQUEST-RETURN" &&history.returnId){%>
+                                            【退货单号】<a href="/customer/return/pending?returnId=<%=history.returnId%>"><%=history.returnId%></a>
+                                            <%}%>
+                                        <td>
+                                            <%=history.operatorName%>
+                                        </td>
+                                    </tr>
+                                    <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div><!--Layout Close-->
+    <% include ../../_nav_bottom.ejs%>
+    <% include ../../purchaseDeal.ejs%>
+</div>
+
+<% include ../../footer.ejs %>
+<script src="/static/js/jq-signature.min.js"></script>
+<script  type="text/javascript" src="/static/source/js/customer/ship.js"></script>
+<script  type="text/javascript" src="/static/source/js/page/customerOrderPending.js"></script>
+

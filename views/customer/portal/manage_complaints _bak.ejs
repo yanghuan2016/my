@@ -1,0 +1,60 @@
+<% include ../header.ejs%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+        <% include ../center/_nav_head.ejs%>
+            <div class="page double-padding-bottom">
+                <div class="container page-content">
+                    <div class="row space-top" >
+                        <% var active = "carousel"; %>
+                        <% include ../center/_nav_customer_left.ejs%>
+                        <section class="col-md-10 pull-right space-bottom">
+                            <div class="filterDivTab">
+                                <% var curtTab = 'complaints';%>
+                                <% include portalTab.ejs %>
+                            </div> <table class="sm-page-table">
+                                <thead>
+                                <tr>
+                                    <td><strong>投诉电话</strong></td>
+                                    <td><strong>操作</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="input-item" colspan="2">
+                                        <input type="text" class="form-control" name="addProductComplaintsPhone" onkeypress="EnterPressAddComplaints(event)"/>
+                                        <a class="btn btn-primary addProductComplaintsPhone">添加</a>
+                                        <span class="tips"></span>
+                                    </td>
+                                </tr>
+                                <% for(var i in data.complaints) {%>
+                                <tr complaintsId="<%= data.complaints[i].id %>" name='newAdd'>
+                                    <td>
+                                        <%= data.complaints[i].name %>
+                                    </td>
+                                    <td>
+                                        <a class="updateProductComplaintsPhone tooltipped" data-toggle="tooltip"
+                                           data-placement="left" style="margin-right: 20px" title="修改"><i
+                                                    class="fa fa-pencil-square-o"></i></a>
+                                        <a class="deleteProductComplaintsPhone tooltipped" data-toggle="tooltip"
+                                           data-placement="left" title="删除"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                <% }%>
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% include ../_nav_bottom.ejs%>
+</div>
+
+<% include  ../footer.ejs %>
+<script src="/static/source/js/portal.js"></script>

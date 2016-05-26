@@ -1,0 +1,269 @@
+<% include ../../header.ejs%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <!--Header Close-->
+
+        <!--Page Content--><!-- InstanceBeginEditable name="content" -->
+        <div class="page double-padding-bottom">
+
+            <div style="position: fixed;z-index: 1022;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+            </div>
+            <div style="font-size: 14px;padding: 4px;display:none;width:700px;height:900px" id="selectGoods">
+                <div class="page-content space-top">
+                    <!--<section class="page-content-right">
+                        <aside class="page-content-right-head">
+                            <label>查看收货</label>
+                        </aside>
+                        <div class="form" style="padding:30px">
+                            <div class="row" style="margin-top:10px">
+                                <span class="col-sm-3">批次号:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input class="col-sm-9 inputBatchNum" type="text"  disabled/>
+                            </div>
+                            <div class="row" style="margin-top:20px">
+                                <span class="col-sm-3">生产日期:</span>
+                                <input class="col-sm-9 inputGoodsProduceDate" type="text" id="productDate" disabled/>
+                            </div>
+                            <div class="row" style="margin-top:20px">
+                                    <span class="col-sm-3">
+                                        有效期至:
+                                    </span>
+                                <input class="col-sm-9 inputGoodsValidDate" type="text"  id="quanlityDate" disabled/>
+                            </div>
+                            <div class="row" style="margin-top:20px">
+                                    <span class="col-sm-3 ">
+                                        数量:
+                                    </span>
+                                <input class="col-sm-9 inputQuantity" type="text" disabled/>
+                            </div>
+                            <div class="row" style="margin-top:20px">
+                                <div class="col-sm-3" style="display: inline">
+                                    <span style="vertical-align: top;">电子监管码：</span>
+                                </div>
+                                <textarea style="height:150px;resize:none" class="inputDrugESC col-sm-9" disabled></textarea>
+                            </div>
+
+                            <div class="row" style="margin-top:20px">
+                                <div class="col-sm-3" style="display: inline">
+                                    <span style="vertical-align: top;">质检报告(附件):</span>
+                                </div>
+                                <div class="col-sm-9" style="padding: 0">
+                                    <form class="form-signin" role="form" method="post" enctype='multipart/form-data' target="picture" style="display: none">
+                                        <div class="fileContainer">
+                                            <ul>
+                                            </ul>
+                                        </div>
+                                    </form>
+                                    <span style="display: none">暂无质检报告信息</span>
+                                </div>
+                            </div>
+                            <div class=" pull-right">
+                                <a class="btn btn-primary closeIframeGuide">确定</a>
+                            </div>
+                        </div>
+                    </section>-->
+                    <section class="page-content-right">
+                        <aside class="page-content-right-head">
+                            <label>添加收货</label>
+                        </aside>
+                        <div class="form" style="padding:30px">
+                            <div class="row" style="margin-top:10px">
+                                <span class="col-sm-3">批次号:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input class="col-sm-9 inputBatchNum" type="text" disabled />
+                            </div>
+                            <div class="row" style="margin-top:20px">
+                                <span class="col-sm-3">生产日期:</span>
+                                <input class="col-sm-9 inputGoodsProduceDate" type="text" id="productDate" disabled/>
+                            </div>
+                            <div class="row" style="margin-top:20px">
+                                            <span class="col-sm-3">
+                                                有效期至:
+                                            </span>
+                                <input class="col-sm-9  inputGoodsValidDate" type="text" disabled id="quanlityDate"/>
+                            </div>
+                            <div class="row" style="margin-top:20px">
+                                <span class="col-sm-3">数量：</span>
+                                <input disabled class="col-sm-9 inputQuantity" type="text"  value="1" style="width:90px;text-align: center;">
+                            </div>
+                            <div class="row" style="margin-top:20px">
+                                <div class="col-sm-3" style="display: inline">
+                                    <span style="vertical-align: top;">电子监管码：</span>
+                                </div>
+                                <textarea disabled style="height:150px;resize:none" class="inputDrugESC col-sm-9"></textarea>
+                            </div>
+
+                            <div class="row" style="margin-top:20px">
+                                <div class="col-sm-3" style="display: inline">
+                                    <span style="vertical-align: top;">质检报告(附件):</span>
+                                </div>
+                                <div class="col-sm-9" style="padding: 0">
+                                    <form class="form-signin" role="form" method="post" enctype='multipart/form-data' target="picture" style="display: none">
+                                        <div class="fileContainer">
+                                            <ul>
+                                            </ul>
+                                        </div>
+                                    </form>
+                                    <span style="display: none">暂无质检报告信息</span>
+                                </div>
+                            </div>
+                            <div class=" pull-right">
+                                <a class="btn btn-primary closeIframeGuide">关闭</a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div class="container page-content">
+                <div class="row space-top">
+
+                    <!-- Sidebar-->
+                    <% var active = "return_customer"; %>
+                    <% include ../_nav_customer_left.ejs%>
+                    <!-- Sidebar CLose-->
+
+                    <!--Catalog List-->
+                    <% var returnCommon = data.returnInfo[0]%>
+
+                    <section class="col-md-10 space-bottom">
+                        <div class="filterDiv">
+                            <div class="filterHead">
+                                <div>退货单号：<a href="/customer/return/detail?returnId=<%=returnCommon.id%>"><%=returnCommon.displayReturnId %></a> - <%=data._translation.ReturnStatus[returnCommon.returnStatus]%>
+                                </div>
+                            </div>
+                        </div>
+                        <% var returnShipDetails = data.returnShipDetails%>
+                        <div class="space-top">
+                            <table class="sm-page-table">
+                                <thead>
+                                <tr>
+                                    <td class="goods-info"><strong>商品信息</strong></td>
+                                    <td><strong>货号</strong></td>
+                                    <td><strong>发货数量</strong></td>
+                                    <!--<td><strong>已退数量</strong></td>-->
+                                    <td><strong>申退数量</strong></td>
+                                    <td><strong>可退数量</strong></td>
+                                    <% if (returnCommon.returnStatus != "CLOSED"){ %>
+                                    <td><strong>［批次］/数量</strong></td>
+                                    <% } %>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% var oldGoodsId = "";%>
+                                <% for (var j in returnShipDetails) {%>
+                                <% var item = returnShipDetails[j]%>
+                                <% if(oldGoodsId != item.goodsId) {%>
+                                <% oldGoodsId = item.goodsId%>
+                                <tr name="goodsItem" goodsId="<%=item.goodsId%>" soldPrice="<%=item.returnPrice%>"  shipId="<%= returnShipDetails[0].shipId%>" orderId="<%= returnShipDetails[0].orderId%>">
+                                    <td class="goods-info">
+                                        <div class="goods-img">
+                                            <img src="<%= item.imageUrl%>"/>
+                                        </div>
+                                        <div class="goods-name-info">
+                                            <h6><a href="/goods/detail?goodsId=<%=item.goodsId%>"><%=item.commonName%><%if(item.alias){%>(<%=item.alias%>)<%}%></a></h6>
+                                            <h6><%=item.producer%></h6>
+                                            <h6> <%=item.spec%></h6>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <%=item.goodsNo%>
+                                    </td>
+                                    <td>
+                                        <%= item.shippedQuantitySum %>
+                                        <input type="hidden" id="maxReceivedNum_<%=item.goodsId%>"
+                                               largePackNum="<%=item.largePackNum%>" largePackUnit="<%=item.measureUnit%>"
+                                               middlePackNum="<%=item.middlePackNum%>" middlePackUnit="<%=item.measureUnit%>"
+                                                >
+                                    </td>
+                                    <td><%= item.applyQuantity%></td>
+                                    <td class="font-green applySum" id="receivedQty_<%=item.goodsId%>">
+                                        <%= item.approvedQuantity%>
+                                    </td>
+                                    <% if (returnCommon.returnStatus != "CLOSED"){ %>
+                                    <td name="batch_<%= item.goodsId%>">
+                                        <% for (var j in returnShipDetails){%>
+                                        <% if(returnShipDetails[j].goodsId == item.goodsId){ %>
+                                        <% var batchItem = returnShipDetails[j]%>
+                                        <div class="ship-operator" name="batch_<%= item.goodsId%>_<%=batchItem.batchNum%>">
+                                            <div>
+                                                [<span><%=batchItem.batchNum%></span>]/
+                                                <span name="quantity"><%=batchItem.batchApprovedQuantity%></span>
+                                                <span><%=batchItem.measureUnit%></span>
+                                            </div>
+                                            <div>
+                                                <a class="tooltipped " id="clientDisplayReturnShipInfo_<%= item.goodsId%>_<%= batchItem.batchNum%>" title="修改" data-toggle="tooltip" data-placement="left"
+                                                   batchNum="<%=batchItem.batchNum%>"
+                                                   goodsId="<%=item.goodsId%>"
+                                                   shipTotal="<%= Number(item.shippedQuantitySum-10) %>"
+                                                   currentShipNum="<%=batchItem.batchApprovedQuantity%>"
+                                                   batchQty="<%=batchItem.batchApprovedQuantity%>"
+                                                   OriginbatchQty="<%=batchItem.batchApprovedQuantity%>"
+                                                   produceDate="<%=batchItem.goodsProduceDate%>"
+                                                   validDate="<%=batchItem.goodsValidDate%>"
+                                                   drugESC="<%=batchItem.drugESC%>"
+                                                   inspectReportURL="<%=batchItem.inspectReportURL%>"
+                                                   soldPrice="<%=item.returnPrice%>">
+                                                    <i class="fa fa-binoculars"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                        <% } %>
+                                    </td>
+                                    <% } %>
+                                </tr>
+                                <% } %>
+                                <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="filterDiv space-top">
+                            <div class="filterHead">
+                                <div>退货日志</div>
+                            </div>
+                        </div>
+                        <div class="space-top">
+                            <table class="sm-page-table">
+                                <thead>
+                                <tr>
+                                    <td><strong>处理时间</strong></td>
+                                    <td><strong>处理事件</strong></td>
+                                    <td><strong>操作人</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% for (var i in data.returnHistory){%>
+                                <% var history = data.returnHistory[i]%>
+                                <tr>
+                                    <td>
+                                        <%= history.date %>
+                                    </td>
+                                    <td>
+                                        <%= history.action%>
+                                    <td>
+                                        <%= history.operator%>
+                                    </td>
+                                </tr>
+                                <%}%>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                    <!--Catalog List Close-->
+                </div>
+                <section class="specialty-page">
+                </section>
+            </div>
+        </div>
+        <!--Page Content Close-->
+    </div><!--Layout Close-->
+    <% include ../../_nav_bottom.ejs%>
+</div>
+
+<% include ../../footer.ejs %>
+<script src="/static/source/js/customer/return.js"></script>

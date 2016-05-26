@@ -1,0 +1,20 @@
+:local(.banner) {
+    height: 60px;
+    line-height: 60px;
+    padding-left: 15px;
+    position: relative;
+}
+
+:local(.button) {
+    margin-right: 10px;
+}
+
+:local(.fixBanner){
+    position: fixed;
+    bottom:0px;
+    left:115px;
+    z-index: 99;
+    width: 93%;
+    background: #fff;
+    opacity: 0.8;
+}

@@ -1,0 +1,18 @@
+:local(.table){
+    background-color: #fff;
+}
+:local(.total){
+    font-size:18px;
+    color:red;
+    text-align: end;
+    margin:10px 50px 10px 0px ;
+}
+:local(.fixBanner){
+    position: fixed;
+    bottom:0px;
+    left:100px;
+    z-index: 99;
+    width: 95%;
+    background: #fff;
+    opacity: 0.8;
+}

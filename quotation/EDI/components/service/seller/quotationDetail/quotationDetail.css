@@ -1,0 +1,20 @@
+:local(.table){
+    background-color: #fff;
+}
+:local(.filter){
+    height: 60px;
+    line-height: 60px;
+    padding-left: 15px;
+    position: fixed;
+    bottom:0px;
+    left:100px;
+    z-index: 99;
+    width: 95%;
+    background: #fff;
+    opacity: 0.8;
+}
+
+:local(.info){
+    color: #e51c23;
+    margin-right: 5px;
+}

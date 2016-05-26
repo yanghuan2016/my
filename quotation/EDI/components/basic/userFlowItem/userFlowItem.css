@@ -1,0 +1,16 @@
+:local(.item) {
+    letter-spacing: 2px;
+    font-size: 14px;
+}
+
+:local(.item a:hover) {
+    text-decoration: underline;
+}
+
+:local(.number) {
+    font-size: 20px;
+}
+
+:local(.number span:first-child) {
+    color: green;
+}

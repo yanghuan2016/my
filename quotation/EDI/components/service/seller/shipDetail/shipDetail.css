@@ -1,0 +1,26 @@
+:local(.table) {
+    background-color: #fff;
+}
+
+:local(.orderInfo) {
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+:local(.fixBt) {
+    position: fixed;
+    bottom:0px;
+    left:115px;
+    z-index: 99;
+    width: 93%;
+    background: #fff;
+    opacity: 0.8;
+}
+
+:local(.bsss) {
+    width:1000px;
+}
+
+:local(.batch) {
+    cursor: pointer;
+}

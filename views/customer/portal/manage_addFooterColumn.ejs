@@ -1,0 +1,124 @@
+<% include ../header.ejs%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+        <% include ../center/_nav_head.ejs%>
+            <div class="page double-padding-bottom">
+                <div class="container page-content">
+                    <div class="row space-top" >
+                        <!-- Sidebar-->
+                        <% var active = "carousel"; %>
+                        <% include ../center/_nav_customer_left.ejs%>
+                        <!-- Sidebar CLose-->
+                        <section class="col-md-10 pull-right space-bottom">
+                            <div class="filterDivTab">
+                                <% var curtTab = 'linkColumn';%>
+                                <% include portalTab.ejs %>
+                            </div>
+                            <div  style="border:1px solid #e6e6e6" class="col-sm-12 form-horizontal">
+                                <div style="margin-bottom:20px"></div>
+                                <% var isEdit=data.Column!=null&&data.Column!=undefined%>
+                                <% var curCol=data.Column%>
+                                <div class="form-group">
+                                    <input type="hidden" id="hiddenId" value=""/>
+                                    <!--<div class="col-sm-2"><span >主标题图标:</span></div>-->
+                                    <div class="col-sm-10">
+                                        <!--<div>
+                                            &nbsp;
+                                            <i id="topI" class="<%=isEdit?curCol.columnIcon:null%>"></i>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="javascript:void(0)"  id="chooseIcon">选择图标样式</a>
+                                        </div>
+                                        <h2></h2>
+                                        <div id="iconContainer" style="width:195px;display:none;margin-top:10px">
+
+                                            <style>
+                                                .iconTable tr td{
+                                                    width:40px;
+                                                    text-align:center
+                                                }
+                                                .iconTable tr td i{
+                                                  cursor:pointer;
+
+                                                }
+                                            </style>
+                                        <table class="iconTable">
+                                            <tr>
+                                                <td><i class="fa fa-bell"/></td>
+                                                <td><i class="fa fa-shopping-cart"/></td>
+                                                <td><i class="fa fa-bullhorn"/></td>
+                                                <td><i class="fa fa-phone"/></td>
+                                                <td><i class="fa fa-rss"/></td>
+                                                <td><i class="fa fa-fax"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-truck"/></td>
+                                                <td><i class="fa fa-flag-o"/></td>
+                                                <td><i class="fa fa-paper-plane"/></td>
+                                                <td><i class="fa fa-user"/></td>
+                                                <td><i class="fa fa-qq"/></td>
+                                                <td><i class="fa fa-renren"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-weixin"/></td>
+                                                <td><i class="fa fa-weibo"/></td>
+                                                <td><i class="fa fa-ambulance"/></td>
+                                                <td><i class="fa fa-pencil-square-o"/></td>
+                                                <td><i class="fa fa-bell-o"/></td>
+                                                <td><i class="fa fa-certificate"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-envelope-square"/></td>
+                                                <td><i class="fa fa-envelope"/></td>
+                                                <td><i class="fa fa-envelope-o"/></td>
+                                                <td><i class="fa fa-globe"/></td>
+                                                <td><i class="fa fa-heart"/></td>
+                                                <td><i class="fa fa-heart-o"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-headphones"/></td>
+                                                <td><i class="fa fa-mobile"/></td>
+                                                <td><i class="fa fa-photo"/></td>
+                                                <td><i class="fa fa-phone-square"/></td>
+                                                <td><i class="fa fa-plane"/></td>
+                                                <td><i class="fa fa-signal"/></td>
+                                            </tr>
+                                        </table>
+                                        </div>-->
+
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-2"><span >主标题名称:</span></div>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="columnName" value="<%=isEdit?curCol.columnName:null%>"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-2"><a href="javascript:void(0)" id="footerColumnBtn" class="btn btn-primary">保存</a></div>
+                                    <div class="col-sm-10">
+
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="row">
+                                    <span class="col-sm-3">链接地址:</span>
+                                    <div class="col-sm-9"><input type="text"/></div>
+                                </div>-->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% include ../_nav_bottom.ejs%>
+</div>
+<% include  ../footer.ejs %>
+<script src="/static/source/js/portal.js"></script>

@@ -1,0 +1,58 @@
+:local(.divContainer) {
+    background-color: #F0F0F2;
+    height: 100%
+}
+
+:local(.spaceUp) {
+    margin-top: 5px
+}
+
+:local(.contentSpanDivText) {
+    color: #999999;
+    background-color: #F0F0F2;
+    height: 38px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+:local(.contentSpanLabelText) {
+    margin-left: 5px;
+}
+
+:local(.btnContent) {
+    width: 75%;
+    padding: 10px 0;
+    margin: 40px auto 0 auto;
+    text-align: justify;
+    font-size: 0;
+}
+
+:local(.btnContent)::after {
+    display: inline-block;
+    width: 100%;
+    height: 0;
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    content: "."
+}
+
+:local(.infoBtnMobile) {
+    background-color: #29B6F6;
+    color: white;
+}
+
+:local(.timer) {
+    display: flex;
+    height: 50px;
+    padding-left: 8px;
+    padding-right: 5px;
+    font-size: 16px;
+    border-bottom: 1px solid #dadada;
+    background-color: #fff;
+    align-items: center;
+    justify-content: space-between;
+}

@@ -1,0 +1,87 @@
+html, body {
+  font-family: "Microsoft YaHei UI", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  .container {
+    min-width: 1200px;
+  }
+}
+
+.header-toolbar .container {
+  padding: 0;
+}
+
+.site-layout .header-toolbar .cont-info div {
+  margin-left: 25px;
+  margin-right: 0;
+}
+
+.content-flex-space-between {
+  display: flex;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+
+.content-flex-space-end {
+  display: flex;
+  justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+}
+
+.content-flex-space-around {
+  display: flex;
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+}
+
+.font-green {
+  color: $button-base-default-background-color;
+}
+
+.font-orange {
+  color: $sum-pend-bill-color;
+}
+.font-red {
+  color: $base-red-color;
+}
+.font-bold{
+  font-weight:bold;
+}
+.font {
+  cursor: pointer;
+  color: #000;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.font:hover {
+  cursor: pointer;
+  color: #237935;
+  font-size: 20px !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+
+.text-end {
+  text-align: end;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.site-layout {
+  min-height: 100%;
+}
+
+.orderSidebarActive {
+  background: $button-base-default-background-color;
+  a {
+    color: #fff;
+  }
+}

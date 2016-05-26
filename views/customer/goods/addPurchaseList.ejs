@@ -1,0 +1,101 @@
+<%
+/*
+ # Copyright © 2015
+ # -----------------------------------------------------------------
+ */
+%>
+<% include ../header.ejs%>
+<style>
+    body{
+        background-color: transparent !important;
+    }
+</style>
+<div style="font-size: 14px;padding: 4px;">
+    <div class="page-content space-top">
+        <section class="page-content-right">
+            <aside class="page-content-right-head">
+                <label>请选择清单名称 <span>(一个商品只能添加到一个分类里面)</span> </label>
+            </aside>
+            <div style="height: 170px;overflow-y: scroll;">
+                <table class="address-table table">
+                    <% var index = 0; %>
+                    <% for(var i in data.lists) { %>
+                    <% index++; %>
+                    <% var item = data.lists[i] %>
+                    <tr  class="realPurchase"  style="border: none;height: 40px;line-height: 40px;">
+                        <td class="lists-info" colspan="2" style="border: none">
+                            <span class="list-name"><%= item.name %></span>
+                        </td>
+                        <td class="address-info address-operate" style="border: none">
+                            <div class="radio iradioInAdd"   data-id="<%= item.id%>" data-isAdded="<%= item.isAdded %>" >
+                                <input  name="purchaseList"  type="radio" value="true">
+                            </div>
+                        </td>
+                    </tr>
+                    <% } %>
+                    <tr class="newAddressTemplate" style="border: none;height: 40px;line-height: 40px;">
+                        <td colspan="2" class="address-info" style="border: none">
+                            <span class="spanNewAddress list-name"></span>
+                        </td>
+                        <td class="address-info address-operate" style="border: none">
+                            <div class="radio iradioInAdd"  data-isAdded="false" >
+                                <input name="purchaseList"   type="radio" value="true">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="trNewAddress" style="border: none;height: 40px;line-height: 40px;">
+                        <td colspan="2" style="border: none">
+                            <input type="text" class="form-control inputList" placeholder="请输入新增清单的名字" style="height: 30px;">
+                        </td>
+                        <td class="address-operate" style="border: none">
+                            <a class="btn btn-primary btn-outlined btnAddList">添加</a>
+                        </td>
+                    </tr>
+                    <tr style="border: none;height: 40px;line-height: 40px;">
+                        <td class="address-info" style="border: none">
+                            <a class="showNewListItem"><i class="fa fa-plus-square-o"></i>新增清单</a>
+                        </td>
+                        <td style="border: none"></td>
+                    </tr>
+                </table>
+            </div>
+            <table class="address-table table">
+                <tr>
+                    <td colspan="3" style="text-align: end">
+                        <a class="btn btn-primary goodsAddPurchaseList" id="kevin" style="padding: 10px !important;">确定</a>
+                        <a class="btn btn-primary closeIframeGuide"  data-cancel="goodsPage"  style="padding: 10px !important;">取消</a>
+                    </td>
+                </tr>
+            </table>
+
+        </section>
+    </div>
+</div>
+
+<% include  ../footer.ejs %>
+<script type="text/javascript">
+    $(function () {
+       $('ins').remove();
+        //勾选已经在的常购清单里面
+        $('.iradioInAdd').each(function (index, item) {
+            var isChecked = $(item).attr('data-isAdded') == 'true';
+            if (isChecked) {
+                $(item).find('.iradio').addClass('checked');
+            }
+        });
+       $(document).delegate('.iradio', 'click', function () {
+           var self=$(this),
+               isChecked=$(this).attr('class').indexOf('checked')!=-1;
+           if(!isChecked){
+                self.addClass('checked');
+                self.closest('tr').siblings('.realPurchase').each(function(index,item){
+                        $(item).find('.iradio').removeClass('checked');
+                });
+
+           }
+           else{
+           }
+
+        });
+    });
+</script>

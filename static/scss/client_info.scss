@@ -1,0 +1,37 @@
+.documents-container>.panel-body{
+  padding: 0px;
+  background-color:#fff !important;
+}
+.documents-container>.documents-content{
+  width: 100%;
+}
+.documents-box{
+  width: 322px;
+  height: 40px;
+  float: left;
+  padding-top: 15px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.documents-deadline{
+  width: 190px;
+  height: 40px;
+  float: left;
+  text-align: right;
+}
+.deadline-time{
+  width: 100px;
+  height: 40px;
+  float: left;
+}
+.documents-container>.panel-body .documents-box-new{
+  width: 965px;
+  float: left;
+  border-bottom: 1px solid #e6e6e6;
+}
+.documents-container>.panel-body .documents-box-new>.documents-deadline{
+  padding-top: 10px;
+  width: 190px;
+  float: left;
+}
+

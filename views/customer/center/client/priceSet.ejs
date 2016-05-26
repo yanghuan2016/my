@@ -1,0 +1,97 @@
+<%
+/*
+ # Copyright © 2015
+ # -----------------------------------------------------------------
+ */
+%>
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+
+            <!--Header Toolbar Close-->
+            <!--Header-->
+            <% include ../_nav_head.ejs%>
+            <div class="page" style="min-height:801px">
+
+                <div class="container  page-content">
+            <div class="row space-top">
+                <!-- Sidebar-->
+                <% include ../_nav_customer_left.ejs%>
+                <!-- Sidebar CLose-->
+                <section class="col-md-10 pull-right  space-bottom">
+                    <div class="page-content-right">
+                        <aside class="page-content-right-head">
+                            <div>
+                                <label>客户:[<%=data.client.clientName%>]单品价格设定</label>
+                            </div>
+                            <div class="page-content-sort">
+                                <div class="filter-input">
+                                    <form method="get" role="search">
+                                        <label class="sr-only" for="blog-search"></label>
+
+                                        <input class="form-control searchInput"  data-btnid="searchPriceSetGoodsBtn" style="width:282px" type="text" placeholder="请输入商品名/货号/商品别名/生产厂家.." value="">
+                                        <button type="button" id="searchPriceSetGoodsBtn"><i class="fa fa-filter"></i></button>
+                                    </form>
+                                </div>
+                                <a type="button" class="btn btn-primary" href="/customer/client/price/add?client=<%=data.clientId%>">添加</a>
+                            </div>
+                        </aside>
+                        <table class="table page-table">
+                            <thead>
+                            <tr>
+                                <td class="goods-name-info goods-info-img">产品资料</td>
+                                <td>货号</td>
+                                <td class="goods-number">价格</td>
+                                <td>操作</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% for(var i in productprice) {%>
+                                <tr goodsId="<%= productprice[i].goodsId %>" clientId="<%= data.clientId%>">
+                                <td>
+                                    <div class="goods-img">
+                                        <img src=<%= productprice[i].imageUrl %>/>
+                                    </div>
+                                    <div class="goods-info">
+                                        <h6><a href="/goods/detail?goodsId=<%= productprice[i].goodsId%>"><%=productprice[i].commonName%>
+                                                <%= productprice[i].alias?(productprice[i].alias):"" %></a></h6>
+                                        <h6><%= productprice[i].producer%></h6>
+                                        <h6><%= productprice[i].spec%></h6>
+                                    </div>
+                                </td>
+                                <td> <%= productprice[i].goodsNo %></td>
+                                <td class="goods-number">
+                                    &yen;<input type="text" readonly="readonly" value="<%= productprice[i].clientPrice ? productprice[i].clientPrice:0%>"style="text-align: center;width: 60px;"/>
+                                    <a class="inputUpdatePrice"><i class="fa fa-pencil-square-o"></i></a>
+                                </td>
+                                <td>
+                                    <a class="text-primary removeGoods" title="删除" data-toggle="tooltip" data-placement="bottom"><strong><i class="fa fa-trash"></i></strong></a>
+                                </td>
+                            </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <section class="col-md-10 space-top pull-right">
+                    <div class="pull-left">
+                        <a class="btn btn-primary" href="/customer/client">返回</a>
+                    </div>
+                    <% var url = "price?clientId="+data.clientId %>
+                    <% include ../../_paginator.ejs%>
+                </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>

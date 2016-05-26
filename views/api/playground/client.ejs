@@ -1,0 +1,131 @@
+<% include ../../customer/header.ejs %>
+<!--Off-Canvas-->
+<style type="text/css">
+    .p_label {
+        box-sizing: border-box;
+        width: 80px;
+        text-align: right;
+    }
+
+    .p_body div {
+        display: inline-block;
+    }
+
+    .p_input {
+        width: 230px;
+        font-size: 12px ;
+    }
+    .p_list {
+        width: 30%;
+    }
+
+    .p_content {
+        width: 50%;
+    }
+    .btn-default {
+        margin: 0;!important;
+    }
+
+    textarea {
+        width:100%;
+    }
+</style>
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--If you add class "boxed" to .site-layout it wraps the whole document in a box, than you can simply add pattern background to body or leave it white. Please note in a "boxed" mode header doesn't stick to the top.-->
+        <% include ../../customer/_nav_top.ejs %>
+
+        <div class="panel-body">
+            <div class="page-header">
+                <h3>PlayGround:
+                </h3>
+            </div>
+            <div>
+                <table class="table">
+                    <tr>
+                        <td><label class='p_label' for="user">user:</label>
+                            <input class = "p_input" type="text" id="user" value="<%= data._userInfo.username %>"></td>
+
+                        <td><label class='p_label' for="userType">userType:</label>
+                            <input class = "p_input" type="text" id="userType" value="<%= data._userInfo.operatorType %>"></td>
+
+                        <td><label class='p_label' for="uid" >uid:</label>
+                            <input class = "p_input" type="text" id="uid" value="<%= data.enterpriseId %>"></td>
+                    </tr>
+                    <tr>"
+                        <td><label class='p_label' for="appKey">appKey:</label>
+                            <input class = "p_input" type="text" id='appKey' value="<%= data.appKey %>"></td>
+
+                        <td><label class='p_label' for="appCode">appCode:</label>
+                            <input class = "p_input" type="text" id="appCode" value = "<%= data.appCode %>"></td>
+                    </tr>
+                </table>
+                <br>
+                <br>
+
+                <div class="text-center">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default" id="updateAppCode">update appCode</button>
+                        <button type="button" class="btn btn-default" id="makeCall">Make Call</button>
+                        <button type="button" class="btn btn-default" id="startSendDataToErp">start send msg</button>
+                    </div>
+                </div>
+                <br>
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <div >
+                                <label class='p_label' for="url" >url:</label>
+                                <input class = "p_input" type="url" id="url" value="/api/erp/<%= data._userInfo.clientId %>">
+                            </div>
+                            <div>
+                                <label for="version" class="p_label">version:</label>
+                                <input class = "p_input" type="text" id="version" value ='1.0' >
+                            </div>
+                            <div>
+                                <label for="msgId" class="p_label">msgId:</label>
+                                <input class = "p_input" type="text" id="msgId" value = '00001'>
+                            </div>
+                            <div>
+                                <label for="msgType" class="p_label">msgType:</label>
+                                <input class = "p_input" type="text" id="msgType">
+                            </div>
+                            <div>
+                                <label for="checksum" class="p_label">checksum:</label>
+                                <input class = "p_input" type="text" id="checksum" value="<%= data.appCode %>">
+                            </div>
+                            <div>
+                                <label for="msgData" class="p_label">msgData:</label>
+                                <input class = "p_input" type="text" id="msgData">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <div>
+                                <label for="inputData">inputData</label>
+                                <br>
+                                <textarea id = "inputData" name="res" id="res" cols="60" rows="5"></textarea>
+                                <label for="receiveData">receiveData</label>
+                                <br>
+                                <textarea id = "receiveData" name="res" id="res" cols="60" rows="5"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div> <!--Layout Close-->
+</div><!--Off-Canvas Close-->
+<!--scc-src js-->
+<script src="/static/js/crypto-js.js"></script>
+<script src="/static/js/libs/jquery-1.11.1.min.js"></script>
+<script src="/static/source/js/playground.js"></script>
+<% include ../../customer/footer.ejs %>

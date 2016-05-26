@@ -1,0 +1,65 @@
+<% var activetemp = ((typeof(active) == "undefined") ? "" : active) %>
+<div class="col-md-2" id="sidebar">
+    <aside class="sidebar no-devide rect rect-new">
+        <!--Color Filters-->
+        <div class="widget list-item <%= (activetemp == "personal_center"? "orderSidebarActive" : "")%>">
+            <h4>
+                <a href="/portal?" class="click-link">
+                    <i class="fa fa-user"></i>&nbsp;个人中心</a>
+            </h4>
+        </div>
+        <div class="widget list-item <%= (activetemp == "personal_info"? "orderSidebarActive" : "")%>">
+            <h4><a href="/portal/personal/info?" class="click-link">
+                    <i class="fa fa-thumb-tack"></i>&nbsp;我的资料</a></h4>
+        </div>
+        <div class="widget list-item <%= (activetemp == "promotion_Info"? "orderSidebarActive" : "")%>">
+            <h4><a href="/portal/promotion/promotion_Info?" class="click-link" style="margin-right: 18px;">
+                    <i class="fa fa-tags"></i>&nbsp;优惠券</a></h4>
+        </div>
+        <div class="widget list-item <%= (activetemp == "purchaseList"? "orderSidebarActive" : "")%>">
+            <h4><a href="/portal/purchaseList" class="click-link">
+                    <i class="fa fa-star"></i>&nbsp;常购清单</a></h4>
+        </div>
+        <!--<div class="widget list-item <%= (activetemp == "personal_gsp"? "orderSidebarActive" : "")%>">
+            <h4><a href="/portal/personal/gsp" class="click-link">
+                    <i class="fa fa-flag"></i>&nbsp;我的GSP</a></h4>
+        </div>-->
+        <div class="widget list-item <%= (activetemp == "order"? "orderSidebarActive" : "")%>">
+            <h4><a href="/order" class="click-link">
+                    <i class="fa fa-file-text"></i>&nbsp;我的订单</a></h4>
+        </div>
+        <% if(!data.entryFromOrderOnly){%>
+        <div class="widget list-item <%= (activetemp == "ship"? "orderSidebarActive" : "")%>">
+            <h4><a href="/order/ship?type=receive" class="click-link">
+                    <i class="fa fa-cube"></i>&nbsp;发货记录</a></h4>
+        </div>
+        <% } %>
+        <!--<div class="widget list-item">
+            <h4><a href="/order/refuse?type=create" class="click-link">
+                    <i class="fa fa-recycle"></i>&nbsp;拒收记录</a></h4>
+        </div>-->
+        <div class="widget list-item <%= (activetemp == "return"? "orderSidebarActive" : "")%>">
+            <h4><a href="/order/return" class="click-link">
+                    <i class="fa fa-truck"></i>&nbsp;退货记录</a></h4>
+        </div>
+        <!--<div class="widget list-item">-->
+            <!--<h4><a href="/portal/personal/bill" class="click-link">-->
+                    <!--<i class="fa fa-cube"></i>&nbsp;结款报表</a></h4>-->
+        <!--</div>-->
+        <div class="widget list-item <%= (activetemp == "erp"? "orderSidebarActive" : "")%>">
+            <h4><a href="/portal/personal/erpSetting" class="click-link">
+                    <i class="fa fa-cube"></i>&nbsp;ERP设置</a></h4>
+        </div>
+
+        <div class="widget list-item <%= (activetemp == "messages"? "orderSidebarActive" : "")%>">
+            <h4><a href="/message" class="click-link">
+                    <i class="fa fa-cube"></i>&nbsp;通知中心</a></h4>
+        </div>
+
+        <div class="widget list-item <%= (activetemp == "operatorLog"? "orderSidebarActive" : "")%>">
+            <h4><a href="/portal/personal/operatorLog" class="click-link">
+                    <i class="fa fa-book"></i>&nbsp;操作日志</a></h4>
+        </div>
+
+    </aside>
+</div>

@@ -1,0 +1,411 @@
+.align-right{
+    text-align: right;
+}
+.tipStep{
+    line-height:56px;
+    padding-left:0px;
+    padding-right:0px
+}
+.tipTextFocus{
+    border-radius:5px;
+    -moz-border-radius:5px; /* Old Firefox */
+    display:inline-block;
+    width:82%;
+    height:40px;
+    line-height:40px;
+    color:white;
+    border:1px solid #BBBBBB;
+    background-color:#237835;
+    vertical-align: middle;
+    text-align:center
+}
+.tipText{
+    border-radius:5px;
+    -moz-border-radius:5px; /* Old Firefox */
+    display:inline-block;
+    width:82%;
+    height:40px;
+    line-height:40px;
+    color:white;
+    border:1px solid #BBBBBB;
+    background-color:#237835;
+    vertical-align: middle;
+    text-align:center
+}
+.tipArrow{
+    display:inline-block;
+    height:40px;
+    margin-bottom:0px;
+    vertical-align:middle;
+
+}
+
+
+.rectangle{
+
+    height:16px;
+    background-color:white;
+    /*border:1px solid #BBBBBB;*/
+    border-right:none;
+    width:35px;
+    display:inline-block;
+    margin: 12px 0px 0px 0px;
+    float:left;
+}
+.triangle {
+    height: 0px;
+    width: 0px;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid white;
+    display: inline-block;
+    margin: 0px;
+    float:left
+}
+
+
+.stepContent{
+    padding-top:50px;
+    padding-left:40px
+}
+
+/**下面是新的页面的样式*/
+
+/**导航条 样式  start*/
+.stepOneTextFocus{
+    background-color:#237835;
+    display:inline-block;
+    height:40px;
+    line-height:40px;
+    color:white;
+    text-align: center;
+    width:89%;
+    float:left
+}
+.rightPartFocus{
+    width:0px;
+    height:0px;
+    border:20px solid transparent;
+    border-left:20px solid #237835;
+    display:inline-block;
+    float:left;
+    width:10%;
+}
+.leftPartFocus{
+    width:0px;
+    height:0px;
+    border:20px solid #237835;
+    border-left:20px solid transparent;
+    display:inline-block;
+    float:left;
+    width:10%;
+}
+.stepOneText{
+    background-color:#beeec8;
+    display:inline-block;
+    height:40px;
+    line-height:40px;
+    color:#237935;
+    text-align: center;
+    width:89%;
+    float:left;
+}
+#navigation1{
+    padding:0px;
+    min-width:390px;
+}
+#navigation1 .rightPart{
+    width:0px;
+    height:0px;
+    border:20px solid transparent;
+    border-left:20px solid #beeec8;
+    display:inline-block;
+    float:left;
+}
+#navigation2{
+    text-align:center;
+    padding-left:0px;
+}
+#navigation2 .stepOneTextFocus{
+    width:75%;
+}
+#navigation3{
+    text-align:center;
+    padding:0px
+}
+
+.leftPart{
+    width:0px;
+    height:0px;
+    border:20px solid #beeec8;
+    border-left:20px solid transparent;
+    display:inline-block;
+    float:left;
+    width:10%
+}
+
+.page .reg-content h5{
+    margin-top: 20px;
+}
+.page .reg-content .row{
+    min-height:150px;
+}
+#registerTable,
+#registerTable td{
+    border:none;
+}
+/**导航条 样式 end*/
+
+
+/**通用样式 start*/
+
+.col-first{
+    padding-right:0px
+}
+
+.star{
+    color:red
+}
+
+/**通用样式 end*/
+
+
+/**证书信息页面 表格布局 start*/
+.inputWid{
+    width:90%
+}
+.firstTd{
+    width:15%;
+    text-align:right;
+}
+.secondTd{
+    width:41%;
+}
+.thirdTd{
+    width:19%;
+}
+.fouthTd{
+    width:25%;
+}
+#registerTable tbody tr{
+    border:none;
+    height:50px
+
+}
+/**证书信息页面 表格布局 end*/
+
+
+
+/**证书信息页面 上传模块样式 start*/
+.uploadSpan{
+    /*margin-top:50px;*/
+    display:inline-block;
+}
+
+.formUpload{
+    display:inline-block;
+    float:left;
+    /*margin-top:50px*/
+}
+.uploadContent{
+/*    display:table-cell;
+    vertical-align:middle;*/
+    /*height:150px;*/
+}
+
+.uploadIframe{
+   /**display:inline;*/
+   margin-left:120px;
+    width:40%;
+/*    float:left*/
+}
+
+/**证书信息页面 上传模块样式 end*/
+
+
+/**注册成功的提示页面信息 start*/
+#successInfo{
+    margin:0 auto;
+}
+
+.successContent{
+    margin-top:120px;
+    text-align:center;
+}
+.successContent .greenTip{
+    color:forestgreen;
+    font-size:20px;
+}
+
+/**注册成功的提示页面信息 end*/
+
+
+
+/**协议的一些样式 start*/
+
+.dealDisplay{
+    text-indent:26px;
+    font-size:13px
+}
+.headLine{
+    font-weight:bold;
+}
+.fontBold{
+    font-weight:bold;
+}
+.dealTitle{
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+}
+/**协议的一些样式 end*/
+
+
+#ckbox{
+    margin:0 0 !important;
+    height:30px;
+    min-height:30px;
+}
+.icheckbox{
+    margin:0px;
+
+}
+
+
+.inputTips{
+    font-size:14px;color:#A29E9E
+}
+
+.uploadFileTips{
+    display:inline-block;
+    float:left;
+    /*margin-top:53px;*/
+    margin-right:10px;
+    width: 119.5px;
+    text-align:right;
+}
+.pic-upload-item{
+    min-height: 150px;
+}
+.pic-upload-item > div{
+    /*margin-left: 18px;*/
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.pic-upload-button,.pic-add-button{
+    position: relative;
+    width:100%;
+    height:100px;
+    border:1px solid rgba(150,150,150, .3);
+    text-align: center;
+    line-height: 100px;
+    cursor: pointer;
+}
+.pic-upload-item i{
+    font-size: 28px;
+    color: #666;
+}
+.pic-upload-button  input,.inputWrap{
+    display: block;
+    position: absolute;
+    width:100px;
+    height:100px;
+    left:0;
+    right:0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.pic-upload-button .inputWrap.floatOn{
+    width:80px;
+    height:20px;
+    top:20px;
+    left:10px;
+    background: #237935;
+    opacity: 1;
+    z-index: 11;
+}
+ .pic-upload-button .inputWrap.floatOn > input{
+     width:80px;
+     height:20px;
+     opacity: 0;
+ }
+.inputWrap.floatOn::before{
+    position:absolute;
+    dusplay:block;
+    width:100%;
+    height:100%;
+    content:'重新上传';
+    top:0;
+    left:0;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    /*z-index:99;*/
+}
+.pic-upload-button.floatOn::before{
+    display: block;
+    content: '';
+    width:100px;
+    height: 100px;
+    top:0;
+    left:0;
+    background: rgba(50, 50, 50 ,.6);
+    z-index: 10;
+}
+
+.item_model{
+    display: none;
+}
+
+.contract-download{
+    display: inline-block;
+    width: 150px;
+    position: relative;
+    top:-2px;
+}
+
+.submit_area{
+    text-align: center;
+    margin-bottom: 50px;
+}
+.submit_area .submit_btn{
+    width:300px;
+    height:40px;
+}
+.agree_text{
+    font-size: 13px;
+}
+.pic-upload-button::before{
+    content:'';
+    display: none;
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100px;
+    height:100px;
+    z-index: 999;
+    background: #00AA00;
+}
+.pic-upload-button:hover .pic-upload-button::before{
+    display: block;
+}
+.agree_area{
+    margin-bottom: 20px;
+}
+.otherCloseBt{
+    position: absolute;
+    right:-12px;
+    top:-5px;
+    z-index: 15;
+    color: #666;
+    font-size: 14px;
+    border-radius: 14px;
+    background-color: #fff;
+    line-height:14px;
+}
+
+#successInfo{
+    min-height: 400px;
+}

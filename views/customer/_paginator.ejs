@@ -1,0 +1,68 @@
+<!-- 以下代码用来做页数跳转，-->
+<!-- page　表示用户当前所在的页码．-->
+<!-- pageSize　表示用户现在每页所显示的信息条数-->
+<section class="pull-right">
+    <%
+    var pageStart = paginator.p - 3 > 0 ? paginator.p - 3 : 1;
+    var pageEnd = paginator.p + 3;
+    %>
+    <!--Pagination-->
+    <ul class="pagination no-space-top">
+        <li class="prev goToPage" value="<%= page - 1 %>">
+            <% var paginatorData = {
+                url : url,
+                ps : pageSize,
+                p : page-1,
+                paginator : paginator
+            };
+            %>
+            <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>,'chooseGoodsFlag')" style="border: 1px solid #e6e6e6;border-radius: 10px;">上一页</a>
+        </li>
+        <% if(page > 4){ %>
+        <li class="prev goToPage" value='<%= 1 %>'>
+            <% var paginatorData = {
+                url : url,
+                ps : pageSize,
+                p : 1,
+                paginator : paginator
+            };
+            %>
+            <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>,'chooseGoodsFlag')" style="border: 1px solid #e6e6e6;border-radius: 10px;">1</a>
+        </li>
+        <li>...</li>
+        <% } %>
+        <% for(var i = pageStart;i <= pageEnd;i += 1){ %>
+        <li class="goToPage <%= page === i ? 'active' : '' %>" value= <%= i %>>
+            <% var paginatorData = {
+                url : url,
+                ps : pageSize,
+                p : i,
+                paginator : paginator
+            };
+            %>
+            <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>,'chooseGoodsFlag')" style="border: 1px solid #e6e6e6;border-radius: 10px;"><%= i %></a>
+        </li>
+        <% } %>
+        <li>...</li>
+        <li class="goToPage" value= <%= Math.floor((page + 11) / pageSize) * 10 %>>
+            <% var paginatorData = {
+                url : url,
+                ps : pageSize,
+                p : Math.floor((page + 11) / pageSize) * 10,
+                paginator : paginator
+            };
+            %>
+            <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)" style="border: 1px solid #e6e6e6;border-radius: 10px;"> <%= Math.floor((page + 11) / pageSize) * 10 %></a>
+        </li>
+        <li class="next goToPage" value= <%= page + 1 %>>
+            <% var paginatorData = {
+                url : url,
+                ps : pageSize,
+                p : page+1,
+                paginator : paginator
+            };
+            %>
+            <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>,'chooseGoodsFlag')" style="border: 1px solid #e6e6e6;border-radius: 10px;">下一页</a>
+        </li>
+    </ul>
+</section>

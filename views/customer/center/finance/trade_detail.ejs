@@ -1,0 +1,165 @@
+<% include ../../header.ejs%>
+<%
+var goodsType = data._goodsTypes.children;
+
+%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page double-padding-bottom">
+            <div class="container page-content">
+                <div class="row space-top">
+                    <% var active = "financeCenter"; %>
+                    <% include ../_nav_customer_left.ejs%>
+
+                    <section class="col-md-10 pull-right space-bottom">
+                        <div class="filterDivTab">
+                            <div class="tabList">
+                                <a href="/customer/bill/financecenter" >授信客户结款</a>
+                                <a href="/customer/bill/cod">货到付款结款</a>
+                                <a href="/customer/bill/refundCheck">退款审核</a>
+                                <a href="/customer/bill/refundPerform">退款执行</a>
+                                <a href="/customer/bill/tradeDetail" class="itemActive">交易明细</a>
+                            </div>
+                        </div>
+                        <div class="detail-client-name-container margin-top-sm">
+                            <div class=" vertical-middle pull-left" >
+                                时段筛选:
+                                <div style="height: 40px;display:inline-block">
+                                    <i class="fa fa-calendar"></i>
+                                    <input style="vertical-align:middle;width:105px;"    placeholder="开始时间"  value="<%= data.filterCondition.startDate%>"  id="StartDate" type="text" readonly class="datePicker selectTime"/>
+                                    －
+                                    <i class="fa fa-calendar"></i>
+                                    <input style="vertical-align:middle;width:105px"    placeholder="截止时间" id="EndDate" type="text" value="<%= data.filterCondition.endDate%>"  readonly class="datePicker selectTime"/>
+                                </div>
+                            </div>
+
+
+                            <div class="defaultdropdown  margin-left-md"  style="display:inline-block;">
+                                <div class="btn-group">
+                                    <button type="button" class="dropdown-toggle filter-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <% var statementDetails=data._translation.StatementMonthDetailDigest; %>
+                                        <span id="bType" data-value="<%= data.filterCondition.bType%>"><%= data.filterCondition.bType!='ALL'?statementDetails[data.filterCondition.bType]:'全部摘要'%></span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="click-link" data-value="ALL">全部摘要</a>
+                                        </li>
+                                        <% for(var key in statementDetails)  {%>
+                                        <li>
+                                            <a class="click-link" data-value="<%= key %>" ><%= statementDetails[key] %></a>
+                                        </li>
+                                        <% } %>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="defaultdropdown  margin-left-md"  style="display:inline-block;">
+                                <div class="btn-group">
+                                    <button type="button" class="dropdown-toggle filter-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <% var statementDetailsWays=data._translation.StatementMonthDetailPaymentType; %>
+                                        <span id="pType" data-value="<%= data.filterCondition.pType %>"><%= data.filterCondition.pType!='ALL'?statementDetailsWays[data.filterCondition.pType]:'付款方式' %></span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="click-link" data-value="ALL">付款方式</a>
+                                        </li>
+                                        <% for(var key in statementDetailsWays)  {%>
+                                        <li>
+                                            <a class="click-link" data-value="<%= key %>" ><%= statementDetailsWays[key] %></a>
+                                        </li>
+                                        <% } %>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <input type="text"  value="<%= data.filterCondition.keyWord %>"  id="keyWordInput" placeholder="流水号/客户名称"/>
+                            <button class="btn"  id="traderDetailBtn">查询</button>
+
+                            <button class="btn btn-primary pull-right"> 导出</button>
+                        </div>
+
+
+
+                        <div class="space-top">
+                            <table class="sm-page-table ">
+                                <thead class="finance-table-head">
+                                <tr>
+                                    <td><strong>支付流水号</strong></td>
+                                    <td><strong>客户名称</strong></td>
+                                    <td><strong>付款方式</strong></td>
+                                    <td><strong>时间</strong></td>
+                                    <td><strong>摘要</strong></td>
+                                    <td><strong>金额</strong></td>
+                                    <td ><strong>订单号</strong></td>
+
+                                </tr>
+                                </thead>
+                                <tbody class="finance-table-body">
+
+                                <%  for(var i=0;i<data.tradeList.length;i++){%>
+                                <%  var currentItem=data.tradeList[i];%>
+                                    <tr>
+                                        <td><%= currentItem.id  %></td>
+                                        <td><%= currentItem.clientName %></td>
+                                        <td><%= data._translation.StatementMonthDetailPaymentType[currentItem.paymentType] %></td>
+                                        <td><%= currentItem.createdOn %></td>
+                                        <td><%= data._translation.StatementMonthDetailDigest[currentItem.billType]%></td>
+                                        <td>
+                                            <% var isRedColor = currentItem.paymentType=='BILL_REDFLUSH'|| currentItem.paymentType=='BILL_REFUND' %>
+                                            <%if(isRedColor) {%>
+                                                <span class="font-red">
+                                                    -&yen;<%=currentItem.amount!=null&&typeof(currentItem.amount)!='undefined'?currentItem.amount.toFixed(data.pointDigit.DEFAULT):(0).toFixed(data.pointDigit.DEFAULT) %>
+                                                </span>
+                                            <% }else{ %>
+                                                <span>
+                                                    &yen;<%=currentItem.amount!=null&&typeof(currentItem.amount)!='undefined'?currentItem.amount.toFixed(data.pointDigit.DEFAULT):(0).toFixed(data.pointDigit.DEFAULT) %>
+                                                </span>
+                                            <%}%>
+                                        </td>
+                                        <td class="font-color-green">
+                                            <a href="/customer/order/pending?orderId=<%=currentItem.orderId %>"><%= currentItem.displayOrderId%></a>
+                                        </td>
+                                    </tr>
+                                <%}%>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="margin-top-md">
+                            <button class="btn btn-primary">返回</button>
+
+                            <div id="tradeDetailPaginator">
+                            <% var url = "tradeDetail?"%>
+                            <% include ../../_paginator.ejs%>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>
+<script src="/static/source/js/customer/refund.js"></script>
+<script>
+    $('.datePicker').datetimepicker({
+        timepicker: false,
+        format:'Y-m-d',
+        minDate:false
+    });
+</script>

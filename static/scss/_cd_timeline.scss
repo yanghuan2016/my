@@ -1,0 +1,144 @@
+.cd-timeline-content-div {
+  border: 1px solid $borer-default-color;
+  *, *:after, *:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  .cd-container {
+    width: 90%;
+    max-width: 1170px;
+    margin: 0 auto;
+  }
+
+  .cd-container::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  #cd-timeline {
+    position: relative;
+    padding: 2em 0;
+    margin: 2em 56px;
+  }
+
+  #cd-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 17px;
+    height: 90%;
+    width: 2px;
+    background: #d7e4ed;
+    z-index: 2;
+  }
+
+  #cd-timeline {
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }
+
+  #cd-timeline::before {
+    left: 12%;
+  }
+
+  .cd-timeline-block {
+    position: relative;
+  }
+
+  .cd-timeline-block:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .cd-timeline-block:first-child {
+    margin-top: 0;
+  }
+
+  .cd-timeline-block:last-child {
+    margin-bottom: 0;
+  }
+
+  .cd-timeline-img {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    width: 20px;
+    height: 20px;
+    left: 11%;
+    border-radius: 50%;
+  }
+
+  .cd-timeline-img.cd-picture {
+    background: $button-base-default-background-color;
+  }
+
+  .cd-timeline-img.cd-movie {
+    background: $sum-pend-bill-color;
+  }
+
+  .cd-timeline-content {
+    position: relative;
+    background: white;
+  }
+
+  .cd-timeline-content p {
+    margin: 1em 0;
+    line-height: 1.6;
+  }
+
+  .cd-date {
+    padding: .8em 0 0 0;
+    opacity: .7;
+  }
+
+  .cd-timeline-content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .cd-timeline-content::before {
+    top: 24px;
+    left: 100%;
+    border-color: transparent;
+    border-left-color: white;
+  }
+
+  .cd-date {
+    position: absolute;
+    left: auto;
+    top: -12px;
+    font-size: 16px;
+    text-align: end;
+    width: 10%;
+    span {
+      word-wrap: break-word;
+      word-break: normal;
+      width: 100%;
+    }
+  }
+  .cd-content {
+    position: relative;
+    top: -24px;
+    left: 15%;
+    text-align: start;
+    margin-left: 0;
+    word-wrap: break-word;
+    word-break: normal;
+    width: 80%;
+    .timeline-img {
+      width: 60px;
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 15px;
+      height: 60px;
+      > img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  }
+}

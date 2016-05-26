@@ -1,0 +1,61 @@
+.smsUl{
+  li{
+    display: block;
+    width: 200px;
+    height: 230px;
+    float: left;
+    margin-right:42px;
+    margin-bottom: 20px;
+    border:1px solid #34995b;
+    img{
+      width: 100%;
+      height: 130px;
+    }
+    .smsSetArea{
+      width:100%;
+      height:40px;
+      //background-color: #0a2b1d;
+      padding-left: 10px;
+      .smsDefault{
+        margin-right: 10px;
+      }
+      .icheckbox{
+        margin-right: 2px;
+      }
+    }
+    .smsBtnArea{
+      height:60px;
+      width:100%;
+      //background-color: #00a0e9;
+      line-height: 60px;
+      text-align: right;
+      padding-right: 10px;
+    }
+  }
+}
+.smsSetPanel{
+  display: none;
+  width:572px;
+  height:300px;
+  border:1px solid #cfcfcf;
+  .smsSetPanelTitle{
+    width:100%;
+    height:50px;
+    background-color: #F5F5F5;
+    border-bottom: 1px solid #cfcfcf;
+    line-height: 50px;
+    padding-left: 20px;
+  }
+  .smsSetPanelContent{
+    font-size: 14px;
+    padding: 30px;
+    input{
+      margin-bottom: 10px;
+      width:400px;
+    }
+  }
+  .smsSetPanelFunc{
+    text-align: right;
+    padding-right: 20px;
+  }
+}

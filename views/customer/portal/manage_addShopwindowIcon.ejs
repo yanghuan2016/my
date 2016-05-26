@@ -1,0 +1,220 @@
+<% include ../header.ejs%>
+<div style="position:relative;width:100%;height:100%;" id="test">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+            <% include ../center/_nav_head.ejs%>
+            <div class="page double-padding-bottom">
+                <div class="container page-content">
+                    <div class="row space-top" >
+                        <!-- Sidebar-->
+                        <% var active = "carousel"; %>
+                        <% include ../center/_nav_customer_left.ejs%>
+                        <!-- Sidebar CLose-->
+                        <section class="col-md-10 pull-right  page-content-right">
+                            <aside class="page-content-right-head">
+                                <lable style="margin-right: 30px;margin-left: 8px;"><a class="click-link" href="/page/customer/portal/carousel">首页广告设置</a></lable>
+                                <lable style="margin-right: 30px;"><a class="click-link" href="/page/customer/portal/news">新闻发布</a></lable>
+                                <lable style="margin-right: 30px;"><a class="active" href="/page/customer/portal/showcase">橱窗设置</a></lable>
+                                <lable style="margin-right: 30px;"><a class="click-link" href="/page/customer/portal/linkColumn/all">页脚设置</a></lable>
+                            </aside>
+                            <div class="col-sm-12 form-horizontal">
+
+                                <div style="margin-bottom:20px"></div>
+
+                                <%var isEdit=data.showcase!=null%>
+                                <div class="form-group">
+                                    <div  >
+                                        <span>橱窗名称:</span>
+                                    </div>
+                                    <div class="col-sm-10" ></div>
+                                </div>
+                                <div class="form-group">
+                                    <div  >
+                                        <input type="hidden" id="showcaseHiddenId" value="<%=isEdit?data.showcase.id:null%>"/>
+                                        <input type="text" class="form-control" id="name"
+                                           value="<%=isEdit?data.showcase.name:null%>"    placeholder="">
+                                        </div>
+                                </div>
+
+                                <!--第一个橱窗的广告图片-->
+                                <div class="form-group">
+                                    <div class="" >
+                                        <span>请上传商品的宣传图:</span>
+                                    </div>
+                                    <div class="col-sm-10" >
+
+                                        <form id="scICONuploadForm"  class="form-signin" action="/rest/customer/portal/carousel/upload"  role="form" method="post" enctype='multipart/form-data' target="picture">
+                                            <input id="fulAvatar" name="fulAvatar" class="btn btn-small" type="file" class="form-control"  accept="image/*" style="border: 0px;float: left"/>
+                                            <button id="iconSCBtn" class="btn  btn-primary"  type="button">上 传</button>
+                                        </form>
+                                        <iframe name="picture" id="picture"   data-url="<%=isEdit?data.showcase.advertiseImg:null%>"  style = "text-align: center;max-height:180px;" >
+                                        </iframe>
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <div class="" >
+                                        <span>请填写商品链接:</span>
+                                    </div>
+                                    <div class="col-sm-10" ></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="" >
+                                        <input type="text" class="form-control" id="Link"
+                                               value="<%=isEdit?data.showcase.advertiseHref:null%>"    placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom:0">
+                                    <div class=" page-content-right-head">
+                                        <span>橱窗产品</span>
+                                    </div>
+          
+                                </div>
+
+                            </div>
+
+
+
+                            <div class=" form-horizontal" style="">
+
+                                <section class=" col-sm-12">
+
+                                    <table class="table page-table"  id="showcaseGoodsTable">
+                                        <thead>
+                                        <tr>
+                                            <td  class="goods-name-info goods-info-img">产品名称</td>
+
+                                            <td>货号</td>
+                                            <td>库存</td>
+
+                                            <td>排序</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%var showcaseGoods=data.showcaseGoods%>
+                                            <%var showcaseGoodsLength=showcaseGoods&&showcaseGoods.length%>
+                                            <%for(var i=0;i<showcaseGoodsLength;i++){%>
+                                            <%var item=showcaseGoods[i]%>
+
+                                            <tr>
+                                                <td>
+                                                    <div class="goods-img">
+                                                        <img src="<%= (item.imgSrc=="undefined"||item.imgSrc==null||item.imgSrc=='')?"/static/img/shop/cart/01.jpg":item.imgSrc%>"/>
+                                                    </div>
+                                                    <div class="goods-info decreaseMargin">
+                                                        <h6><a href="/goods/detail?goodsId=<%=item.productId %>"><%=item.commonName%></a></h6>
+                                                        <h6><%=item.producer%></h6>
+                                                        <h6><%=item.spec + '/'+(item.measureUnit==null?"无":item.measureUnit)%></h6>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <%=item.productCode%>
+                                                </td>
+                                                <td>
+                                                    <%=item.amount?item.amount+"件":"暂无信息"%>
+                                                </td>
+
+                                                <td>
+                                                    <a  href="javascript:void(0)"  data-id="<%=item.productId%>" class="updateSCGoodOrderBtn">
+                                                        <i class="fa fa-arrow-circle-up tooltipped" data-toggle="tooltip" data-placement="left" title="置顶" style="margin-right: 2px"></i>
+                                                    </a>
+
+
+                                                    <a  href="javascript:void(0)" data-id="<%=item.productId%> " class="deleteSCGoodBtn">
+                                                        <i class="fa fa-remove tooltipped" data-sctype="scICON" data-toggle="tooltip" data-placement="left" title="删除" style="margin-right: 2px"></i>
+                                                    </a>
+                                                </td>
+
+
+                                            </tr>
+
+                                            <%}%>
+
+
+                                        </tbody>
+                                    </table>
+                                </section>
+
+
+                            </div>
+
+                            <div id="saveBtnDisplay" class="col-sm-12 form-horizontal margin-top" style="display:block;margin-top:10px;">
+                                <div class="form-group" >
+                                    <div class="col-sm-10" style="line-height:38px" >
+                                        <span style="color: #A0BBCA; float:right">修改橱窗名或改变商品顺序后请记得保存</span>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-primary"   id="saveSCGoodsICONBtn">
+                                            <i class="fa fa-save"></i>
+                                            保存
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </section>
+                        <!--选择商品iframe-->
+                        <div id="chooseGoodsDiv" class="container page-content">
+                            <!--第一种-->
+                            <% var isUndefined=data.showCaseGoodsIds!="undefined"%>
+                            <% var params=data.showCaseGoodsIds.length!=0?data.showCaseGoodsIds.join(','):"" %>
+                            <% var hasGoods=params!=""%>
+                            <!--第二种方法iframe-->
+                            <div class="row"  >
+                                <section class="col-md-10 pull-right space-top ">
+                                    <iframe id="showcaseChooseGoodsIframe" src="/goods/showcaseIcon?flag=chooseGoods<%= hasGoods?"&ids="+params:null  %>" style="height:100%"></iframe>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <% include ../_nav_bottom.ejs%>
+</div>
+<% include  ../footer.ejs %>
+<script>
+
+    $(function(){
+        //将最初的ICON商品列表存入本地缓存
+        var currentSCGids=[];
+        $('.updateSCGoodOrderBtn').map(function(){
+            currentSCGids.push($(this).attr('data-id'));
+        });
+        localStorage.currentICONShowCaseGoodsIds=currentSCGids;
+
+        //动态改变iframe的高度
+        var x=$('#showcaseChooseGoodsIframe').contents().find('page-content').height;
+
+        //动态加载图片到 iframe
+        var str = $("#picture").attr("data-url") ? $("#picture").attr("data-url") : "";
+        if(str!==null&&str!==undefined&&str!=="") {
+            var imgHtml = '<img src="' + str + '" style="width:150px;height:120px" />';
+            $("#picture").contents().find('body').html(imgHtml);
+        }
+
+        //上传图片前判断一下
+        $('#iconSCBtn').on('click',function(){
+            var val=$('#fulAvatar').val();
+            if(val==''||val=='empty'){
+                artDialogAlertModal('请先选择图片');
+                return;
+            }
+            $('#scICONuploadForm').submit();
+
+        });
+
+    })
+
+
+</script>
+<script src="/static/source/js/portal.js"></script>

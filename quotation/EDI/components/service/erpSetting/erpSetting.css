@@ -1,0 +1,54 @@
+:local(.erpTable) {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-width: 1px 1px 0 1px;
+}
+
+:local(.line) {
+    height: 50px;
+    border-bottom: 1px solid #ddd;
+}
+
+:local(.first) {
+    height: 50px;
+    border-bottom: 1px solid #ddd;
+    text-align: right;
+    padding-right: 20px;
+}
+
+:local(.keygenSpan) {
+    display: inline-block;
+    min-width: 300px;
+}
+
+:local(.input) {
+    height: 30px;
+    border: 1px solid #e6e6e6;
+    line-height: 20px;
+    width: 450px;
+}
+
+:local(.saveTd) {
+    height: 50px;
+    border-bottom: 1px solid #ddd;
+    margin-left: 25%;
+}
+
+:local(.validSpan) {
+    color: red;
+    margin-left: 20px;
+}
+
+:local(.hidden) {
+    visibility: hidden;
+    width: 60%;
+}
+
+:local(.visible) {
+    visibility: visible;
+    width: 60%;
+}
+
+:local(.btMargin) {
+    margin-right: 15px;
+}

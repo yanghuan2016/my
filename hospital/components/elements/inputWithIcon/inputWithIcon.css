@@ -1,0 +1,27 @@
+:local(.input) {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    width: 91%;
+    font-size: 14px;
+    color: #31a35d;
+}
+
+:local(.box) {
+    position: relative;
+    height: 44px;
+    line-height: 44px;
+    background: #ffffff;
+    opacity: 0.6;
+    margin-top: 20px;
+}
+
+:local(.icon) {
+    font-size: 14px;
+    color: #31a35d;
+    display: inline-block;
+    zoom: 1;
+    width: 5%;
+    margin-left: 2%;
+    margin-right: 2%;
+}

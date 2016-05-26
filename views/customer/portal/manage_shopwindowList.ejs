@@ -1,0 +1,85 @@
+<% include ../header.ejs%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+        <% include ../center/_nav_head.ejs%>
+            <div class="page double-padding-bottom">
+                <div class="container page-content">
+                    <div class="row space-top" >
+                        <!-- Sidebar-->
+                        <% var active = "carousel"; %>
+                        <% include ../center/_nav_customer_left.ejs%>
+                        <!-- Sidebar CLose-->
+                        <section class="col-md-10 pull-right space-bottom">
+                            <div class="filterDivTab">
+                                <% var curtTab = 'showcase';%>
+                                <% include portalTab.ejs %>
+                            </div>
+                            <table class="sm-page-table" id="scTable">
+                                <thead>
+                                <tr>
+                                    <td class="goods-info">橱窗名称</td>
+                                    <td class="text-end">
+                                        <select style="vertical-align:middle" name="" id="showcaseType">
+                                            <%  for(var i=0;i<data.showCaseTypes.length;i++){%>
+
+                                            <%if(i==0){%>
+                                            <option  selected value="<%= data.showCaseTypes[i].value %>">
+                                                <%= data.showCaseTypes[i].text %>
+                                            </option>
+                                            <%}else{%>
+                                            <option  value="<%= data.showCaseTypes[i].value %>">
+                                                <%= data.showCaseTypes[i].text %>
+                                            </option>
+                                            <%}%>
+                                            <%}%>
+                                        </select>
+                                        <a class="btn btn-primary"  href="javascript:void(0)" id="addShowCaseBtn">新增橱窗</a>
+                                    </td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% var datas=data.showcases%>
+                                <% var dataLength=datas.length %>
+                                <%for(var i=0;i<dataLength;i++){%>
+                                <%var currentShowcase=datas[i]%>
+                                <tr>
+                                    <td style="text-align:left">
+                                        <input type="hidden" value="<%=currentShowcase.id%>"/>
+                                        <%=currentShowcase.title%>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <a  href="/page/customer/portal/showcase/<%=currentShowcase.id%>">
+                                            <i class="fa fa-pencil-square-o tooltipped" data-toggle="tooltip" data-placement="left" data-original-title="修改" style="margin-right: 2px"></i>
+                                        </a>
+                                        <a  href="javascript:void(0)" data-id="<%=currentShowcase.id%>" class="showcaseOrderUpdate">
+                                            <i class="fa fa-arrow-circle-up tooltipped" data-toggle="tooltip" data-placement="left" data-original-title="置顶" style="margin-right: 2px"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" class="delete_showcase">
+                                            <i class="fa fa-remove tooltipped" data-toggle="tooltip" data-placement="left" data-original-title="删除" style="margin-right: 2px"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <%}%>
+                                <tr style="display:none">
+                                    <td style="text-align:right;<%=dataLength==0?'display:none':null%>" colspan="2">
+                                        <span style="color: #dddddd;margin-right:40px">亲,排序之后请点击右方的保存按钮更新</span>
+                                        <a href="javascript:void(0)" id="ShowCaseSaveOrderBtn" class="btn btn-primary">保存</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% include ../_nav_bottom.ejs%>
+</div>
+<% include  ../footer.ejs %>
+<script src="/static/source/js/portal.js"></script>

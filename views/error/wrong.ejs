@@ -1,0 +1,42 @@
+<% include ../customer/header.ejs%>
+<!--Off-Canvas-->
+<div style="position:relative;height:100%;">
+    <!--Header Toolbar-->
+    <div class="header-toolbar" style="background: #dddcdc;height: 30px;padding: 0px;border: 0px;font-size: 12px;color: #666666">
+        <div class="container" style="line-height: 30px" >
+            <div class="cont-info pull-left">
+                你好，欢迎来到神木医药网！
+            </div>
+            <div class="cont-info pull-right"style="">
+                <div>
+                    <a id="login_link" href="/login"><i class="fa fa-user"></i>
+                        未登录
+                    </a>
+                </div>
+                <div><a href="/order"><i class="fa fa-list"></i>我的订单</a></div>
+                <div><a href=""><i class="fa fa-android"></i>手机APP</a></div>
+                <div><a href=""><i class="fa fa-phone"></i>400-021-2541</a></div>
+            </div>
+        </div>
+    </div>
+    <!--Header Toolbar Close-->
+    <section class="specialty-page">
+        <div class="notFound notFoundWrong">
+            <ul>
+                <li>
+                    <img src="/static/img/error/wrong.png"/>
+                </li>
+                <li>您提交的以下信息格式错误</li>
+                <li style="color: #3496F7;"><%=err%></li>
+                <li>
+                    <a href="/">回到首页</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div style="position: absolute;left:0;bottom:0;width: 100%">
+        <% include ../customer/_nav_bottom.ejs%>
+    </div>
+</div>
+<% include ../customer/footer.ejs %>

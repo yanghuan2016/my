@@ -1,0 +1,400 @@
+<%
+/*
+ # Copyright © 2015
+ # -----------------------------------------------------------------
+ */
+%>
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+        <% include ../../_nav_top.ejs %>
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page">
+            <!--Header Close-->
+            <div class="container page-content">
+                <div class="row space-top">
+                <div style="position: fixed;z-index: 1006;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+                </div>
+                <div id="selectGoods" style="display:none;width: 700px;">
+                    <div style="font-size: 14px;padding: 4px;background-color: #fff;border: 1px solid #000;">
+                        <div style="display: inline-block;font-size: 10px;padding: 5px">
+                            <input type="text" style="width: 200px" id="clientGoodsPrice" placeholder="请设置价格"/>
+                        </div>
+                        <div style="display: inline-block;padding: 5px">
+                            <button class="btn btn-primary setClientGoodsPrice">确定</button>
+                        </div>
+                        <div style="display: inline-block; float: right;padding: 5px;">
+                            <button class="closeIframeGuide">关闭</button>
+                        </div>
+                        <div class="page-content space-top">
+                            <section class="page-content-right" style="width: 100%;">
+                                <table class="table page-table">
+                                    <thead>
+                                    <tr class="table-head">
+                                        <td>参考价格：</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    </thead>
+                                    <tr>
+                                        <td>批发价格</td>
+                                        <td>零售价格</td>
+                                        <td>价格１</td>
+                                        <td>价格２</td>
+                                        <td>价格３</td>
+                                    </tr>
+                                    <tbody name="price">
+                                    <tr>
+                                        <td>暂无信息</td>
+                                        <td>暂无信息</td>
+                                        <td>暂无信息</td>
+                                        <td>暂无信息</td>
+                                        <td>暂无信息</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sidebar-->
+                <% include ../_nav_customer_left.ejs%>
+                <!-- Sidebar CLose-->
+                <section class="col-md-10 pull-right  space-bottom page-content-right">
+                    <% var clientId=data.clientId; %>
+                    <aside class="page-content-right-head">
+
+                        <div class="goodsCatagoryDropDown">
+                            <div class="btn-group">
+                                <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    全部类别
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <% var paginatorNull = {
+                                            url: "add?client="+clientId,
+                                            caf: paginator.caf,
+                                            cav: paginator.cav,
+                                            paginator: {}
+                                        }%>
+                                        <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorNull)%>)">全部类别</a>
+                                    </li>
+                                    <% var index = 0;%>
+                                    <% var goodsType = data._goodsTypes.children;%>
+                                    <% var length1 = goodsType.length;%>
+                                    <% for(var item = 0; item < length1; item++){%>
+                                    <% var key = goodsType[item]%>
+                                    <% index++;%>
+                                    <li>
+                                        <% var paginatorData = {
+                                            url : "add?client="+clientId,
+                                            cbf : "产品类别",
+                                            cbv : key.erpId,
+                                            p : 1,
+                                            paginator : paginator
+                                        };
+                                        %>
+                                        <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%=key.name%></a>
+                                        <% if(key.children.length != 0) { %>
+                                        <i class="fa fa-angle-right"></i>
+                                        <div class="subItem" style="min-height: <%= ((length1+1) * 40 + 10)+'px'%>">
+                                            <ul>
+                                                <% for(var itemTwo in key.children){%>
+                                                <% var ele = key.children[itemTwo]%>
+                                                <li>
+                                                    <% var paginatorData = {
+                                                        url : "add?client="+clientId,
+                                                        cbf : "产品类别",
+                                                        cbv : ele.erpId,
+                                                        p : 1,
+                                                        paginator : paginator
+                                                    };
+                                                    %>
+                                                    <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%= ele.name%></a>
+                                                    <% if(ele.children.length > 0){ %>
+                                                    <i class="fa fa-angle-right"></i>
+                                                    <div class="subItem" style="min-height: <%= (key.children.length * 40)+'px'%>">
+                                                        <ul>
+                                                            <% for(var tempThree in ele.children){%>
+                                                            <% var element = ele.children[tempThree]%>
+                                                            <li>
+                                                                <% var paginatorData = {
+                                                                    url : "add?client="+clientId,
+                                                                    cbf : "产品类别",
+                                                                    cbv : element.erpId,
+                                                                    p : 1,
+                                                                    paginator : paginator
+                                                                };
+                                                                %>
+                                                                <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%= element.name%></a>
+                                                            </li>
+                                                            <% } %>
+                                                        </ul>
+                                                    </div>
+                                                    <% } %>
+                                                </li>
+                                                <% } %>
+                                            </ul>
+                                        </div>
+                                        <% } %>
+                                    </li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="filter-item filter_status">
+                            筛选:
+                            <% if(paginator.cbf == "产品类别" && paginator.cbv != "%") {%>
+                            <%= paginator.cbv%><i class="flaticon-downwards"></i>
+                            <% } else {%>
+                            全部类别<i class="flaticon-downwards"></i>
+                            <% } %>
+                            <ul class="dropDown-list" data-display="hide" style="left: 3.5%;">
+                                <li class="filter_status_0">
+                                    <% var paginatorNull = {
+                                        url: "add?client="+clientId,
+                                        caf: paginator.caf,
+                                        cav: paginator.cav,
+                                        paginator: {}
+                                    }%>
+                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorNull)%>)">全部类别</a>
+                                </li>
+                                <% var index = 0;%>
+                                <% var goodsType = data._goodsTypes.children;%>
+                                <% for(var item in goodsType){%>
+                                <% var key = goodsType[item]%>
+                                <% index++;%>
+                                <li class="filter_status_<%= index%> goodsType-nav-list" style="position: relative;">
+                                    <% var paginatorData = {
+                                        url : "add?client="+clientId,
+                                        cbf : "产品类别",
+                                        cbv : key.erpId,
+                                        p : 1,
+                                        paginator : paginator
+                                    };
+                                    %>
+                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%=key.name%></a>
+                                    <% if(key.children.length != 0) { %>
+                                    <i class="fa fa-angle-right" style="float: right;"></i>
+                                    <ul class="nav-list" style="padding: 0">
+                                        <% for(var itemTwo in key.children){%>
+                                        <% var ele = key.children[itemTwo]%>
+                                        <li class="goodsType-nav-list" style="position: relative;">
+                                            <% var paginatorData = {
+                                                url : "add?client="+clientId,
+                                                cbf : "产品类别",
+                                                cbv : ele.erpId,
+                                                p : 1,
+                                                paginator : paginator
+                                            };
+                                            %>
+                                            <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%= ele.name%></a>
+                                            <% if(ele.children.length > 0){ %>
+                                            <i class="fa fa-angle-right" style="float: right;"></i>
+                                            <ul class="nav-list" style="padding: 0">
+                                                <% for(var tempThree in ele.children){%>
+                                                <% var element = ele.children[tempThree]%>
+                                                <li>
+                                                    <% var paginatorData = {
+                                                        url : "add?client="+clientId,
+                                                        cbf : "产品类别",
+                                                        cbv : element.erpId,
+                                                        p : 1,
+                                                        paginator : paginator
+                                                    };
+                                                    %>
+                                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%= element.name%></a>
+                                                </li>
+                                                <% } %>
+                                            </ul>
+                                            <% } %>
+                                        </li>
+                                        <% } %>
+                                    </ul>
+                                    <% } %>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </div>
+                        <div class="filter-item sort-item">
+                            排序:
+                            <% if(paginator.sf == "下单时间" && (paginator.sv == "ASC" || paginator.sv == "DESC")){%>
+                            下单时间
+                            <% }else if(paginator.sf == "订货单号" && (paginator.sv == "ASC" || paginator.sv == "DESC")){%>
+                            订单号
+                            <% } else if(paginator.sf == "客户名称" && (paginator.sv == "ASC" || paginator.sv == "DESC")){%>
+                            客户名称
+                            <% } %>
+                            <i class="flaticon-downwards"></i>
+                            <ul class="dropDown-list" data-display="hide" style="left: 12.5%;">
+                                <% if(paginator.sv=='' || paginator.sv=='ASC'){%>
+                                <li class="sort-item_1">
+                                    <% var paginatorData = {
+                                        url : "add?client="+clientId,
+                                        sf : "生产企业",
+                                        sv : "DESC",
+                                        p : 1,
+                                        paginator : paginator
+                                    };
+                                    %>
+                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">生产企业</a>
+                                </li>
+                                <% } else if(paginator.sv=='DESC') {%>
+                                <li class="sort-item_1">
+                                    <% var paginatorData = {
+                                        url : "add?client="+clientId,
+                                        sf : "生产企业",
+                                        sv : "ASC",
+                                        p : 1,
+                                        paginator : paginator
+                                    };
+                                    %>
+                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">生产企业</a>
+                                </li>
+                                <% } %>
+                                <% if(paginator.sv=='' || paginator.sv=='ASC'){%>
+                                <li class="sort-item_3">
+                                    <% var paginatorData = {
+                                        url : "add?client="+clientId,
+                                        sf : "商品名称",
+                                        sv : "DESC",
+                                        p : 1,
+                                        paginator : paginator
+                                    };
+                                    %>
+                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">商品名称</a>
+                                </li>
+                                <% } else if(paginator.sv=='DESC') {%>
+                                <li class="sort-item_3">
+                                    <% var paginatorData = {
+                                        url : "add?client="+clientId,
+                                        sf : "商品名称",
+                                        sv : "ASC",
+                                        p : 1,
+                                        paginator : paginator
+                                    };
+                                    %>
+                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">商品名称</a>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </div>
+                        <aside class="sidebar no-devider" style="display: inline-flex;float: right;margin-top: 10px;padding-left: 178px;">
+                            <div class="widget search" style="margin-bottom: 0;">
+                                <form method="get" role="search" action="">
+                                    <label class="sr-only" for="blog-search"></label>
+                                    <%
+                                    var paginator_keywordsValue = '';
+                                    if (typeof paginator != 'undefined') {
+                                        if (typeof paginator.kv != 'undefined') {
+                                            paginator_keywordsValue = (paginator.kv == "%") ? "" : paginator.kv;
+                                        }
+                                    }
+                                    %>
+                                    <input class="form-control" type="text" placeholder="请输入商品通用名..." style="height: 30px;" value="<%= paginator_keywordsValue%>">
+                                    <% var paginatorData = {
+                                        url :"add?client="+clientId,
+                                        p : 1,
+                                        kv : 'keywordsValueToBeReplaced',
+                                        paginator : paginator
+                                    };
+                                    %>
+                                    <button type="submit" class="search_goods" style="right: 0;top: -12px;" data-url=<%= JSON.stringify(paginatorData)%>><i class="fa fa-filter" style="font-size: 20px;"></i></button>
+                                </form>
+                            </div>
+                        </aside>
+                    </aside>
+                    <table class="table page-table">
+                        <thead>
+                        <tr>
+                            <td class="goods-name-info goods-info-img">产品资料</td>
+                            <td>商品编码</td>
+                            <td class="goods-number">供价</td>
+                            <td>操作</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% for(var i in data.goods) {%>
+                        <%var item = data.goods[i]%>
+                        <%if(data.filterGoodsIdArr.indexOf(item.id)>-1){%>
+                            <tr style="color: #999999;">
+                                <td>
+                                    <div class="goods-img">
+                                        <img src="<%= item.imageUrl%>"/>
+                                    </div>
+                                    <div class="goods-info">
+                                        <h6><span style="font-size:13px">
+                                            <a style="color: #999999;"><%=  item.commonName %> <%= item.alias?(item.alias):"" %></a>
+                                        </span></h6>
+                                        <h6 style="color: #999999;"><span style="font-size:13px"><%= item.producer %></span></h6>
+                                        <h6 style="color: #999999;"><span style="font-size:13px"><%= item.spec %></span></h6>
+                                    </div>
+                                </td>
+                                <td> <%= item.goodsNo %></td>
+                                <td>&yen;<%= item[data.pricePlan].toFixed(4)%><br>
+                                </td>
+                                <td>
+                                    <a><strong><i style="color: #999999;" class="fa fa-plus-circle"></i> </strong></a>
+                                </td>
+                            </tr>
+                        <% } else {%>
+                            <tr>
+                                <td>
+                                    <div class="goods-img">
+                                        <img src="<%= item.imageUrl%>"/>
+                                    </div>
+                                    <div class="goods-info">
+                                        <h6><span style="font-size:13px">
+                                            <a href="/goods/detail?goodsId=<%= item.id%>"><%=  item.commonName %> <%= item.alias?(item.alias):"" %></a>
+                                        </span></h6>
+                                        <h6><span style="font-size:13px"><%=  item.producer %></span></h6>
+                                        <h6><span style="font-size:13px"><%=  item.spec %></span></h6>
+                                    </div>
+                                </td>
+                                <td> <%= item.goodsNo %></td>
+                                <td>&yen;<%= item[data.pricePlan].toFixed(4)%><br>
+                                </td>
+                                <td>
+                                    <a class="text-primary tooltipped clientSetGoodsPriceInfo"  title="添加" data-toggle="tooltip" data-placement="bottom"
+                                       refRetailPrice="<%= item.refRetailPrice%>"
+                                       wholesalePrice="<%= item.wholesalePrice%>"
+                                       price1="<%= item.price1%>"
+                                       price2="<%= item.price2%>"
+                                       price3="<%= item.price3%>"
+                                       clientId="<%=data.clientId%>"
+                                       goodsId="<%=item.id%>"><strong><i class="fa fa-plus-circle"></i> </strong></a>
+                                </td>
+                            </tr>
+                        <% } %>
+                        <% } %>
+                        </tbody>
+                    </table>
+                </section>
+                <section class="col-md-10 space-top pull-right">
+                    <div class="pull-left">
+                        <a class="btn btn-primary" href="/customer/client/price?clientId=<%=data.clientId%>">返回</a>
+                    </div>
+                    <% var url = "add?client="+clientId%>
+                    <% include ../../_paginator.ejs%>
+                </section>
+            </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>

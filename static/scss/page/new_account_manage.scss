@@ -1,0 +1,182 @@
+$header-color:#237935;
+$basic-info-input-border-color:#bbbbbb;
+$tips-color:#808080;
+$permission-parent-node:#0C853E;
+.margin-top-sm{
+  margin-top:10px;
+}
+.margin-top-md{
+  margin-top:16px;
+}
+.margin-left-sm{
+  margin-left:10px;
+}
+.margin-bottom-sm{
+  margin-bottom:10px;
+}
+.margin-bottom-md{
+  margin-bottom:16px;
+}
+.padding-left-sm{
+  padding-left:16px;
+}
+
+.account-header{
+  width:100%;
+  height:100%;
+  border-left:5px solid $header-color;
+  padding-left:10px;
+
+  span{
+   color: $header-color;
+   font-size:17px;
+  }
+}
+.operation-span{
+  color:$header-color;
+}
+.operation-span:hover{
+  color:$header-color;
+}
+.operation-span:focus{
+  color:$header-color;
+}
+
+.tips-span{
+  color:$tips-color;
+  font-size:14px;
+}
+.text-indent-sm{
+  text-indent: 43px;
+}
+
+#basicAccountInfo{
+  margin-top:10px;
+  width:100%;
+
+  tr>td{
+    text-align:left;
+    height:45px;
+  }
+  .first-td{
+    width:10%;
+  }
+  .second-td{
+    width:80%;
+
+    .basic-info-input{
+      border:1px solid $basic-info-input-border-color;
+      border-radius:4px;
+      outline:0;
+      padding-left:5px;
+      padding-top:2px;
+      padding-bottom:2px;
+      width:240px;
+    }
+
+
+  }
+
+}
+.add-permission-role{
+  @extend .basic-info-input;
+}
+
+.roles-select {
+  width: 180px;
+  border-radius: 3px;
+  height:30px;
+}
+.permission-group{
+  border-bottom:1px solid #bbbbbb;
+  vertical-align:middle;
+  padding-bottom:8px;
+  padding-top:4px;
+  margin-top:22px;
+  .permission-group-item{
+    display:inline-block;
+    .permission-icon-font-size{
+        font-size:18px;
+        vertical-align:middle;
+        margin-right:3px;
+        width:15px;
+    }
+  }
+  .parent-permission-node{
+    @extend .permission-group-item;
+    margin-right:27px;
+    width:77px;
+    span{
+      float:right
+    }
+  }
+  .sub-permission-node-group{
+    display:inline-block;
+    vertical-align:middle;
+    width:875px
+  }
+  .sub-permission-node {
+    @extend  .permission-group-item;
+    margin-right:36px;
+    width:134px;
+    a {
+      color: #555555;
+    }
+  }
+}
+.vertical-top{
+  vertical-align:top;
+}
+
+.fade-div{
+  position: fixed;
+  z-index: 1023;
+  left: 0;
+  top: 0;
+  background: #000;
+  opacity:0.5;
+  width: 100%;
+  height: 100%;
+  display: none
+}
+#accountRole{
+  display:none;
+}
+.status-icon-font-size{
+  @extend .permission-icon-font-size;
+  width:15px;
+}
+.status-label{
+  margin-right:3px;
+  font-weight:normal;
+}
+.status-label:hover {
+  cursor:pointer;
+}
+.status-disabled{
+  color:grey;
+}
+
+.btn-group{
+
+  .account-page-sure-btn {
+    background-color: #237935;
+    //border-radius:3px;
+    //border:1px solid $basic-info-input-border-color;
+    &:hover{
+      background-color: #237935;
+    }
+    //color:black !important;
+  }
+  .account-page-cancel-btn{
+    background-color: white;
+    color:#bbbbbb !important;
+    border:1px solid #bbbbbb;
+    &:hover{
+      background-color: white !important;
+    }
+  }
+  .account-page-cancel-btn:hover{
+      background-color: white !important;
+  }
+}

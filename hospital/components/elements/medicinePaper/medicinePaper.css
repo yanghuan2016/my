@@ -1,0 +1,74 @@
+:local(.pannel){
+    position: relative;
+    width:465px;
+    /*height:600px;*/
+    margin: 50px auto 0;
+    box-shadow: 0 0 5px 5px #797979;
+    background-color: #fff;
+    padding: 15px;
+    z-index: 99;
+    font-size: 14px;
+}
+:local(.pannel){
+    font-size: 14px;
+}
+
+:local(.hide){
+    display: none;
+}
+
+:local(.info) span{
+    font-size: 14px;
+}
+
+:local(.info){
+    margin-bottom: 10px;
+}
+
+:local(.storeInfo){
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+:local(.qrcode) canvas{
+    margin-top:20px;
+    width:190px;
+    height:190px;
+}
+
+:local(.mask){
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-color: rgba(3,3,3,.4);
+    z-index: 999;
+}
+
+:local(.operation){
+    position: absolute;
+    top:0;
+    right:-60px;
+    width:50px;
+    height:100px;
+    background-color: #666;
+    z-index: 998;
+    border:1px solid #333;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+:local(.print){
+    width:100%;
+    height:50px;
+    border-bottom: 1px solid #333;
+}
+
+:local(.close){
+    width:100%;
+    height:50px;
+}
+
+:local(.icon){
+    color: #fff;
+}

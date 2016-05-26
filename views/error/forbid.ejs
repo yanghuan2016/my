@@ -1,0 +1,62 @@
+<% include ../customer/header.ejs%>
+<!--Off-Canvas-->
+<div style="position:relative;padding-bottom: 100px;">
+    <!--Header Toolbar-->
+    <div class="header-toolbar tool-head">
+        <div class="container">
+            <div class="cont-info pull-left">
+                你好，欢迎来到新疆神木药业！
+            </div>
+            <div class="cont-info pull-right">
+
+                <div>
+                    <!--<a id="login_link" href="/login"><i class="fa fa-user"></i>-->
+                        <!--未登录-->
+                    <!--</a>-->
+                </div>
+                <div><a href="#"><i class="fa fa-file-text"></i>我的订单</a></div>
+                <div><a href="#"><i class="fa fa-android"></i>手机APP</a></div>
+                <div><a href="#"><i class="fa fa-phone"></i>400-021-2541</a></div>
+            </div>
+        </div>
+    </div>
+    <!--Header Toolbar Close-->
+    <section class="specialty-page" style="min-height:801px">
+        <div class="notFound notFoundNoRight">
+            <ul>
+                <li>
+                    <img src="/static/img/error/no_right.png"/>
+                </li>
+                <li>对不起</li>
+                <li><%= data.msg %></li>
+                <li>
+                    <a href="" class="errorGoback">返回上一页</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+<% include ../customer/_nav_bottom.ejs%>
+<% include ../customer/footer.ejs %>
+<script>
+$(function(){
+    var isInIframe = (self.frameElement) && (self.frameElement.tagName == "IFRAME");
+    if(isInIframe){
+        isInIframe && $('.errorGoback').text('返回');
+        $('body').width(700);
+        $('html').css('overflow', 'hidden');
+    }
+    $('.errorGoback').click(function(){
+        if(isInIframe) {
+            $(this).closest("li").removeClass("active");
+            $(this).closest("ul").find("li").first().addClass("active");
+            $(window.parent.document).find('.fadeDiv').css('display', 'none');
+            $(window.parent.document).find("#selectGoods").css('display', 'none');
+            $(window.parent.document).find("#addSubCategory").css('display', 'none');
+            $(window.parent.document).find("#editSubCategory").css('display', 'none');
+        }else{
+            history.back(-1);
+        }
+    })
+})
+</script>

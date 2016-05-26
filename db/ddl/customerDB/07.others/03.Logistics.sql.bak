@@ -1,0 +1,16 @@
+/*
+ * Table:Logistics
+ * 说明：物流公司信息
+ * 
+ * 
+ * 
+ * */
+/**********************************************************************/
+CREATE TABLE Logistics (
+	ID BIGINT AUTO_INCREMENT COMMENT 'ID',
+  Code varchar(50) DEFAULT NULL COMMENT '编码',
+  Name varchar(50) DEFAULT NULL COMMENT '名称',
+	UPDATEDAT TIMESTAMP,
+	CREATEDAT TIMESTAMP,
+	PRIMARY KEY (ID)
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;

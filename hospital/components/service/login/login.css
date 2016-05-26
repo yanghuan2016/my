@@ -1,0 +1,34 @@
+:local(.item) {
+    width: 100%;
+    min-height: 100%;
+    position: relative;
+    background-image: -webkit-linear-gradient(0deg, #62d986, #58e4b4);
+    background-image: linear-gradient(0deg, #62d986, #58e4b4);
+}
+
+:local(.login) {
+    width: 400px;
+    height: 250px;
+    background: transparent;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+}
+
+:local(.button) {
+    margin-top: 50px;
+}
+
+:local(.button button) {
+    width: 400px;
+    height: 44px;
+    background: #31a35d;
+}
+
+:local(.button button:hover) {
+    background: #075324;
+}

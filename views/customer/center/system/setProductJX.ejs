@@ -1,0 +1,70 @@
+<% include ../../header.ejs%>
+<%
+var goodsType = data._goodsTypes.children;
+%>
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page double-padding-bottom">
+            <div class="container page-content">
+                <div class="row space-top">
+                    <% var active = "product_setting"; %>
+                    <% include ../_nav_customer_left.ejs%>
+
+                    <section class="col-md-10 pull-right space-bottom">
+                        <div class="filterDivTab">
+                            <div class="tabList">
+                                <a href="/customer/system/product">商品类别</a>
+                                <a href="/customer/system/inventory">库存方案</a>
+                                <a href="/customer/system/customer">客户类</a>
+                                <a href="/customer/system/domainSetting">客户区域</a>
+                                <a href="/customer/system/packUnit">包装单位</a>
+                                <a href="/customer/system/erpSetting">ERP</a>
+                                <a href="/customer/system/productJX" class="itemActive">剂型</a>
+                                <a href="/customer/system/productGSP">GMP/GSP类别</a>
+                                <a href="/customer/system/paymentType">收款方式</a>
+                                <a href="/customer/system/smsGetway">短信网关</a>
+                                <a href="/customer/system/others">其他</a>
+                            </div>
+                        </div>
+                        <table class="sm-page-table">
+                            <thead>
+                            <tr>
+                                <td><strong>剂型</strong></td>
+                                <td><strong>操作</strong></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="input-item" colspan="2">
+                                        <input type="text" class="form-control" name="addProductJX" onkeypress="EnterPressAddJX(event)"/>
+                                        <a class="btn btn-primary addProductJX">添加</a>
+                                        <span class="tips"></span>
+                                    </td>
+                                </tr>
+                                <% for(var i in data.jxs) {%>
+                                <tr jxId="<%= data.jxs[i].id %>" name='newAdd'>
+                                    <td>
+                                        <%= data.jxs[i].name %>
+                                    </td>
+                                    <td>
+                                        <a class="deleteProductJX tooltipped" data-toggle="tooltip" data-placement="left" title="删除"><i class="fa fa-trash" ></i></a>
+                                    </td>
+                                </tr>
+                                <% }%>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>

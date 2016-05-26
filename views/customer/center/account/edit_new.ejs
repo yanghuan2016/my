@@ -1,0 +1,635 @@
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page">
+            <div class="container page-content">
+                <div class="row space-top">
+
+                    <div  class="fadeDiv fade-div">
+                    </div>
+
+                 <!--   <div>
+                        <div><span>新角色名称: </span> <input  class="add-permission-role" type="text"/></div>
+                        <div><button class="btn btn-primary">确定</button> <button class="btn btn-primary">取消</button></div>
+                    </div>-->
+                    <!-- Sidebar-->
+                    <% var active = "accounts"; %>
+                    <% include ../_nav_customer_left.ejs%>
+                    <!-- Sidebar CLose-->
+                    <section class="col-md-10 pull-right  space-bottom page-content-right">
+<!--                        <aside class="page-content-right-head">
+                            <label>账户信息</label>
+                        </aside>
+                        <table class="table " style="text-align: start;">
+                            <% if(data.user && data.action == "edit"){%>
+                            <tbody>
+                            <tr>
+                                <td><h5 style="font-size: 15px">登录账号 :</h5></td>
+                                <td><input type="text" class="input-sm" id="username" style="height: 30px ;width: 700px" value="<%= data.user.username%>"></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 15px;">姓名:</td>
+                                <td><input value="<%= data.user.operatorName%>" type="text" class="input-sm" id="operatorName" style="height: 30px;width: 700px"></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 15px;">联系电话:</td>
+                                <td><input value="<%= data.user.mobileNum%>" type="text" class="input-sm" id="mobileNum" style="height: 30px;width: 700px"></td>
+                            </tr>
+                            <tr>
+                                <td><h5 style="font-size: 15px;">部门:</h5></td>
+                                <td><input  value="<%= data.user.department%>"type="text" class="input-sm" id="department" style="height: 30px;width: 700px"></td>
+                            </tr>
+                            </tbody>
+                            <% } %>
+                            <% if(data.user && data.action == "detail"){%>
+                            <tbody>
+                            <tr>
+                                <td><h5 style="font-size: 15px">登录账号 :</h5></td>
+                                <td><input type="text" class="input-sm" id="username" disabled style="height: 30px ;width: 700px" value="<%= data.user.username%>"></td>
+                            </tr>
+                            <tr>
+                                <td><h5 style="font-size: 15px;">登录密码:</h5></td>
+                                <td><input  value="<%= data.user.password%>"type="text"disabled class="input-sm" id="password" style="height: 30px;width: 700px" oninput="changTheLoginName(this)" onpropertychange="changTheLoginName(this)"></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 15px;">姓名:</td>
+                                <td><input value="<%= data.user.operatorName%>" type="text"disabled class="input-sm" id="operatorName" style="height: 30px;width: 700px"></td>
+                            </tr>
+                            <tr>
+                                <td><h5 style="font-size: 15px;">部门:</h5></td>
+                                <td><input  value="<%= data.user.department%>"type="text"disabled class="input-sm" id="department" style="height: 30px;width: 700px"></td>
+                            </tr>
+                            </tbody>
+                            <% } %>
+                        </table>-->
+
+                        <aside>
+                            <div class="account-header">
+                                <span>账户信息</span>
+                            </div>
+                        </aside>
+                        <div id="accountBasicInfo" class="padding-left-sm">
+                            <table id="basicAccountInfo" >
+                                <tr>
+                                    <td class="first-td">*登陆账号:</td>
+                                    <td class="second-td">
+                                        <% if(data.user && data.action == "edit"){ %>
+                                            <input id="username" disabled value="<%= data.user?data.user.username:''%>" class="basic-info-input" type="text"/>
+                                        <% }else{ %>
+                                            <input id="username" value="" oninput="checkAccountRepeat(this)" class="basic-info-input" type="text"/>
+                                            <span class="inputTips" id="regAccount" >6-16位字符字母、数字及下划线的组合</span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                                <% if(!data.user){%>
+                                    <tr>
+                                        <td class="first-td">*密码:</td>
+                                        <td class="second-td">
+                                            <input id="passWord"  type="password" oninput="checkPassword(this)" class="basic-info-input loginPassword" />
+                                            <span class="inputTips">6-16位字符，由字母、数字及下划线组成</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="first-td">*确认密码:</td>
+                                        <td class="second-td">
+                                            <input id="passWords"  type="password" oninput="checkRePassword(this)" class="basic-info-input " />
+                                            <span id="reConfirmPassTip" style="display:none;font-size:14px" class="star">两次输入密码不一致</span>
+                                        </td>
+                                    </tr>
+                                <%}%>
+                                <tr>
+                                    <td class="first-td">*姓名:</td>
+                                    <td class="second-td">
+                                        <input id="operatorName" value="<%= data.user?data.user.operatorName:''%>" oninput="nameChanged(this)"
+                                               class="basic-info-input" type="text"/>
+                                        <i id="reConfirmPassTip" style="display:none;font-size:13px" class="">*新的名称将在用户下次登录后显示</i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="first-td">*联系电话:</td>
+                                    <td class="second-td">
+                                        <input id="mobileNum" value="<%= data.user?data.user.mobileNum:''%>" class="basic-info-input" type="text"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="first-td">部门:</td>
+                                    <td class="second-td">
+                                        <input id="department" value="<%= data.user?data.user.department:''%>" class="basic-info-input" type="text"/>
+                                    </td>
+                                </tr> <tr>
+                                    <td class="first-td">状态:</td>
+                                    <td class="second-td">
+                                        <% if(data.user){%>
+                                        <div class="statusGroup" ifOn=<%= data.user.enable  %>>
+                                            <%}else{%>
+                                            <div class="statusGroup" ifOn=1>
+                                            <%}%>
+                                            <% if(data.user){%>
+                                                <% if(data.user.username==data._userInfo.username){%>
+                                                    <label class="status-label status-disabled"><i class="fa fa-check-square-o status-icon-font-size"></i>启用</label>
+                                                    <label class="status-label status-disabled"><i class="fa fa-square-o status-icon-font-size"></i>禁用</label>
+                                                <%} else{%>
+                                                    <label class="status-label status-on"><i class="fa <%= data.user.enable?'fa-check-square-o':'fa-square-o'%> status-icon-font-size"></i>启用</label>
+                                                    <label class="status-label status-off"><i class="fa <%= data.user.enable?'fa-square-o':'fa-check-square-o'%>  status-icon-font-size"></i>禁用</label>
+                                                <%}%>
+                                            <%}else{%>
+                                                <label class="status-label status-on"><i class="fa fa-check-square-o status-icon-font-size"></i>启用</label>
+                                                <label class="status-label status-off"><i class="fa fa-square-o status-icon-font-size"></i>禁用</label>
+                                            <%}%>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+
+
+                        <div id="accountRole">
+                            <aside>
+                                <div class="account-header margin-top-md">
+                                    <span>账户角色</span>
+                                </div>
+                            </aside>
+                            <div class="padding-left-sm">
+                                <div class="margin-top-md">
+                                    <select name="rolesSelect"  class="roles-select" id="rolesSelect">
+                                        <option value="系统管理员">系统管理员</option>
+                                        <option value="系统管理员">系统管理员</option>
+                                        <option value="系统管理员">系统管理员</option>
+                                        <option value="系统管理员">系统管理员</option>
+                                    </select>
+                                    <span class="margin-left-sm">
+                                        <a class="operation-span deleteRole" href="javascript:void(0)">
+                                            <i class="fa fa-trash"></i>
+                                            删除角色
+                                        </a>
+                                    </span>
+                                    <span class="margin-left-sm">
+                                        <a class="operation-span addRole" href="javascript:void(0)">
+                                            <i class="fa fa-plus"></i>
+                                            添加角色
+                                        </a>
+                                    </span>
+                                </div>
+
+                                <div class="tips-span">
+                                    <div class="margin-top-sm">说明:&nbsp; &nbsp;1、修改角色权限后，所有赋予此角色的账号对应权限均将修改</div>
+                                    <div class="text-indent-sm margin-top-sm">2、系统管理员角色不允许修改其操作权限</div>
+                                    <div class="text-indent-sm margin-top-sm">3、删除角色后，所有赋予此角色的帐号均将被禁用</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="accountPermission">
+                            <aside>
+                                <div class="account-header margin-top-md">
+                                    <span>账号权限</span>
+                                </div>
+                            </aside>
+                        </div>
+
+                        <div id="accountPermissionContent" class="margin-top-sm padding-left-sm">
+
+                            <!--
+                            [ { key: '帐号', subNodes: [ [Object], [Object] ], value: false },
+                              { key: '客户', subNodes: [ [Object], [Object] ], value: true },
+                              { key: '商品',
+                                subNodes: [ [Object], [Object], [Object], [Object], [Object] ],
+                                value: true },
+                              { key: '订单',
+                                subNodes:
+                                 [ [Object],
+                                   [Object],
+                                   [Object],
+                                   [Object],
+                                   [Object],
+                                   [Object],
+                                   [Object],
+                                   [Object],
+                                   [Object],
+                                   [Object] ],
+                                value: true },
+                              { key: '门户',
+                                subNodes: [ [Object], [Object], [Object], [Object] ],
+                                value: true },
+                              { key: '设置',
+                                subNodes: [ [Object], [Object], [Object], [Object], [Object] ],
+                                value: true } ]
+                            -->
+
+                            <% for(var obj in data.permissionData){ %>
+                                <%var currentObj=data.permissionData[obj];
+                                %>
+
+                        <!--    <div class="permission-group">
+                                <div class=" parent-permission-node " >
+                                    <a href="javascript:void(0)"  class="parentNodePermission" >
+                                        <i class="fa <%= currentObj.enabled==true?'fa-check-square-o':'fa-check-square' %> permission-icon-font-size"></i>
+                                        <%= currentObj.alias %> :
+                                    </a>
+                                </div>
+                                <div style="display:inline-block;vertical-align:middle">
+                                    <table>
+
+
+
+
+
+
+
+                                        <tr>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>管理员管理</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+
+                                    </table>
+                                </div>
+                            </div>-->
+
+                            <div class="permission-group">
+                                <div class=" parent-permission-node <%=currentObj.subNodes.length>5?'vertical-top':'' %> " >
+                                    <a href="javascript:void(0)"  class="parentNodePermission" ><i class="fa <%= currentObj.value==true?'fa-check-square-o':'fa-square-o'%> permission-icon-font-size"></i>
+                                        <span><%= currentObj.key%>:</span>
+                                    </a>
+                                </div>
+                                <div class="sub-permission-node-group">
+
+
+                                    <!-- <div class="sub-permission-node">
+                                        <a href="javascript:void(0)" class="subNodePermission"><i
+                                                    class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                    </div>-->
+                                    <% for(var index in currentObj.subNodes) {%>
+                                            <% var currentSubNode=currentObj.subNodes[index]; %>
+                                            <div class="sub-permission-node <%= index>4?'margin-top-md':''%>">
+                                                <a href="javascript:void(0)"  data-key="<%= currentSubNode.key%>" class="subNodePermission <%= currentSubNode.value && 'permissionchecked'%>"><i
+                                                            class="fa <%= currentSubNode.value==true?'fa-check-square-o':'fa-square-o'%>  permission-icon-font-size"></i><%= currentSubNode.description%></a>
+                                            </div>
+                                    <%}%>
+                                </div>
+                            </div>
+
+
+
+                            <% } %>
+
+
+             <!--               <div class="permission-group">
+                                    <div class=" parent-permission-node vertical-top " >
+                                        <a href="javascript:void(0)"  class="parentNodePermission" ><i class="fa fa-check-square-o permission-icon-font-size"></i>管理员 :</a>
+                                    </div>
+                                    <div style="display:inline-block;vertical-align:middle;width:875px">
+
+                                        <div class="sub-permission-node">
+                                            <a href="javascript:void(0)" class="subNodePermission"><i
+                                                        class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                        </div>
+                                        <div class="sub-permission-node">
+                                            <a href="javascript:void(0)" class="subNodePermission"><i
+                                                        class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                        </div>
+                                        <div class="sub-permission-node">
+                                            <a href="javascript:void(0)" class="subNodePermission"><i
+                                                        class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                        </div>
+                                        <div class="sub-permission-node">
+                                            <a href="javascript:void(0)" class="subNodePermission"><i
+                                                        class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                        </div>
+                                        <div class="sub-permission-node">
+                                            <a href="javascript:void(0)" class="subNodePermission"><i
+                                                        class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                        </div>
+                                        <div class="sub-permission-node margin-top-md">
+                                            <a href="javascript:void(0)" class="subNodePermission"><i
+                                                        class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                        </div>
+                                        <div class="sub-permission-node">
+                                            <a href="javascript:void(0)" class="subNodePermission"><i
+                                                        class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                        </div>
+                                        <div class="sub-permission-node">
+                                            <a href="javascript:void(0)" class="subNodePermission"><i
+                                                        class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                        </div>
+                                        <div class="sub-permission-node">
+                                            <a href="javascript:void(0)" class="subNodePermission"><i
+                                                        class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                        </div>
+
+                           &lt;!&ndash;             <table>
+                                            <tr>
+                                                <td>
+                                                    <div class="sub-permission-node">
+                                                        <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                    class="fa fa-check-square-o permission-icon-font-size"></i>管理员资料查看</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="sub-permission-node">
+                                                        <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                    class="fa fa-check-square-o permission-icon-font-size"></i>管理员管理</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>&ndash;&gt;
+                                    </div>
+                            </div>
+
+
+                            <div class="permission-group">
+                                <div class=" parent-permission-node " >
+                                    <a href="javascript:void(0)"   class="parentNodePermission"><i class="fa fa-check-square-o permission-icon-font-size"></i><span>客户:</span></a>
+                                </div>
+                                <div style="display:inline-block;vertical-align:middle">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>客户资料查看</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>客户审核</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>客户信息修改</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <div class="permission-group">
+                                <div class=" parent-permission-node " >
+                                    <a href="javascript:void(0)"  class="parentNodePermission"><i class="fa fa-check-square-o permission-icon-font-size"></i><span>商品:</span></a>
+                                </div>
+                                <div style="display:inline-block;vertical-align:middle">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>客户信息查看</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>商品上下架</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>商品价格设定</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>商品库存设定</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>商品新增,修改</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="permission-group">
+                                <div class=" parent-permission-node " >
+                                    <a href="javascript:void(0)"  class="parentNodePermission"><i class="fa fa-check-square-o permission-icon-font-size"></i><span>调价:</span></a>
+                                </div>
+                                <div style="display:inline-block;vertical-align:middle">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>调价单查看</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>调价单审核</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="permission-group">
+                                <div class=" parent-permission-node " >
+                                    <a href="javascript:void(0)"  class="parentNodePermission"><i class="fa fa-check-square-o permission-icon-font-size"></i><span>订单:</span></a>
+                                </div>
+                                <div style="display:inline-block;vertical-align:middle">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>订单查看</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>退货单查看</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>订单审核</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>退货单审核</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>订单发货确认</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>退货入库确认</a>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="permission-group">
+                                <div class=" parent-permission-node " >
+                                    <a href="javascript:void(0)"  class="parentNodePermission"><i class="fa fa-check-square-o permission-icon-font-size"></i><span>门户:</span></a>
+                                </div>
+                                <div style="display:inline-block;vertical-align:middle">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>首页广告管理</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>新闻管理</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>橱窗管理</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>页脚管理</a>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="permission-group">
+                                <div class=" parent-permission-node " >
+                                    <a href="javascript:void(0)"  class="parentNodePermission"><i class="fa fa-check-square-o permission-icon-font-size"></i><span>系统:</span></a>
+                                </div>
+                                <div style="display:inline-block;vertical-align:middle">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>商品类别管理</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>库存方案管理</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>客户类管理</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>单位管理</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="permission-group">
+                                <div class=" parent-permission-node " >
+                                    <a href="javascript:void(0)"  class="parentNodePermission"><i class="fa fa-check-square-o permission-icon-font-size"></i><span>日志:</span></a>
+                                </div>
+                                <div style="display:inline-block;vertical-align:middle">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div class="sub-permission-node">
+                                                    <a href="javascript:void(0)" class="subNodePermission"><i
+                                                                class="fa fa-check-square-o permission-icon-font-size"></i>查看日志</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>-->
+
+                        </div>
+                    </section>
+                    <section class="col-md-10 space-top pull-right margin-bottom-md">
+                    <% if(data.user && data.action == "edit"){%>
+                        <div class="pull-left btn-group">
+                            <button class="btn btn-primary updateAccount account-page-sure-btn" operatorId="<%= data.user.operatorId%>" target="details">修改</button>
+                            <a class="btn account-page-cancel-btn margin-left-sm" href="/customer/account" >返回</a>
+                        </div>
+                    <% }else{%>
+                    <div class="pull-left btn-group">
+                        <a class="btn btn-primary account-page-sure-btn  updateAccount"  operatorId="null" target="details">保存</a>
+                        <a class="btn account-page-cancel-btn  margin-left-sm" href="/customer/account" >返回</a>
+                    </div>
+                    <%}%>
+                    </section>
+
+                    <!-- 以下代码用来做页数跳转，-->
+                    <!-- page　表示用户当前所在的页码．-->
+                    <!-- pageSize　表示用户现在每页所显示的信息条数-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>
+<script>
+    function nameChanged(inputEle){
+        $(inputEle).next('i').show();
+    }
+</script>
+<script src="/static/source/js/page/accountManage.js"></script>

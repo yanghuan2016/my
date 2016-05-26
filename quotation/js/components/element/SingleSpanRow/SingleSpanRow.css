@@ -1,0 +1,39 @@
+:local(.singleContainer) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    padding-left: 8px;
+    padding-right: 5px;
+    font-size: 16px;
+    border-bottom: 1px solid #DADADA;
+    background-color: white;
+
+}
+
+:local(.secondSubNode) {
+    color: #999999
+}
+
+:local(.spaceLeft) {
+    margin-left: 16px;
+}
+
+:local(.singleContainer):hover {
+    cursor: pointer;
+}
+
+:local(.commonInput) {
+    background-color: transparent;
+    text-align: right;
+    border: none;
+    width: auto;
+}
+
+:local(.commonInput):focus {
+    outline: none;
+}
+
+:local(.inputSwitch) {
+    display: none;
+}

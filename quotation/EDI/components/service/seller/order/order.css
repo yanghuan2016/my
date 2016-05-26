@@ -1,0 +1,15 @@
+:local(.table) {
+    background-color: #fff;
+}
+
+:local(.total) {
+    font-size: 18px;
+    color: red;
+    text-align: end;
+    margin: 10px 0 10px 0;
+}
+
+:local(.pagination) {
+    float: right;
+    margin-top: 20px;
+}

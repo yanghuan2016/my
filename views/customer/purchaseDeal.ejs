@@ -1,0 +1,303 @@
+<div  id="purchaseDealFadeDiv" style="display:none; z-index:1022;position:fixed;top:0;left:0;width:100%;height:100%;background-color:black;opacity:0.6;">
+</div>
+
+<div id="purchaseAgreement" class="page-content"
+     style="position:absolute;display:none;width:800px;z-index:2000;">
+
+    <link rel="stylesheet" href="/static/css/registerPage.css" media="screen">
+    <section class="page-content-right" style="border-radius:8px">
+
+        <div id="purchaseDeal" class=" page-content">
+            <!--background-image:url('/static/img/white.jpg')-->
+            <div class="row" style="border-radius:8px;height: 500px;">
+                <div id="purchasedealContent" class="col-sm-12 form-horizontal "
+                     style="padding-top:30px;padding-left:30px;padding-right:20px;height: 500px;">
+                    <div class="form-group" style="margin-bottom: 5px;margin-top: 0px;">
+                        <div class="col-sm-12" style="text-align:center;font-weight: bold"><span>神木医药网采购合同（样本）</span></div>
+                    </div>
+                    <div id="dealContentContainer" class="form-group" style="padding:20px;width:791px;overflow-y: scroll;height:400px;margin-bottom: 5px;">
+                        <div class="top">
+                            <!--<span style="font-weight:bold">特别提示：</span>-->
+
+                            <div class="dealDisplay fontBold">
+                                甲方：<%= data.clientContractInfo.clientName %>
+                            </div>
+                            <div class="dealDisplay fontBold">
+                                甲方法人名：<%= data.clientContractInfo.legalRepresentative %>
+                            </div>
+                            <div class="dealDisplay fontBold">
+                                乙方：<%= data.customerContractInfo.customerName %>
+                            </div>
+                            <div class="dealDisplay fontBold">
+                                乙方法人名：<%= data.customerContractInfo.legalRepresentative %>
+                            </div>
+                        </div>
+
+                        <div id="contentFirst">
+                            <div class='dealDisplay'>
+                                根据《互联网药品信息服务管理办法》、《互联网药品交易服务管理办法》的要求，为确保药品网上交易的顺利进行，明确交易双方的权利和义务，特订立本合同。
+                            </div>
+                            <div class='dealDisplay'>第一条
+                                甲方须根据乙方在神木医药网交易平台(以下简称“平台”)所提供的药品信息，以网上采购的形式采购以下药品(见附表)，甲方通过药品网上交易系统向乙方发送订单通知，乙方据此供货;双方确认后的订单为本合同的重要组成部分。
+                            </div>
+                            <div class='dealDisplay'>乙方对甲方通过平台发出的订单通知，自甲方发出订单通知起一个工作日内必须确认。</div>
+
+                            <div class='dealDisplay'>第二条 乙方须按购销合同采购药品一览表向甲方供应药品(见附表)。</div>
+                            <div class='dealDisplay'>第三条 乙方应保证甲方在使用药品时免受第三方提出的有关专利权、商标权或保护期等方面的权利的要求。</div>
+                            <div class='dealDisplay'>第四条 乙方所供应药品的质量应符合国家药品相关标准，药品包装、质量及价格须与入围品种的挂网信息一致，
+                                不得更改，按甲方要求提供相应的药检报告书，并将药品送到甲方指定地点。
+                            </div>
+                            <div class='dealDisplay'>第五条 供货期限</div>
+                            <div class='dealDisplay'> 乙方应自确认甲方订单通知起一个工作日内交货，最长不超过两个工作日;急救药品乙方应在4小时内送到。</div>
+                            <div class='dealDisplay'>第六条 供货价格与货款结算</div>
+                            <div class='dealDisplay'>(一)供货价格：按平台所公布的采购价格执行，该价格包含成本、运输、包装、
+                                伴随服务、税费及其他一切附加费用;合同履行期间，如遇政策性调价，按平台更新后的价格执行，包括尚未售出的药品。
+                            </div>
+                            <div class='dealDisplay'>(二)货款结算：甲方在收到配送药品之日起最迟不得超过60日进行货款结算。</div>
+                            <div class='dealDisplay'>第七条 药品验收及异议</div>
+                            <div class='dealDisplay'>甲方对不符合质量、有效期、包装和订单数量要求的药品，有权拒绝接收，
+                                乙方应对不符合要求的药品及时进行更换，不得影响甲方的临床应用。甲方因使用、保管、保养不善等自身原因造成产品失效或质量下降的，后果自负。
+                            </div>
+                            <div class='dealDisplay'>第八条甲方的违约责任</div>
+                            <div class='dealDisplay'>(一)甲方违反本合同的规定，通过平台以外途径购买替代挂网入围药品，承担违约责任;</div>
+                            <div class='dealDisplay'>(二)甲方无正当理由违反合同规定拒绝收货或违约付款的，应当承担乙方由此造成的损失;</div>
+                            <div class='dealDisplay'>以上两种情形，乙方有权向当地纠正医药购销和医疗服务中不正之风工作领导小组办公室举报。</div>
+
+                            <div class='dealDisplay'>第九条乙方的违约责任</div>
+                            <div class='dealDisplay'>(一)乙方确认甲方发出的订单通知后拒绝供货的，应承担违约责任。</div>
+                            <div class='dealDisplay'>(二)乙方所供药品因药品质量不符合有关规定而造成后果的，按相关法律规定处理。</div>
+                            <div class='dealDisplay'>以上两种情形，甲方有权向当地纠正医药购销和医疗服务中不正之风工作领导小组办公室举报。</div>
+                            <div class='dealDisplay'>第十条
+                                合同当事人因不可抗力而导致合同实施延误或不能履行合同义务，不承担误期赔偿或终止合同的责任。(“不可抗力”系指那些合同双方无法控制、不可预见的事件，但不包括合同某一方的违约或疏忽。这些事件包括但不限于：战争、严重火灾、洪水、台风、地震及其他双方商定的事件)。在不可抗力事件发生后，合同双方应尽快以书面形式将不可抗力的情况和原因通知对方。除另行要求外，\
+                                合同双方应尽实际可能继续履行合同义务，以及寻求采取合理的方案履行不受不可抗力影响的其他事项。不可抗力事件影响消除后，双方可通过协商在合理的时间内达成进一步履行合同的协议。
+                            </div>
+                            <div id="anchorTag" class='dealDisplay'>第十一条 合同的变更及解除</div>
+                            <div class='dealDisplay'>由于药品生产企业关、停、并、转的原因造成合同不能履行的，乙方应及时向甲方通报并提供省级以上药监部门证明，
+                                双方可以解除就该药品订立的合同，合同如需变更，须经双方协商解决。
+                            </div>
+                            <div class='dealDisplay'>第十二条
+                                本合同未尽事项，按《互联网药品信息服务管理办法》、《互联网药品交易服务管理办法》执行。仍然无法确定的，经双方共同协商，可根据以上两个文件
+                                及相关法律法规的规定签订补充协议，补充协议与正式合同具有同等法律效力。
+                            </div>
+                            <div class='dealDisplay'>第十三条
+                                因合同引起的或与本合同有关的任何争议，由双方当事人协商解决;协商或调解不成，当事人可依照有关法律规定将争议提交仲裁，或向人民法院起诉。
+                            </div>
+                            <div class='dealDisplay'>第十四条 本合同自双方签订之日起生效，自本合同生效之日起在合同期内发生的有关网上交易的各项事宜，均受本合同的约束。</div>
+                            <!--todo 时间戳 -->
+                            <div class='dealDisplay'>第十六条 本合同有效期从同意之日起，90天后自动失效。</div>
+                            <p></p>
+                            <div class='' style="font-weight:bold">附表：</div>
+                        </div>
+                        <div class=" cartOrderDetail ">
+                            <!--提交订单的时候表格显示-->
+                            <table id="orderDetailTable" style="font-size:12px" class="table page-table">
+                                <thead>
+                                <tr class="table-head">
+                                    <td style="width:40%">商品信息</td>
+                                    <td style="width:20%">供价</td>
+                                    <td style="width:20%">数量</td>
+                                    <td style="width:20%">小计</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!--todo 除了第一次提交订单  其他情况要从数据库取订单详情 -->
+                                <% if(data.contractStage == "CUSTOMERSIGN"){ %>
+                                <% var CUSTOMERSIGNorderLength=orders.length-1 %>
+                                    <% for (var i in orders){ %>
+                                    <% var order = orders[i] %>
+                                    <tr style="<%= i==CUSTOMERSIGNorderLength?'border-bottom:1px solid #ddd':''%>">
+                                        <td>
+                                            <% if(order.goodsInfo){%>
+                                            <% var goods = order.goodsInfo%>
+
+                                            <div class="">
+                                                <h6><%=goods.commonName%>
+                                                        <%if(goods.alias){%>
+                                                        (<%=goods.alias%>)
+                                                        <%}%>
+                                                    </h6>
+                                                <h6><%=goods.producer%></h6>
+                                                <h6><%=goods.spec%></h6>
+                                            </div>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            &yen;<%= order.soldPrice.toFixed(4) %>
+                                        </td>
+                                        <td>
+                                            <%= order.quantity %>
+                                        </td>
+                                        <td>
+                                         &yen;<%= order.amount.toFixed(2) %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                <% } else if(data.contractStage=="DONE"){ %>
+                                    <% var NONEorderLength= data.order.cartItems.length-1;%>
+                                    <% for(var i in data.order.cartItems) { %>
+                                    <% var item = data.order.cartItems[i]; %>
+                                    <tr style="height: 60px;line-height: 60px;<%= i==NONEorderLength?'border-bottom:1px solid #ddd':''%>" class="cartItem" id='<%= item.id %>' goodsId='<%= item.id %>'>
+
+                                        <td>
+
+                                            <div class="">
+                                                <h6><%=item.commonName%></h6>
+                                                <h6><%=item.producer%></h6>
+                                                <h6><%= item.spec%></h6>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            &yen; <label>
+                                                <%= item.soldPrice.toFixed(4) %>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label for="" class="cartItem_quantity " >
+                                                <%= item.quantity %>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            &yen;<label for="" class="cartItem_amount"><%= item.amount.toFixed(2) %></label>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                <% }%>
+                                </tbody>
+
+
+                            </table>
+
+                            <div class="space-top" style="height:39px">
+                                <div class="pull-right">
+                                    <h4  style="margin-right:10px"><strong>合计： &yen;</strong> <strong id="purchaseDealTotal">
+                                            <% if(data.contractStage == "CUSTOMERSIGN"){ %>
+                                                <%= order.total.toFixed(2) %>
+                                            <% } else if(data.contractStage=="DONE"){%>
+                                                 <%= data.order.total.toFixed(2) %>
+                                            <%}%>
+                                        </strong></h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="dealDisplay"> 本合同一式两份，甲、乙双方各持一份。</div>
+                        </div>
+
+                        <div id="stampContainer" class="dealDisplay space-top">
+                            <div style="display:<%= data.contractStage == "CLIENTSIGN" ? 'block' : 'none' %>  ;float:left;position: relative"
+                                 class="clientSignContainer">
+                                甲方签名:
+                                <button class="btn clearSignatureClient ">重签</button>
+                                <button class="btn " data-imgUrl="<%= data.clientContractInfo.stampLink %>"
+                                        id="stampClient">盖章
+                                </button>
+                                <span style="display:none;color:red" id="signNameClient">请签名</span>
+                                <span style="display:none;color:red" id="signStampClient">请盖章</span>
+
+                                <div class='js-signature-client' style="margin-top:4px"></div>
+                                <img id="stampImgClient" alt=""
+                                     style="border:none;display:none;position:absolute;top:30px;right:1px;width:90px;height:90px"/>
+                            </div>
+                            <div style="display:<%= data.contractStage == "CLIENTSIGN"  ? 'block' : 'none' %> ;margin-left:20px;padding-left:26px;position: relative;float:left;width:346px;height:164px"
+                                 class="clientSignDisplayContainer">
+                                <div style="height:24px;width:100%;text-align:left;text-indent:0px">乙方签名(审核待签):</div>
+                                <div class=''
+                                     style="width:320px;height:130px;border: 1px dashed rgb(170, 170, 170);margin-top:4px">
+                                    </div>
+                            </div>
+
+
+
+
+
+                            <div style="display:<%= data.contractStage!="CLIENTSIGN"?'block':'none' %>;margin-left:0px;padding-left:26px;position: relative;float:left;width:346px;height:164px"
+                                 class="clientSignDisplayContainer">
+                                <div style="height:24px;width:100%;text-align: left;text-indent:0px">甲方签名:</div>
+                                <div class=''
+                                     style="width:320px;height:130px;border: 1px dashed rgb(170, 170, 170);margin-top:4px">
+                                    <img src="<%= data.orderContractInfo.clientSignature %>"
+                                         style="width:100%;height:100%" alt=""/>
+                                </div>
+                                <img src="<%= data.clientContractInfo.stampLink %>" alt=""
+                                     style=";position:absolute;top:30px;right:1px;width:90px;height:90px"/>
+
+                                <div style="text-indent:0px;margin-top:8px">
+                                    签章日期:<%= data.orderContractInfo.clientSignatureDate %>
+                                </div>
+                            </div>
+                            <!--todo 提交订单状态不显示这个 -->
+                            <% var orderDealStatus = data.orderContractInfo.status==null?"NULL":data.orderContractInfo.status %>
+                            <div style=";float:right;position: relative;display:<%= data.contractStage == "CUSTOMERSIGN"&&orderDealStatus=="CREATED"? 'block' : 'none' %>"
+                                 class="customerSignContainer">
+                                乙方签名:
+                                <!--<div id="customerSignature"></div>-->
+                                <!--<div class='js-signature'></div>-->
+                                <button class="btn clearSignatureCustomer">重签</button>
+                                <button class="btn " id="stampCustomer"
+                                        data-imgUrl="<%= data.customerContractInfo.stampLink %>">盖章
+                                </button>
+                                <span style="display:none;color:red" id="signNameCustomer">请签名</span>
+                                <span style="display:none;color:red" id="signStampCustomer">请盖章</span>
+
+                                <div class='js-signature-customer' style="margin-top:4px"></div>
+                                <img id="stampImgCustomer" alt=""
+                                     style="border:none;display:none;position:absolute;top:30px;right:1px;width:90px;height:90px"/>
+                            </div>
+                            <!--todo 判断订单状态 审核通过 或者没有审核-->
+                            <!--<% var currentOrder = data.order == undefined ? {stats: ""} : data.order; %>-->
+
+                            <% var orderStatus = orderDealStatus != "CREATED" && orderDealStatus != "REJECTED" %>
+                            <div style="display:<%= ((data.contractStage == "DONE" && orderStatus)||( data.contractStage=="CUSTOMERSIGN" && orderStatus)) ? 'block' : 'none' %> ;margin-left:20px;padding-left:26px;position: relative;float:left;width:346px;height:164px"
+                                 class="clientSignDisplayContainer">
+                                <div style="height:24px;width:100%;text-align: left;text-indent:0px">乙方签名:</div>
+                                <div class=''
+                                     style="width:320px;height:130px;border: 1px dashed rgb(170, 170, 170);margin-top:4px">
+                                    <img src="<%= data.orderContractInfo.customerSignature %>"
+                                         style="width:100%;height:100%" alt=""/>
+                                </div>
+                                <img id="" src="<%= data.customerContractInfo.stampLink %>" alt=""
+                                     style=";position:absolute;top:30px;right:1px;width:90px;height:90px"/>
+                                <div style="text-indent:0px;margin-top:8px">
+                                    签章日期:<%= data.orderContractInfo.customerSignatureDate %>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <!--<% var currentStatus = "order" %>-->
+                        <% if(data.contractStage == "CLIENTSIGN"){ %>
+                        <div class="col-sm-3 col-first"></div>
+                        <div class="col-sm-3 col-first" style="text-align:center">
+                            <button class="btn btn-primary" data-sign="false" disabled="true" id="agreePurchaseDeal">同意</button>
+                        </div>
+                        <div class="col-sm-3 col-first" style="text-align:center">
+                            <a class="btn btn-primary" href="javascript:void(0)" id="declinePurchaseDeal">拒绝</a>
+                        </div>
+                        <div class="col-sm-3 col-first"></div>
+                        <% }else if(data.contractStage == "CUSTOMERSIGN"&&data.orderContractInfo.status=="CREATED") { %>
+                        <div class="col-sm-3 col-first"></div>
+                        <div class="col-sm-3 col-first" style="text-align:center">
+                            <button class="btn btn-primary"  disabled="true" id="ApproveOrder">确定</button>
+                        </div>
+                        <div class="col-sm-3 col-first" style="text-align:center">
+                            <a class="btn btn-primary" href="javascript:void(0)" id="CancelApprove">取消</a>
+                        </div>
+                        <div class="col-sm-3 col-first"></div>
+                        <% }else{ %>
+                        <div class="col-sm-12 col-first" style="text-align:center">
+                            <button class="btn btn-primary" id="customerReadPurchase">确定</button>
+                        </div>
+                    </div>
+                    <% } %>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </section>
+</div>

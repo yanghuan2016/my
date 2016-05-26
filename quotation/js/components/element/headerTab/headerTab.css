@@ -1,0 +1,22 @@
+:local(.divContainer){
+    height:30px;
+    border-bottom:1px solid #DADADA;
+}
+:local(.subDiv) {
+    width: 50%;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F5F9FA;
+    color: #5F5F5F;
+    cursor: pointer;
+    height:30px;
+    font-size:15px;
+    font-weight:bold;
+}
+
+:local(.subDivFocus){
+    color:#03A9F4;
+    border-bottom:2px solid #29B6F6;
+}

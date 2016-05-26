@@ -1,0 +1,166 @@
+.defaultdropdown {
+  margin-right: 10px;
+}
+
+.defaultdropdown .btn-group {
+  height: $dropdown-default-height;
+}
+
+.defaultdropdown .btn-group .dropdown-toggle {
+  height: $dropdown-default-height;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.defaultdropdown .btn-group .dropdown-toggle:hover {
+  color: $dropdown-expansion-font-color;
+  background-color: $button-base-default-background-color;
+}
+
+.defaultdropdown .btn-group .dropdown-toggle:focus {
+  color: $dropdown-expansion-font-color;
+  background-color: $button-base-default-background-color;
+}
+
+.defaultdropdown .dropdown-menu > li > a {
+  height: $dropdown-default-height;
+  line-height: $dropdown-default-height;
+}
+
+.defaultdropdown .dropdown-menu > li > a:hover {
+  color: #333;
+}
+
+.defaultdropdown .dropdown-menu > li > a:focus {
+  color: #333;
+}
+
+.defaultdropdown .dropdown-menu {
+  margin: 0;
+}
+
+.defaultdropdown .dropdown-menu li {
+  margin-bottom: 0;
+  cursor: pointer;
+  height: $dropdown-default-height;
+  line-height: $dropdown-default-height;
+
+}
+
+.goodsCatagoryDropDown {
+  border: none;
+  .btn-group {
+    > button {
+      line-height: 30px;
+      background: #fff;
+      border: 1px solid #BBB9B9;
+      border-radius: 4px;
+      &:focus {
+        outline: none;
+      }
+    }
+    > .dropdown-menu {
+      border: 1px solid $button-base-default-background-color;
+      > li {
+        &:hover {
+          a {
+            color: #fff;
+          }
+          i {
+            color: #fff;
+          }
+        }
+        > .subItem {
+          background: #f1fff4;
+          > ul {
+            > li {
+              a {
+                color: #333;
+              }
+              i {
+                color: #333;
+              }
+              &:hover {
+                a {
+                  color: #fff;
+                }
+                i {
+                  color: #fff;
+                }
+              }
+              > .subItem {
+                background: #e0fce8;
+                li {
+                  a {
+                    color: #333;
+                  }
+                  i {
+                    color: #333;
+                  }
+                  &:hover {
+                    a {
+                      color: #fff;
+                    }
+                    i {
+                      color: #fff;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .subItem {
+        position: absolute;
+        background: #fff;
+        display: none;
+        z-index: 2;
+        left: 100%;
+        ul {
+          min-width: 160px;
+        }
+      }
+      li {
+        display: flex;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        align-items: center;
+        -webkit-align-items: center;
+        cursor: pointer;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 0;
+        &:hover {
+          background: $button-base-default-background-color;
+          > .subItem {
+            display: block;
+            border: 1px solid $button-base-default-background-color;
+            border-left: none;
+            top: -1px;
+            > ul {
+              list-style: none;
+              padding: 0;
+            }
+          }
+        }
+        a {
+          color: #333;
+        }
+        i {
+          color: #333;
+        }
+        > a {
+          padding: 0;
+          background: transparent;
+          &:hover {
+            background: transparent;
+          }
+        }
+      }
+    }
+  }
+}

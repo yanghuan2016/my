@@ -1,0 +1,72 @@
+<% include ../header.ejs%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+        <% include ../center/_nav_head.ejs%>
+            <div class="page double-padding-bottom">
+                <div class="container page-content">
+                    <div class="row space-top" >
+                        <% var active = "carousel"; %>
+                        <% include ../center/_nav_customer_left.ejs%>
+                        <section class="col-md-10 pull-right space-bottom">
+                            <div class="filterDivTab">
+                                <% var curtTab = 'complaints';%>
+                                <% include portalTab.ejs %>
+                            </div> <table class="sm-page-table">
+                                <thead>
+                                <tr>
+                                    <td colspan="2"><strong>电话</strong></td>
+                                    <td><strong>操作</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr style="display: none">
+                                    <td class="input-item" colspan="2">
+                                        <input type="text" class="form-control" name="addProductComplaintsPhone" onkeypress="EnterPressAddComplaints(event)"/>
+                                        <a class="btn btn-primary addProductComplaintsPhone">添加</a>
+                                        <span class="tips"></span>
+                                    </td>
+                                </tr>
+                                <tr complaintsId="1" name='newAdd'>
+                                    <td class="contractPhoneName" style="text-align: right">
+                                        客服电话：
+                                    </td>
+                                    <td class="complaintPhone" style="text-align: left">
+                                        <%= (typeof data.complaints == 'undefined') || ((typeof data.complaints[0] == 'undefined'))?'空':data.complaints[0].content %>
+                                    </td>
+                                    <td>
+                                        <a class="updateProductComplaintsPhone tooltipped" data-toggle="tooltip"
+                                           data-placement="left" style="" title="修改"><i
+                                                    class="fa fa-pencil-square-o"></i></a>
+                                    </td>
+                                </tr>
+                                <tr complaintsId="2" name='newAdd'>
+                                    <td class="contractPhoneName" style="text-align: right">
+                                        投诉电话：
+                                    </td>
+                                    <td class="complaintPhone"  style="text-align: left">
+                                        <%= (typeof data.complaints == 'undefined') || ((typeof data.complaints[1] == 'undefined'))?'空':data.complaints[1].content %>
+                                    </td>
+                                    <td>
+                                        <a class="updateProductComplaintsPhone tooltipped" data-toggle="tooltip"
+                                           data-placement="left" style="" title="修改"><i
+                                                    class="fa fa-pencil-square-o"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% include ../_nav_bottom.ejs%>
+</div>
+
+<% include  ../footer.ejs %>
+<script src="/static/source/js/portal.js"></script>

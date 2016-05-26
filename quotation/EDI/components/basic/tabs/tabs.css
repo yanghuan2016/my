@@ -1,0 +1,29 @@
+:local(.header) {
+    width: 100%;
+    font-size: 16px;
+    position: relative;
+    border-bottom: solid 1px #bbbbbb;
+    padding-bottom: 6px;
+    margin:20px 0 10px 0;
+}
+
+:local(.headeNav) {
+}
+
+:local(.headeNav a) {
+    color: #333;
+    padding:10px 15px;
+}
+
+
+:local(.headeNav a:hover) {
+    cursor: pointer;
+    color: #2db7f5;
+    border-bottom: 1px solid #2db7f5;
+}
+
+:local(.headeNav .active) {
+    cursor: pointer;
+    color: #2db7f5;
+    border-bottom: 1px solid #2db7f5;
+}

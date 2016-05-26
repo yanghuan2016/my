@@ -1,0 +1,53 @@
+<%
+/*
+ # Copyright © 2015
+ # -----------------------------------------------------------------
+ */
+%>
+<% include ../customer/header.ejs%>
+<style>
+    body{
+        background-color: #fff !important;
+    }
+</style>
+<div style="font-size: 14px;padding: 4px;">
+    <div class="page-content space-top">
+        <section class="specialty-page" style="">
+            <div class="notFound notFoundNoRight">
+                <ul>
+                    <li>
+                        <img src="/static/img/error/no_right.png"/>
+                    </li>
+                    <li>对不起</li>
+                    <li><%= data.msg %></li>
+                    <li>
+                        <a class="btn btn-primary closeIframeGuide" style="padding: 10px !important;">返回</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="/static/js/jquery1.11.3/jquery.min.js"></script>
+<script src="/static/js/dialog-min.js"></script>
+<script src="/static/source/js/dialog.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $(document).delegate('.closeIframeGuide','click', function(){
+            $(this).closest("li").removeClass("active");
+            $(this).closest("ul").find("li").first().addClass("active");
+            $(window.parent.document).find('.fadeDiv').css('display', 'none');
+            $(window.parent.document).find("#selectGoods").css('display', 'none');
+            $(window.parent.document).find("#addSubCategory").css('display', 'none');
+            $(window.parent.document).find("#editSubCategory").css('display', 'none');
+        });
+
+    })
+    if (self.frameElement && self.frameElement.tagName == "IFRAME") {
+        var isInIframe = true;
+    }
+</script>
+
+
+

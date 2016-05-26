@@ -1,0 +1,96 @@
+.sm-panel-head {
+  height: $table-head-height;
+  line-height: $table-head-height;
+  background-color: $table-head-background-color;
+  color: $table-head-font-color;
+  font-size: $table-head-font-size;
+  border: $border-default-size solid $borer-default-color;
+  padding: 0 15px 0 15px;
+}
+
+.sm-panel-head .state {
+  color: $base-red-color;
+}
+
+.sm-panel-content {
+  border: $border-default-size solid $borer-default-color;
+  border-top: none;
+}
+
+.sm-panel-content .sm-order-timeline {
+  width: 100%;
+  padding: 5% 5% 3%;
+}
+
+.sm-panel-content .sm-order-timeline .tracking-timeline {
+  margin: 0;
+}
+
+.sm-order-history {
+  padding: 0 3% 3% 3%;
+}
+
+.sm-order-history-head {
+  background-color: #CCEFD2;
+  color: #999;
+}
+
+.sm-order-history-content > div {
+  display: inline-block;
+  text-align: center;
+  zoom: 1;
+  height: 50px;
+  line-height: 50px;
+}
+
+.sm-order-history-head > div {
+  display: inline-block;
+  text-align: center;
+  zoom: 1;
+  height: 30px;
+  line-height: 30px;
+}
+
+.sm-order-history-head div:first-child {
+  width: 19%;
+}
+
+.sm-order-history-head div:nth-child(2) {
+  width: 60%;
+}
+
+.sm-order-history-head div:nth-child(3) {
+  width: 19%;
+}
+
+.sm-order-history-content div:first-child {
+  width: 19%;
+}
+
+.sm-order-history-content div:nth-child(2) {
+  width: 60%;
+}
+
+.sm-order-history-content div:nth-child(3) {
+  width: 19%;
+}
+
+.sm-order-history-content {
+  color: #999;
+}
+
+.sm-order-history-content-collapse {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sm-order-history-content-collapse a {
+  width: 19%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.sm-order-history-content-collapse a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,71 @@
+:local(.header) {
+    width: 100%;
+    background: #fff;
+    font-size: 16px;
+    position: relative;
+}
+
+:local(.headerLeft) {
+    height: 80px;
+    line-height: 80px;
+    text-align: start;
+    overflow: hidden;
+}
+
+:local(.headerLeft span:first-child) {
+    font-weight: bold;
+}
+
+:local(.headerLeft span:last-child) {
+    color: #2db7f5;
+    margin-left: 1%;
+}
+
+:local(.headerRight) {
+    height: 80px;
+    line-height: 80px;
+    text-align: end;
+    overflow: hidden;
+    padding-right: 20px;
+}
+
+:local(.headerRight a) {
+    color: #2db7f5;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+:local(.headerRight a:hover) {
+    text-decoration: underline;
+}
+
+:local(.headeNav) {
+    padding-left: 20px;
+    height: 80px;
+    overflow: hidden;
+    line-height: 80px;
+}
+
+:local(.headeNav a) {
+    color: #333;
+    padding-bottom: 10px;
+}
+
+:local(.headeNav span) {
+    content: "";
+    border-left: 1px solid #2db7f5;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+:local(.headeNav a:hover) {
+    cursor: pointer;
+    color: #2db7f5;
+    border-bottom: 1px solid #2db7f5;
+}
+
+:local(.headeNav .active) {
+    cursor: pointer;
+    color: #2db7f5;
+    border-bottom: 1px solid #2db7f5;
+}

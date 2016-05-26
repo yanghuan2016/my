@@ -1,0 +1,9 @@
+:local(.icon) {
+    color: #2db7f5;
+    font-size: 16px;
+}
+
+:local(.icon:hover) {
+    cursor: pointer;
+    /*font-size: 20px;*/
+}

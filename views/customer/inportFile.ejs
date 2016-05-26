@@ -1,0 +1,25 @@
+<form class="form-signin" action="/upload" role="form" method="post" enctype='multipart/form-data' target="picture">
+    <div class="fileContainer">
+        <ul>
+            <li class="template-file">
+                <div class="fileClass">
+                    <a class="fileinput-button-icon">+</a>
+                    <input id="fulAvatar" class="fileupload" type="file" name="file_1" accept="image/*" >
+                </div>
+            </li>
+            <li style="display: none" class="template-img">
+                <div class="fileClass">
+                    <a class="removeimg"><i class="fa fa-times-circle-o"></i></a>
+                </div>
+            </li>
+            <li style="display: none" class="template-upfile">
+                <div class="fileClass">
+                    <a class="fileinput-button-icon">+</a>
+                    <input id="fulAvatar" class="fileupload" type="file" name="" accept="image/*">
+                </div>
+            </li>
+            <button id="submitPicture" class="btn  btn-primary"  type="submit" data-update="false" style="vertical-align: bottom">上 传</button>
+            <iframe name="picture" id="picture" style="width: 100px; height: 40px;vertical-align: bottom"></iframe>
+        </ul>
+    </div>
+</form>

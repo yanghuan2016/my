@@ -1,0 +1,104 @@
+<% include ../../header.ejs%>
+<%
+var goodsType = data._goodsTypes.children;
+%>
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page double-padding-bottom">
+            <div class="container page-content">
+                <div class="row space-top">
+                    <% var active = "product_setting"; %>
+                    <% include ../_nav_customer_left.ejs%>
+                    <section class="col-md-10 pull-right space-bottom">
+                        <div class="filterDivTab">
+                            <div class="tabList">
+                                <a href="/customer/system/product">商品类别</a>
+                                <a href="/customer/system/inventory">库存方案</a>
+                                <a href="/customer/system/customer">客户类</a>
+                                <a href="/customer/system/domainSetting">客户区域</a>
+                                <a href="/customer/system/packUnit">包装单位</a>
+                                <a href="/customer/system/erpSetting">ERP</a>
+                                <a href="/customer/system/productJX">剂型</a>
+                                <a href="/customer/system/productGSP">GMP/GSP类别</a>
+                                <a href="/customer/system/paymentType">收款方式</a>
+                                <a href="/customer/system/smsGetway">短信网关</a>
+                                <a href="/customer/system/others" class="itemActive">其他</a>
+                            </div>
+                        </div>
+                        <%
+                             var autoReceiveDays = data.otherSettings.autoReceiveDays;
+                             var checkOutDays = data.otherSettings.checkOutDays;
+                             var autoCloseOrderDays = data.otherSettings.autoCloseOrderDays;
+                        %>
+
+                        <table class="sm-page-table othersSettings ">
+                            <thead>
+                            <tr>
+                              <td colspan="2"></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+                                <td class="goods-info">结帐日</td>
+                                <td class="input-item">
+                                    <span id="checkOutDays" style="width: 250px;height: 30px;">
+                                        <%= ('-1'==checkOutDays.value)?'月末日' : checkOutDays.value; %>
+                                    </span>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="goods-info">自动确认收货天数</td>
+                                <td class="input-item">
+                                    <select id="autoReceiveDays" style="width: 250px;height: 30px;">
+                                        <% for(var index=1; index<Number(autoReceiveDays.maxDay)+1; index++) { %>
+                                        <% if(index == autoReceiveDays.value) { %>
+                                        <option value="<%= index %>" selected><%= index %></option>
+                                        <% } else { %>
+                                        <option value="<%= index %>"><%= index %></option>
+                                        <% } %>
+                                        <% } %>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="goods-info">未付款自动关闭订单天数</td>
+                                <td class="input-item">
+                                    <select id="autoCloseOrderDays" style="width: 250px;height: 30px;">
+                                        <% for(var index=1; index<Number(autoCloseOrderDays.maxDay)+1; index++) { %>
+                                        <% if(index == autoCloseOrderDays.value) { %>
+                                        <option value="<%= index %>" selected><%= index %></option>
+                                        <% } else { %>
+                                        <option value="<%= index %>"><%= index %></option>
+                                        <% } %>
+                                        <% } %>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td style="text-align: left;padding-left: 180px;">
+                                    <a class="btn btn-primary" id="submitOtherSetting">提交</a>
+                                    <span class="tips"></span>
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>

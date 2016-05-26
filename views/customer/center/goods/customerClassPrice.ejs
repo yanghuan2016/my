@@ -1,0 +1,89 @@
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.pageSize) || 10;
+var page = parseInt(paginator.page) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+            <% include ../../_nav_top.ejs %>
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+            <% include ../_nav_head.ejs%>
+            <!--Header Close-->
+
+            <!--Page Content--><!-- InstanceBeginEditable name="content" -->
+            <div class="page">
+                <div style="position: fixed;z-index: 1006;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+                </div>
+                <iframe src="/customer/goods/categoryprice/add?goodsId=<%= data.goodsId%>" scrolling="auto" style="width: 1000px;height: 300px;background-color: transparent;position: fixed;z-index: 99999;display: none" allowTransparency="true" id="selectGoods">
+                </iframe>
+
+                <div class="container page-content">
+                    <div class="row space-top">
+
+                        <!-- Sidebar-->
+                        <% var active = "lists"; %>
+                        <% include ../_nav_customer_left.ejs%>
+                        <!-- Sidebar CLose-->
+
+                        <!--Catalog List-->
+                        <section class="col-md-10 pull-right  page-content-right">
+                            <div class="page-content-right-head">
+                                <label>客户类价格设定</label>
+                                <aside class="pull-right">
+                                        <a class="btn btn-primary displaySelect">添加</a>
+                                </aside>
+                                </aside>
+                            </div>
+                            <div class="col-sm-12">
+                                <table class="table page-table">
+                                    <thead>
+                                    <tr>
+                                        <td><strong>客户类别</strong></td>
+                                        <td><strong>价格</strong></td>
+                                        <td><strong>操作</strong></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% for(var i in classprice) {%>
+                                    <tr data-clientCategoryId="<%= classprice[i].id %>" data-goodsId="<%= data.goodsId%>">
+                                        <td>
+                                            <%= classprice[i].categoryName %>
+                                        </td>
+                                        <td class="goods-number">
+                                            &yen;<input type="text" readonly="readonly" value="<%= classprice[i].clientCategoryPrice ? classprice[i].clientCategoryPrice:0%>"style="text-align: center;width: 60px;"/>
+                                            <a class="classInputUpdatePrice"><i class="fa fa-pencil-square-o"></i></a>
+                                        </td>
+                                        <td>
+                                            <a  class="text-primary productRemoveClient tooltipped" title="删除" data-toggle="tooltip" data-placement="left"><i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                        <section class="col-md-10 space-top pull-right">
+                            <div class="pull-left">
+                                <a class="btn btn-primary" href="/customer/product">返回</a>
+                            </div>
+
+                        </section>
+                        <!--Catalog List Close-->
+                    </div>
+                </div>
+                <section class="specialty-page">
+                </section>
+            </div>
+            <!--Page Content Close-->
+        </div><!--Layout Close-->
+    <% include ../../_nav_bottom.ejs%>
+</div>
+
+<% include ../../footer.ejs %>

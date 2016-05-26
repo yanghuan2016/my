@@ -1,0 +1,242 @@
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page">
+
+            <div class="container page-content" style="min-height:800px">
+                <div class="row space-top">
+                    <!-- Sidebar-->
+                    <% var active = "pricesets"; %>
+                    <% include ../_nav_customer_left.ejs%>
+                    <!-- Sidebar CLose-->
+                    <section class="col-md-10 pull-right  space-bottom page-content-right">
+                        <% var basicPriceInfo=data.allData.commonInfo;
+                        %>
+
+                        <aside class="page-content-right-head" style="background: rgb(236, 236, 236);">
+                            <label style="margin-right: 30px;margin-left: 8px;">
+                                调价单号：<span id="adjustPriceId"><%=basicPriceInfo.id %></span>
+                            </label>
+
+                            <label style="float:right;margin-right: 30px;">
+                                <input type="hidden" id="hiddenGoodsId" value="<%=basicPriceInfo.id
+                                %>"/>
+                                <%=basicPriceInfo.goodsNo%>/<%=basicPriceInfo.commonName%>/<%=basicPriceInfo.producer==''?'':basicPriceInfo.producer+'/'  %><%=basicPriceInfo.spec%>
+                            </label>
+                        </aside>
+
+                        <div class="col-sm-12" style="">
+                            <% basicPriceInfo=data.allData.detailInfo.basicPrice[0] %>
+                            <% var isChangedPriceInfo=data.allData.detailInfo.basicPrice.length!=0;%>
+                            <div style="margin-top:20px;margin-bottom:10px">基础价格</div>
+                            <table class="table page-table" style="border:1px solid #ddd;margin-bottom:20px">
+                                <thead style="background-color:rgb(236, 236, 236);">
+                                <tr>
+                                    <td><strong>价格类型</strong></td>
+                                    <td><strong>当前价格</strong></td>
+                                    <td>
+                                        <strong>调整价格</strong>
+                                    </td>
+                                </tr>
+                                </thead>
+                                <tbody id="basicPriceInfo" style="<%= isChangedPriceInfo?null:'display:none'%>;">
+                                <tr>
+                                    <td>国家限价</td>
+                                    <td><%= isChangedPriceInfo?basicPriceInfo.limitedPriceOrigin.toFixed(4):null ;%></td>
+                                    <% var limitedPriceChanged= isChangedPriceInfo && (Number(basicPriceInfo.limitedPriceOrigin)!=Number(basicPriceInfo.limitedPriceNew)) ;%>
+                                    <td>
+                                        <input  name="limitedPrice"  class="waitChangePriceInput" type="text"  style="<%=limitedPriceChanged?'border:1px solid red;color:red':null;%>   ;width:107px;" value="<%=isChangedPriceInfo?basicPriceInfo.limitedPriceNew.toFixed(4):null %>" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>零售价</td>
+                                    <td><%= isChangedPriceInfo?basicPriceInfo['wholesalePriceOrigin'].toFixed(4):null ;%></td>
+                                    <% var wholesalePriceChanged= isChangedPriceInfo&& (Number(basicPriceInfo['wholesalePriceOrigin'])!=Number(basicPriceInfo['wholesalePriceNew'])) ;%>
+                                    <td>
+                                        <input  name="wholesalePrice" class="waitChangePriceInput" type="text"  style="<%=wholesalePriceChanged?'border:1px solid red;color:red':null;%> ;width:107px;" value="<%= isChangedPriceInfo?basicPriceInfo['wholesalePriceNew'].toFixed(4):null %>" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>批发价</td>
+                                    <td><%=isChangedPriceInfo?basicPriceInfo['refRetailPriceOrigin'].toFixed(4):null ;%></td>
+                                    <% var refRetailPriceChanged= isChangedPriceInfo && (Number(basicPriceInfo['refRetailPriceOrigin'])!=Number(basicPriceInfo['refRetailPriceNew'])) %>
+
+                                    <td>
+                                        <input name="refRetailPrice" class="waitChangePriceInput" type="text"  style="<%=refRetailPriceChanged?'border:1px solid red;color:red':null;%> ;width:107px;" value="<%=isChangedPriceInfo?basicPriceInfo['refRetailPriceNew'].toFixed(4):null %>" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>价格一</td>
+                                    <td><%=isChangedPriceInfo?basicPriceInfo['price1Origin'].toFixed(4):null %></td>
+                                    <% var price1OriginChanged=isChangedPriceInfo && (Number(basicPriceInfo['price1Origin'])!=Number(basicPriceInfo['price1New'])) %>
+                                    <td>
+                                        <input name="price1" class="waitChangePriceInput" type="text"  style="<%=price1OriginChanged?'border:1px solid red;color:red':null;%> ;width:107px;" value="<%= isChangedPriceInfo?basicPriceInfo['price1New'].toFixed(4):null %>" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>价格二</td>
+                                    <td><%=isChangedPriceInfo?basicPriceInfo['price2Origin'].toFixed(4):null %></td>
+                                    <% var price2Changed=isChangedPriceInfo && (Number(basicPriceInfo['price2Origin'])!=Number(basicPriceInfo['price2New']))  %>
+                                    <td>
+                                        <input name="price2" class="waitChangePriceInput" type="text"  style="<%=price2Changed?'border:1px solid red;color:red':null;%> ;width:107px;" value="<%=isChangedPriceInfo?basicPriceInfo['price2New'].toFixed(4):null %>" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>价格三</td>
+                                    <td><%=isChangedPriceInfo?basicPriceInfo['price3Origin'].toFixed(4):null %></td>
+                                    <% var price3Changed=isChangedPriceInfo && (Number(basicPriceInfo['price3Origin'])!=Number(basicPriceInfo['price3New']))  %>
+                                    <td>
+                                        <input name="price3" class="waitChangePriceInput" type="text"  style="<%=price3Changed?'border:1px solid red;color:red':null;%> ;width:107px;" value="<%=isChangedPriceInfo?basicPriceInfo['price3New'].toFixed(4):null ; %>" />
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+
+                            <div style="margin-top:20px;margin-bottom:10px">客户类价格</div>
+                            <table class="table page-table" style="border:1px solid #ddd;margin-bottom:20px">
+                                <thead style="background-color:rgb(236, 236, 236);">
+                                <tr>
+                                    <td><strong>客户类别</strong></td>
+                                    <td><strong>当前价格</strong></td>
+                                    <td>
+                                        <strong>调整价格</strong>
+                                    </td>
+                                </tr>
+                                </thead>
+                                <tbody id="clientCategoryPriceInfo">
+                                <% var basicClientCategoryPrice=data.allData.detailInfo.clientCategoryPrice; %>
+                                <% for (var i = 0; i < basicClientCategoryPrice.length;i++){%>
+                                <% var currentItem=basicClientCategoryPrice[i] ;%>
+                                <tr>
+                                    <td>
+                                        <%= currentItem.categoryName %>
+                                        <input type="hidden" value="<%= currentItem.clientCategoryId %>"/>
+                                    </td>
+                                    <td>
+                                        <%= currentItem.clientCategoryPriceOrigin.toFixed(4) %>
+
+                                    </td>
+                                    <td>
+                                        <% var clientCategoryPriceChanged=Number(currentItem.clientCategoryPriceOrigin)!=Number(currentItem.clientCategoryPriceNew) ;  %>
+                                        <input class="waitChangePriceInput" type="text"  readonly  disabled style="<%=clientCategoryPriceChanged?'color:red':null;%>;border:none;background-color:transparent;width:107px;" value="<%= currentItem.clientCategoryPriceNew.toFixed(4) %>" />
+
+
+                                    </td>
+                                </tr>
+                                <%}%>
+
+                                </tbody>
+
+                            </table>
+
+                            <div style="margin-top:20px;margin-bottom:10px">客户单品价格</div>
+                            <table class="table page-table" style="border:1px solid #ddd;margin-bottom:20px">
+                                <thead style="background-color:rgb(236, 236, 236);">
+                                <tr>
+                                    <td><strong>客户名称/编号</strong></td>
+                                    <td><strong>当前价格</strong></td>
+                                    <td>
+                                        <strong>调整价格</strong>
+                                    </td>
+                                </tr>
+                                </thead>
+                                <tbody id="clientPriceInfo">
+                                <% var basicClientPrice=data.allData.detailInfo.clientPrice %>
+                                <% for(var i=0;i<basicClientPrice.length;i++){%>
+                                <% var currentItem=basicClientPrice[i];
+                                %>
+                                <tr>
+                                    <td>
+                                        <%= currentItem.clientName %>
+                                        <input type="hidden" value="<%= currentItem.id %>"/>
+                                    </td>
+                                    <td>
+                                        <%= currentItem.clientPriceOrigin.toFixed(4) %>
+                                        <% var clientCategoryChanged=Number(currentItem.clientPriceOrigin)!=Number(currentItem.clientPriceOrigin) ;  %>
+                                    </td>
+                                    <td>
+                                        <input class="waitChangePriceInput" type="text"  disabled readonly style="<%=clientCategoryChanged?'color:red':null;%> border:none;background-color:transparent;width:107px;" value="<%= currentItem.clientPriceNew.toFixed(4) %>" />
+                                    </td>
+                                </tr>
+                                <%}%>
+
+                                </tbody>
+
+                            </table>
+
+                            <div style="margin-top:20px;margin-bottom:10px">操作记录</div>
+                            <table class="table page-table" style="border:1px solid #ddd;margin-bottom:20px">
+                                <thead style="background-color:rgb(236, 236, 236);">
+                                <tr>
+                                    <td><strong>操作人</strong></td>
+                                    <td><strong>时间</strong></td>
+                                    <td>
+                                        <strong>事件</strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            备注
+                                        </strong>
+                                    </td>
+                                </tr>
+                                </thead>
+                                <tbody >
+                                <% var history=data.allData.commonInfo ;%>
+                                <tr>
+                                    <td><%= history.applyOperatorName %></td>
+                                    <td><%= history.createOn %></td>
+                                    <td>提交调价单</td>
+                                    <td><%= history.readjustReason%></td>
+                                </tr>
+                                <tr>
+                                    <td><%= history.approverName %></td>
+                                    <td><%= history.updateOn %></td>
+                                    <td>审核调价单</td>
+                                    <td><%= history.approveRemark?history.approveRemark:"无"%></td>
+                                </tr>
+
+
+                                </tbody>
+
+                            </table>
+
+
+
+
+                        </div>
+                    </section><!--Catalog List Close-->
+
+
+                    <section class="col-md-10 space-bottom space-top pull-right">
+                        <div class="pull-left">
+
+
+                            <a href="/customer/priceset/rejectPriceModifyList" class="btn btn-primary">返回</a>
+
+                            <!--<a href="/customer/priceset/setprice" class="btn btn-default">退回</a>-->
+                        </div>
+
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>
+<script src="/static/source/js/customer/priceset.js"></script>

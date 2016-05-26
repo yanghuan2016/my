@@ -1,0 +1,282 @@
+<% include ../../header.ejs %>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+        <% include ../../_nav_top.ejs %>
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../../_nav_head.ejs %>
+        <div class="page">
+            <div class="container page-content edit-table">
+                <div style="position: fixed;z-index: 1006;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+                </div>
+                <iframe src="/portal/purchaseList/add" scrolling="auto"
+                        style="width: 450px;height: 300px;background-color: transparent;position: fixed;z-index: 99999;display: none" allowTransparency="true"
+                        id="selectGoods">
+                </iframe>
+                <div class="row" data="<% JSON.stringify(data) %>">
+                    <!-- Sidebar-->
+                    <% var active = "purchaseList"; %>
+                    <% include ../../_order_sidebar.ejs %>
+                    <!-- Sidebar CLose-->
+                    <% var list = data.list %>
+                    <section class="col-md-10 pull-right space-top space-bottom">
+                        <div class="filterDiv">
+                            <div class="filterHead" style="width: 100%">
+                                <span style="color: #666;">清单名称:</span>
+                                <% if(data.type == "edit"){ %>
+                                <input type="text" class="form-control" name="favorName" value="<%= data.favor.name %>" listId="<%= data.favor.id %>"
+                                       style="width:60%;margin-left: 20px;color: #666"/>
+                                <% } else if(data.type == "look"){ %>
+                                <%= data.favor.name %>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="space-top">
+                            <table id="purchaseListTable" class="sm-page-table">
+                                <thead>
+                                <tr>
+                                    <td class="goods-info"><strong>商品信息</strong></td>
+                                    <td><strong>单价/库存</strong></td>
+                                    <td><strong>批发包装</strong></td>
+                                    <td><strong>购买数量</strong></td>
+                                    <td><strong>小计</strong></td>
+                                    <td><strong>备注</strong></td>
+                                    <% if(data.type == "edit"){ %>
+                                    <td><strong>操作</strong></td>
+                                    <% } %>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% var totalPrice = 0; %>
+                                <% if(list.length > 0) { %>
+                                <% for(var i in list) { %>
+                                <tr class="cartItem" goodsId="<%= list[i].goodsId %>" quantity="<%= list[i].quantity %>" remark="<%= list[i].remark %>"
+                                    detailId="<%= list[i].detailId %>">
+                                    <td class="goods-info">
+                                        <div class="goods-img">
+                                            <img src="<%= list[i].imageUrl %>"/>
+                                        </div>
+                                        <div class="goods-name-info purchaseListCell" id="goods-">
+                                            <h6><a href="/goods/detail?goodsId=<%= list[i].goodsId%>"><%= list[i].commonName %></a></h6>
+                                            <h6><%= list[i].producer %></h6>
+                                            <h6><%= list[i].spec %>／<%= list[i].measureUnit %></h6>
+                                            <div class="goods-name-box">
+                                                <%if(list[i].isNationalMedicine == "1"){%>
+                                                <div class="base-medical-sign" title="国家基本药品">基</div>
+                                                <% } else {%>
+                                                <% } %>
+
+                                                <%if(list[i].isMedicalInsuranceDrugs == "1"){%>
+                                                <div class="medical-sign" title="医保药品">医</div>
+                                                <% } else {%>
+                                                <% } %>
+
+                                                <%if(list[i].isPrescriptionDrugs == "1"){%>
+                                                <div class="prescriptions-sign" title="处方药品">处</div>
+                                                <% } else {%>
+                                                <% } %>
+
+                                                <% if (list[i].isSplit=="1") { %>
+                                                <div class="dismantle-sign" title="可拆零">拆</div>
+                                                <% } else {%>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-mcolor">
+                                        &yen;<label id="price_<%= i %>" style="font-size: 14px">
+                                            <%= list[i].clientGoodsPrice; %>
+                                        </label>
+                                        <h6 class="goods_storage">库存：<%= list[i].content %></h6>
+                                    </td>
+                                    <td>
+                                        <%= list[i].middlePackNum %><%= list[i].measureUnit %> / 件
+                                    </td>
+                                    <td>
+                                        <div class="goods-number">
+                                            <% if(data.type == "edit"){ %>
+                                            <div class="qnt-count qnt-count-res">
+                                                <% var defaultNum = list[i].isSplit == 1 ? 1 : list[i].middlePackNum %>
+                                                <div class="box-left">
+                                                    <input id="quantity_<%= i %>" name="quantity" defaultNum="<%= defaultNum%>" goodsId="<%= list[i].goodsId %>" isSplit = "<%=list[i].isSplit %>" storage="<%= (list[i].negSell == 1)?"-1":list[i].storage  %>"
+                                                           hasSubtotal="true" type="text" value="<%= list[i].quantity %>" onpaste="return false;" onkeypress="keyPress()">
+                                                </div>
+                                                <div class="box-right">
+                                                    <div>
+                                                        <a class="fa fa-plus" defaultNum="<%= defaultNum%>" isSplit=<%= list[i].isSplit%> pack="1" id="changeQuantity_<%= i %>" type="increase"></a>
+                                                    </div>
+                                                    <div>
+                                                        <a class="fa fa-minus inactive" defaultNum="<%= defaultNum%>" isSplit=<%= list[i].isSplit%> pack="1"   id="changeQuantity_<%= i %>" type="decrease"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="box-tips">
+                                                    购物车数量 :
+                                                    <span style="color:#66C018;"><%= typeof(list[i].content) == 'undefined' ? '' : + list[i].CartQuantity %></span>
+                                                </div>
+                                            </div>
+                                            <% } else if(data.type == "look") { %>
+                                            <%= list[i].quantity; %>
+                                            <% } %>
+                                        </div>
+                                    </td>
+                                    <!--<td style="width: 280px;padding: 30px 0px 20px;padding-left: 30px;">
+                                    <div class="goods-pack" style="line-height:normal;float: left;">
+                                        <div class="qnt-count-res">
+                                            <% var item = list[i]; %>
+                                            <% if(item.largePackNum || item.middlePackNum || item.smallPackNum){ %>
+                                            <% if(item.largePackNum){ %>
+                                            <div class="box-right" style="line-height: 25px;">
+                                                <div>
+                                                    <% if(data.type == 'edit') { %>
+                                                    <a class="fa fa-minus inactive" data-editType="pageEdit" id="changeQuantity_<%= i %>" type="decrease"
+                                                       pack="<%= item.largePackNum %>"></a>
+                                                    <% } %>
+                                                </div>
+                                                <div>
+                                                    <% if(data.type == 'edit') { %>
+                                                    <a class="fa fa-minus inactive" data-editType="pageEdit" type="decrease" id="changeQuantity_<%= i %>"
+                                                       pack="<%= item.middlePackNum %>"></a>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                            <div class="box-left" style="line-height: 22px;">
+                                                <div class="qnt-pak">
+                                                    <span style="font-size:13px">[<label><%= item.largePackNum %></label> <%= item.measureUnit %>/大包]</span>
+                                                </div>
+                                                <% } %>
+                                                <% if(item.middlePackNum){ %>
+                                                <div class="qnt-pak">
+                                                    <span style="font-size:13px">[<label><%= item.middlePackNum %></label> <%= item.measureUnit %>/中包]</span>
+                                                </div>
+                                                <% } %>
+
+                                                <% }else { %>
+                                                &#45;&#45;
+                                                <% } %>
+                                            </div>
+                                            <div class="box-right" style="line-height: 25px;">
+                                                <div>
+                                                    <% if(data.type == 'edit') { %>
+                                                    <a class="fa fa-plus" data-editType="pageEdit" id="changeQuantity_<%= i %>" type="increase"
+                                                       pack="<%= item.largePackNum %>"></a>
+                                                    <% } %>
+                                                </div>
+                                                <div>
+                                                    <% if(data.type == 'edit') { %>
+                                                    <a class="fa fa-plus" data-editType="pageEdit" type="increase" id="changeQuantity_<%= i %>"
+                                                       pack="<%= item.middlePackNum %>"></a>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="goods-number" style="float: left;text-align: right;border: 1px solid #e6e6e6;width: 112px;margin-left:-1px;height: 52px;text-align: center;">
+                                        <% if(data.type == "edit"){ %>
+                                        <div style="width: 130px;height: 60px;">
+                                            <div class="qnt-count qnt-count-res" style="float: left;border: none">
+                                                <div class="box-left">
+                                                    <input id="quantity_<%= i %>" name="quantity" goodsId="<%= item.goodsId %>" storage="<%= item.storage %>"
+                                                           hasSubtotal="true" type="text" value="<%= item.quantity %>" onpaste="return false;" onkeypress="keyPress()">
+                                                </div>
+                                                <div class="box-right">
+                                                    <div>
+                                                        <a class="fa fa-plus" data-editType="pageEdit" pack="1" type="increase"
+                                                           id="changeQuantity_<%= i %>"></a>
+                                                    </div>
+                                                    <div>
+                                                        <a class="fa fa-minus inactive" data-editType="pageEdit" pack="1" type="decrease"
+                                                           id="changeQuantity_<%= i %>"></a>
+                                                    </div>
+                                                </div>
+                                                <% } else if(data.type == "look") { %>
+                                                <%= list[i].quantity; %>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="float: left;">
+                                        <h5 class="text-danger"
+                                            style="font-size:12px;color: #666666 !important;">库存 / 购物车数量  : <span style="color:#07A9D4;"><%= typeof(item.content) == 'undefined' ? '' : + item.content %></span> / <span style="color:#66C018;"><%= typeof(item.content) == 'undefined' ? '' : + item.CartQuantity %></span>
+                                        </h5>
+                                    </div>
+                                </td>-->
+                                    <td class="text-mcolor">
+                                        &yen;<label id="subtotal_<%= i %>">
+                                            <% var currentGoodsTotalPrice = (list[i].clientGoodsPrice * list[i].quantity).toFixed(2); %>
+                                            <% totalPrice += Number(currentGoodsTotalPrice); %>
+                                            <%= currentGoodsTotalPrice; %>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <% if(data.type == "edit"){ %>
+                                        <input type="text" style="width: 150px;display: inline-block;" class="form-control" placeholder="添加备注" value="<%= list[i].remark %>" name="remark">
+                                        <% } else if(data.type == "look") { %>
+                                        <% if(list[i].remark){ %>
+                                        <%= list[i].remark %>
+                                        <% }else{ %>
+                                        无
+                                        <% } %>
+                                        <% } %>
+                                    </td>
+                                    <% if(data.type == "edit"){ %>
+                                    <td>
+                                        <a class="text-primary tooltipped removePurchaseGoodsOne" title="删除" data-toggle="tooltip"
+                                           data-placement="bottom"><strong><i class="fa fa-trash"></i> </strong></a>
+                                    </td>
+                                    <% } %>
+                                </tr>
+                                <% } %>
+                                <% } else { %>
+                                <tr>
+                                </tr>
+                                <tr>
+                                    <% if(data.type == "edit") { %>
+                                    <td colspan="7">
+                                        <% } else if(data.type == "look") { %>
+                                    <td colspan="7">
+                                        <% } %>
+                                        <h4 class="blank-content">清单暂无商品,先去<a href="/goods">产品中心</a>逛逛</h4>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <% if(list.length > 0) { %>
+                        <div class="space-top pull-right">
+                            <span>合计： </span><span id="" class="text-mcolor" style="font-size: 18px">
+                                &yen;
+                               <strong id="total">
+                                    <%= totalPrice.toFixed(2)%>
+                               </strong>
+                                元
+                            </span>
+                        </div>
+                        <%}%>
+
+                        <div class="pull-left double-padding-top">
+                            <% if(data.type == "edit"){ %>
+                            <a style="float: left; <%= totalPrice == 0 ? 'display:none' : '' %>" data-href="/portal/purchaseList/addToCart?listId=<%= data.favor.id %>"
+                               type="button" class="btn btn-primary btn-md updatePurchaseList">加入购物车</a>
+                            <a style="float: left;" data-href="/portal/purchaseList" type="button" class="btn btn-primary btn-outlined btn-md updatePurchaseList">返回</a>
+                            <% } %>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs %>
+</div>
+<% include ../../footer.ejs %>
+<script src="/static/source/js/portal.js"></script>

@@ -1,0 +1,161 @@
+<% include ../../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../../_nav_head.ejs%>
+        <div class="page">
+
+            <div class="container page-content" style="min-height:800px">
+                <div class="row space-top">
+                    <!-- Sidebar-->
+                    <% var active = "lists"; %>
+                    <% include ../../_nav_customer_left.ejs%>
+                    <!-- Sidebar CLose-->
+                    <section class="col-md-10 pull-right  space-bottom page-content-right">
+
+
+
+                        <% var basicPriceInfo=data.priceData.goodsBasicInfo[0];
+                        %>
+
+                        <aside class="page-content-right-head" style="background: rgb(236, 236, 236);">
+                            <label style="margin-right: 30px;margin-left: 8px;">
+                                客户单品价格
+                            </label>
+
+                            <label style="float:right;margin-right: 30px;">
+                                <input type="hidden" id="hiddenGoodsId" value="<%=basicPriceInfo.id
+                                %>"/>
+                                <%=basicPriceInfo.goodsNo%>/<%=basicPriceInfo.commonName%>/<%=basicPriceInfo.producer==''?'':basicPriceInfo.producer+'/'  %><%=basicPriceInfo.spec%>
+                            </label>
+                        </aside>
+
+                        <div class="col-sm-12" style="">
+
+                            <div style="margin-top:20px;margin-bottom:10px">参考价格</div>
+                            <table class="table page-table" style="border:1px solid #ddd;margin-bottom:20px">
+                                <thead style="background-color:rgb(236, 236, 236);">
+                                <tr>
+                                    <td><strong>国家限价</strong></td>
+                                    <td><strong>零售价</strong></td>
+                                    <td>
+                                        <strong>批发价</strong>
+                                    </td>
+                                    <td><strong>价格一</strong></td>
+                                    <td><strong>价格二</strong></td>
+                                    <td><strong>价格三</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody id="refPriceInfo">
+                                    <tr>
+                                        <td name="limitedPrice" ><%= basicPriceInfo['limitedPrice'].toFixed(4) %></td>
+                                        <td name="refRetailPrice"><%=basicPriceInfo['refRetailPrice'].toFixed(4) %></td>
+                                        <td name="wholesalePrice"><%=basicPriceInfo['wholesalePrice'].toFixed(4) %></td>
+                                        <td name="price1"><%=basicPriceInfo['price1'].toFixed(4) %></td>
+                                        <td name="price2"><%=basicPriceInfo['price2'].toFixed(4)%></td>
+                                        <td name="price3"><%=basicPriceInfo['price3'].toFixed(4) %></td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                            <div style="margin-top:20px;margin-bottom:10px">
+                                客户单品价格
+
+                                <div style="float:right;display: inline-block;padding: 4px;">
+                                    <select  style="display:none"  id="clientFilterSelect">
+                                        <option value="按名称">按名称</option>
+                                    </select>
+                                    <input style="width: 200px;" id="inputValue" name="clientInputFilter" placeholder="请输入名称..." oninput="checkThisClientId(this)" onpropertychange="checkThisClientId(this)">
+                                    <ul class="dropdown clientDropDown">
+                                    </ul>
+                                    <button class="btn btn-primary" id="addClientPrice" >添加</button>
+                                </div>
+                            </div>
+                            <table class="table page-table" style="border:1px solid #ddd;margin-bottom:20px">
+                                <thead style="background-color:rgb(236, 236, 236);">
+                                <tr>
+                                    <td><strong>客户名称/编号</strong></td>
+                                    <td><strong>当前价格</strong></td>
+                                    <td>
+                                        <strong>调整价格</strong>
+                                    </td>
+                                    <td><strong>操作</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody id="clientPriceInfo">
+                                <% var basicClientPrice=data.priceData.goodsClientPriceInfo; %>
+                                <% for(var i=0;i<basicClientPrice.length;i++){%>
+                                <% var currentItem=basicClientPrice[i];
+                                %>
+                                <tr>
+                                    <td>
+                                        <%= currentItem.clientName %>
+                                        <input type="hidden" value="<%= currentItem.id %>"/>
+                                    </td>
+                                    <td>
+                                        <%= currentItem.clientPrice.toFixed(4) %>
+
+                                    </td>
+                                    <td>
+                                        <input class="waitChangePriceInput" type="text"  style="width:107px;" value="<%= currentItem.clientPrice.toFixed(4) %>" />
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)" class="deleteClientPrice">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <%}%>
+
+                                </tbody>
+
+                            </table>
+
+                            <div style="margin-top:20px;margin-bottom:10px">调价原因</div>
+                            <div>
+                                <textarea id="ModifyPriceReason" style="height:153px;width:100%;resize:none;"></textarea>
+                            </div>
+
+                            <div style="margin-top:17px;margin-bottom:10px">审核人</div>
+                            <div class="radioGroup" style="margin-bottom:20px">
+                                <% for(var i=0;i<data.priceData.operatorlist.length;i++){%>
+                                <% var currentPerson=data.priceData.operatorlist[i]; %>
+
+                                <div class="radio">
+                                    <label><input id="<%=currentPerson.operatorId %>" name="checkPerson" type="radio" value="true"><%= currentPerson.operatorName%></label>
+                                </div>
+                                <%}%>
+                            </div>
+                        </div>
+                    </section><!--Catalog List Close-->
+
+
+                    <section class="col-md-10 space-bottom space-top pull-right">
+                        <div class="pull-left">
+                            <button id="btnChangeClientPrice" class="btn btn-primary">生成调价单</button>
+                            <a href="/customer/priceset/setprice" class="btn btn-default">取消</a>
+                        </div>
+
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <% include ../../../_nav_bottom.ejs%>
+</div>
+<% include  ../../../footer.ejs %>
+<script src="/static/source/js/customer/priceset.js"></script>

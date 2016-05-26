@@ -1,0 +1,142 @@
+<% include ../../header.ejs%>
+<div style="position:relative;width:100%;height:100%;height: auto">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+        <% include ../../_nav_top.ejs %>
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page double-padding-bottom" style="min-height:801px">
+            <!--Breadcrumbs-->
+            <div class="container page-nav">
+                <ol class="breadcrumb">
+                    <li><a href="/" class="click-link">主页</a></li>
+                    <i class="fa fa-angle-right"></i>
+                    <li><a href="#" class="active">结款订单</a></li>
+                </ol>
+            </div><!--Breadcrumbs Close-->
+            <div class="container page-content">
+                <div class="row space-top" >
+
+                    <section class="col-md-10 pull-right  space-bottom page-content-right">
+
+
+                        <aside class="page-content-right-head"  >
+                            <label>时段选择:</label>
+                            <div style="height: 50px;">
+                                <i class="fa fa-calendar"></i>
+                                <input style="vertical-align:middle"  value="<%=data.pageData.beginDate   %>"   id="startDate" type="text" readonly class="cDatePicker selectTime"/>
+                                －
+                                <i class="fa fa-calendar"></i>
+                                <input style="vertical-align:middle"   value="<%=data.pageData.endDate   %>" id="endDate" type="text"  readonly class="cDatePicker selectTime"/>
+                            </div>
+                            <a class="btn btn-primary searchBill" >查询</a>
+
+
+                            <div class="page-content-sort" style="position:relative">
+                                <!--todo why div blow .add float:right will change the horizontal -->
+                             <div class="filter-input"   style="vertical-align:middle;position:static;line-height:50px">
+                                <form method="get" role="search" style="position:static;" >
+                                    <input class="form-control" type="text"   id="customerKeywords" placeholder="请输入客户名..." value="<%=data.pageData.clientName %>">
+                                    <button type="button"  style="right:6px"  class="searchBill" ><i class="fa fa-filter" style="border:none"></i></button>
+                                </form>
+                            </div>
+                            </div>
+
+
+
+                        </aside>
+                        <div class="col-sm-12">
+                            <table class="table page-table">
+                                <thead>
+                                <tr>
+                                    <td><strong>客户名</strong></td>
+                                    <td><strong>日期</strong></td>
+                                    <td><strong>出库金额</strong></td>
+                                    <td><strong>红冲金额</strong></td>
+                                    <td><strong>结款金额</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <% var billList = data.billList; %>
+                                    <% var blLength=billList.length; %>
+                                    <% var totalAmount=0; %>
+                                    <% for (var i = 0; i < blLength;i++){%>
+                                    <% var curBill=billList[i];
+                                        totalAmount+=curBill.netIncome;
+                                    %>
+
+
+                                    <tr>
+                                        <td><%= curBill.clientName %></td>
+                                        <td><%= curBill.clearingDate %></td>
+                                        <td><span>&yen;</span><%= curBill.income.toFixed(2) %></td>
+                                        <td><span>&yen;</span><%= curBill.refund.toFixed(2) %></td>
+                                        <td><span>&yen;</span><%= curBill.netIncome.toFixed(2) %></td>
+                                    </tr>
+
+                                        <% if(i==blLength-1){ %>
+                                            <tr style="font-weight:bold">
+                                                <td colspan="3"></td>
+                                                <td >
+                                                    合计:
+                                                </td>
+                                                <td>
+                                                    <span>&yen;</span>
+                                                    <%= totalAmount.toFixed(2) %>
+                                                </td>
+                                            </tr>
+                                        <%}%>
+
+                                    <%}%>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </section>
+
+                    <!-- Sidebar-->
+                    <% var active = "financeCenter"; %>
+                    <% include ../_nav_customer_left.ejs%>
+                    <!-- Sidebar CLose-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>
+<script type="text/javascript">
+    $(function(){
+        $('.cDatePicker').datetimepicker({
+            timepicker: false,
+            format:'Y-m-d',
+            minDate:false
+        });
+
+    $(document).delegate('.searchBill','click',function(){
+        var startDate=$('#startDate').val();
+        var endDate=$('#endDate').val();
+        var customerName=$('#customerKeywords').val();
+        if(new Date(startDate)>new Date(endDate)){
+            artDialogAlertModal('截止日期不能早于起始日期,请确认');
+            return;
+        }
+        window.location.href="/customer/bill?"+"beginDate="+startDate+"&endDate="+endDate+"&clientName="+encodeURIComponent(customerName);
+        return;
+    });
+
+        $('#customerKeywords').keypress(function(e){
+            var key = e.which;
+            if(key == 13)  // the enter key code
+            {
+               $('.searchBill').trigger('click');
+                return false;
+            }
+        });
+    });
+</script>

@@ -1,0 +1,185 @@
+<% include ../../../header.ejs%>
+<%
+var goodsType = data._goodsTypes.children;
+
+%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+<div style="position:relative;width:100%;height:100%;">
+    <% include  ../../../_nav_head_mobile.ejs %>
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../../_nav_head.ejs%>
+        <div class="page double-padding-bottom">
+
+            <div class="container page-content">
+                <div class="row space-top">
+                    <% var active = "financeCenter"; %>
+                    <% include ../../_nav_customer_left.ejs%>
+                    <section class="col-md-10 pull-right space-bottom">
+                        <div class="filterDivTab">
+                            <div class="tabList">
+                                <a href="/customer/bill/financecenter">授信客户结款</a>
+                                <a href="/customer/bill/cod" class="itemActive">货到付款结款</a>
+                                <a href="/customer/bill/refundCheck">退款审核</a>
+                                <a href="/customer/bill/refundPerform">退款执行</a>
+                                <a href="/customer/bill/tradeDetail">交易明细</a>
+                            </div>
+                        </div>
+                        <div class="detail-client-name-container margin-top-sm">
+                            <div class=" vertical-middle pull-left" >
+                                选择时段:
+                                <div style="height: 40px;display:inline-block">
+                                    <i class="fa fa-calendar"></i>
+                                    <input style="vertical-align:middle;width:105px;"    placeholder="开始时间"  value="<%= data.filterCondition.startDate %>" id="StartDate" type="text" readonly class="datePicker selectTime"/>
+                                    －
+                                    <i class="fa fa-calendar"></i>
+                                    <input style="vertical-align:middle;width:105px"    placeholder="截止时间" value="<%= data.filterCondition.endDate%>" id="EndDate" type="text"    readonly class="datePicker selectTime"/>
+                                </div>
+                            </div>
+
+
+                            <div class="defaultdropdown  margin-left-md"  style="display:inline-block;">
+                                <div class="btn-group">
+                                    <button type="button" class="dropdown-toggle filter-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <%
+                                          var orderStatus=data.filterCondition.status;
+                                            var orderStatusText;
+                                            switch(orderStatus){
+                                                case 'ALL':
+                                                    orderStatusText='全部状态';
+                                                    break;
+                                                case 'CLEARED':
+                                                    orderStatusText='已结款';
+                                                    break;
+                                                case 'UNCLEARED':
+                                                    orderStatusText='待结款';
+                                                    break;
+                                                default:
+                                                    orderStatusText='全部状态';
+                                            }
+
+                                          %>
+                                        <span id="codOrderStatus" data-value="<%= orderStatus%>" ><%= orderStatusText%></span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="click-link" data-value="ALL" onclick="">全部状态</a>
+                                        </li>
+                                        <li>
+                                            <a class="click-link" data-value="UNPAID" onclick="">待结款</a>
+                                        </li>
+                                        <li>
+                                            <a class="click-link" data-value="PAID" onclick="">已结款</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <input type="text" value="<%= data.filterCondition.orderNoOrClientName%>" id="codFilterInput" placeholder="输入订单号/客户名称"/>
+                            <button class="btn codSearchBtn">查询</button>
+
+                            <button class="btn btn-primary pull-right"> 导出</button>
+                        </div>
+
+                        <div class="finance-sum">
+
+                            <div class="pull-left" style="width:32%;">
+                                <span >待结款总计:</span>
+
+                                <span class="pend-bill ">&yen;<%=  data.finaceData.codClearSum==null?'0.00':(data.finaceData.codClearSum).toFixed(data.pointDigit.DEFAULT) %></span>
+                            </div>
+                        </div>
+
+                        <div class="space-top">
+                            <table class="sm-page-table ">
+                                <thead>
+                                <tr>
+                                    <td><strong>订单号</strong></td>
+                                    <td><strong>客户名称</strong></td>
+                                    <td><strong>出库时间</strong></td>
+                                    <td><strong>出库金额</strong></td>
+                                    <td><strong>应结款</strong></td>
+                                    <td><strong>结款状态</strong></td>
+                                    <td><strong>操作</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody class="finance-table">
+
+                                <%
+                                data.financeData={};
+                                data.financeData.statementDetails=[];
+                                %>
+
+                                <% var financeDetails=data.financeData.statementDetails;%>
+
+                                <% for(var i=0;i<financeDetails.length;i++){%>
+                                <% var currentItem=financeDetails[i];%>
+                                <tr >
+                                    <td><%= currentItem.clientName%></td>
+                                    <td class="billMonth"><%= currentItem.billMonth %></td>
+                                    <td>&yen;<span class="credits"><%= currentItem.credits.toFixed(data.pointDigit.DEFAULT)%></span></td>
+                                    <td class="font-color-blue">&yen;<a href=""><span class="receivableState" ><%= currentItem.receivableState.toFixed(data.pointDigit.DEFAULT)%></span></a> </td>
+                                    <td class="font-color-green">&yen;<a href=""><span class="clearAmount"><%= currentItem.clearAmount.toFixed(data.pointDigit.DEFAULT)%></span></a></td>
+                                    <td>&yen;<span class="waitForState"><%= currentItem.waitForState.toFixed(data.pointDigit.DEFAULT)%></span></td>
+
+                                </tr>
+                                <%}%>
+
+                                <%for(var index in data.finaceData.codClearDetails ) { %>
+                                <tr data-ordeid="<%= data.finaceData.codClearDetails[index].orderId %>">
+                                    <% var orderStatus=true; %>
+                                    <td><%= data.finaceData.codClearDetails[index].displayOrderId %></td>
+                                    <td class="billMonth"><%= data.finaceData.codClearDetails[index].clientName %></td>
+                                    <td><span><%= data.finaceData.codClearDetails[index].transDate %></span></td>
+                                    <td class="font-color-blue">&yen;<span><%= (data.finaceData.codClearDetails[index].shipAmount?data.finaceData.codClearDetails[index].shipAmount:0).toFixed(data.pointDigit.DEFAULT)%></span></td>
+                                    <td class="font-color-green receivableSum">&yen;<span><%= (data.finaceData.codClearDetails[index].waitForPayAmount?data.finaceData.codClearDetails[index].waitForPayAmount:0).toFixed(data.pointDigit.DEFAULT)%></span></td>
+                                    <td class="orderStatus"><span class="<%= orderStatus==true?'font-color-orange':'' %>"><%= ('CLEARED' == data.finaceData.codClearDetails[index].status? '已结款':'待结款') %></span></td>
+                                    <td>
+                                        <%
+                                            if('CLEARED' == data.finaceData.codClearDetails[index].status||Number(data.finaceData.codClearDetails[index].shipAmount)==0) {
+                                        %>
+                                        <a href="javascript:void(0)"><i class="fa fa-check-circle"></i></a>
+                                        <%} else {%>
+                                        <div class="finance-operation codSettleBtn" data-shipAmount="<%= data.finaceData.codClearDetails[index].waitForPayAmount %>"
+                                             data-clientId="<%= data.finaceData.codClearDetails[index].clientId %>" data-displayOrderId="<%= data.finaceData.codClearDetails[index].displayOrderId %>"
+                                             data-ordeId="<%= data.finaceData.codClearDetails[index].orderId %>" >
+                                            <a   href="javascript:void(0)">
+                                                <i class="fa fa-check-circle"></i>
+                                            </a>
+                                        </div>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div  class="margin-top-md">
+                            <a href="/customer/bill/financecenter" class=" btn btn-primary">返回</a>
+                            <% var url = "/customer/bill/cod?" %>
+                            <% include ../../../_paginator.ejs%>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../../_nav_bottom.ejs%>
+</div>
+<% include  ../../../footer.ejs %>
+<script type="text/javascript">
+    $('.selectTime').datetimepicker({
+        minDate:false
+    });
+</script>

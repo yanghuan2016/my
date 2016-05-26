@@ -1,0 +1,43 @@
+<% include ../customer/header.ejs%>
+<!--Off-Canvas-->
+<div style="position:relative;height:100%;">
+    <!--Header Toolbar-->
+    <div class="header-toolbar tool-head">
+        <div class="container">
+            <div class="cont-info pull-left">
+                你好，欢迎来到神木医药网！
+            </div>
+            <div class="cont-info pull-right">
+
+                <div>
+                    <a id="login_link" href="/login"><i class="fa fa-user"></i>
+                        未登录
+                    </a>
+                </div>
+                <div><a href="/order"><i class="fa fa-file-text"></i>我的订单</a></div>
+                <div><a href=""><i class="fa fa-android"></i>手机APP</a></div>
+                <div><a href=""><i class="fa fa-phone"></i>400-021-2541</a></div>
+            </div>
+        </div>
+    </div>
+    <!--Header Toolbar Close-->
+    <section class="specialty-page">
+        <div class="container notFound notFoundBuild">
+            <ul>
+                <li>
+                    <img src="/static/img/error/building.png"/>
+                </li>
+                <li>对不起此页面正在建设中</li>
+                <li>先到其他页面逛逛吧</li>
+                <li><%=JSON.stringify(data.msg)%></li>
+                <li>
+                    <a href="/">回到首页</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <div style="position: absolute;left:0;bottom:0;width: 100%">
+        <% include ../customer/_nav_bottom.ejs%>
+    </div>
+</div>
+<% include ../customer/footer.ejs %>

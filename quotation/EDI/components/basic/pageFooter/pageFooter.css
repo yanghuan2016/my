@@ -1,0 +1,14 @@
+:local(.box) {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background: #ddd;
+    padding: 5px;
+    opacity: 0.8;
+    margin-left: 100px;
+}
+
+:local(.noneDisplay) {
+    display: none;
+}

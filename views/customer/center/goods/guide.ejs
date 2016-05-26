@@ -1,0 +1,81 @@
+<%
+/*
+ # Copyright © 2015
+ # -----------------------------------------------------------------
+ */
+%>
+<% include ../../header.ejs%>
+<style>
+    body{
+        background-color: transparent !important;
+    }
+</style>
+<div style="font-size: 14px;padding: 4px;">
+    <div class="page-content space-top">
+        <section class="page-content-right">
+            <aside class="page-content-right-head">
+                <table class="table" >
+                    <tr>
+                        <ul id="myTab" class="nav nav-tabs" style="text-align: start;">
+                            <li class=<%= (type == "goodsUnit")? "active": "" %>>
+                                <a href="#home" data-toggle="tab">
+                                    第一步(上传单位表)
+                                </a>
+                            </li>
+                            <li class=<%= (type == "good" || type == 'goods')? "active": "" %>>
+                                <a href="#GSP" data-toggle="tab">
+                                    第二步(上传客户表)
+                                </a>
+                            </li>
+                            <li>
+                                <a style="color: red;"><%= feedback%></a>
+                            </li>
+                            <li style="float: right;">
+                                <a class="cancelGoodsUpload" data-toggle="tab">
+                                    <i class="fa fa-times-circle-o fa-2x"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </tr>
+                </table>
+            </aside>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade <%= (type == 'goodsUnit')? 'in active': '' %>" id="home">
+                    <table class="table page-table">
+                        <tbody>
+                        <tr>
+                            <td colspan="2">
+                                <form class="form-signin"  role="form" method="post" enctype='multipart/form-data'action="/customer/goods/uploadUnitXLS?type=good">
+                                    <input id="fulAvatar" name="fulAvatar" class="btn btn-small" type="file" class="form-control"  accept=".xls" style="border: 0px;float: left"/>
+                                    <button class="btn btn-primary switchBtn"  type="submit" style="padding: 7px !important">上 传</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade <%= (type == 'good' || type == 'goods')? 'in active': '' %>" id="GSP">
+                    <table class="table page-table">
+                        <tbody>
+                        <tr>
+                            <td colspan="2">
+                                <form class="form-signin"  role="form" method="post" enctype='multipart/form-data' action="/customer/goods/uploadUnitXLS?type=goods&unitXls=<%= unitXls%>"/>
+                                    <input id="fulAvatar" name="fulAvatar" class="btn btn-small" type="file" class="form-control"  accept=".xls" style="border: 0px;float: left"/>
+                                    <button class="btn btn-primary switchBtn"  type="submit" style="padding: 7px !important">上 传</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: end;">
+                                <a class="btn btn-primary closeIframeGuide" style="padding: 10px !important;">确定</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<% include  ../../footer.ejs %>

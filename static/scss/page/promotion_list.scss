@@ -1,0 +1,221 @@
+/*========商户的促销管理集合促销券==========*/
+
+$choose-border-color:#999;
+$Font-awesome-color:#26a69a;
+.display-Inline{
+  display:inline-block;
+}
+
+.sm-page-table tbody tr td{
+  border: none;
+  font-size: 14px;
+}
+.promotion-top-menu {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 10px;
+
+  .promotion-top-search{
+    height:45px;
+    margin-left: 55%;
+    width: 15%;
+    @extend .display-Inline;
+    .promotionInputItem{
+      position: relative;
+      height: 30px;
+    }
+    .filterInput{
+      border-radius: 5px;
+    }
+  }
+  .promotion-top-dropList{
+    @extend .display-Inline;
+    margin-left: 4% !important;
+  }
+  .promotion-top-newAdd{
+    @extend .display-Inline;
+    float: right;
+    a{
+      border-radius: 5px !important;
+    }
+    .btn{
+      padding: 4px 15px;
+    }
+  }
+
+}
+.click-color{
+  color:$Font-awesome-color;
+}
+.promotion-use-color{
+  span:first-child{
+    color: red;
+  }
+  span:nth-of-type(2){
+    color:#26a69a;
+  }
+  span:last-child{
+    color:#f9b649;
+  }
+}
+.discounts-content{
+  background: #f0fff0 !important;
+}
+
+/*============客户端优惠券===========*/
+$background-color-red:#f9a09f;
+$background-color-gray:#f3f3f3;
+$promotion-divider-line:#e6e6e6;
+.float-left{
+  float: left;
+}
+/*可领优惠券*/
+.getPromotion{
+  width: 1000px;
+  @extend .float-left;
+  .promotion-divider-line{
+    padding: 20px 0 0 10px;
+    .getPromotion-content{
+      width: 276px;
+      height: 350px;
+      @extend .display-Inline;
+      margin-left: 38px;
+    }
+    .getPromotion-img{
+      width: 276px;
+      @extend .float-left;
+    }
+    .getPromotion-text{
+      width: 276px;
+      height: 125px;
+      text-align: center;
+      background: $background-color-red;
+      @extend .float-left;
+    }
+    .getPromotion-new{
+      width: 276px;
+      height: 215px;
+      background: $background-color-gray;
+      @extend .float-left;
+      .hasPromotion-box{
+
+      }
+    }
+  }
+
+}
+/*已领优惠券*/
+.hasPromotion{
+  @extend .float-left;
+  margin-top: 20px;
+  width: 1000px;
+  .filterDivTab{
+    margin: 16px 16px 16px;
+  }
+  .hasPromotion-content{
+    width:965px;
+    height: 125px;
+    margin: 16px 16px;
+
+    .hasPromotion-text{
+      width: 185px;
+      height: 125px;
+      text-align: center;
+      background: $background-color-red;
+      @extend .float-left;
+
+    }
+    .hasPromotion-new{
+      width: 780px;
+      height: 125px;
+      background: $background-color-gray;
+      @extend .float-left;
+      .hasPromotion-box{
+        @extend .float-left;
+        h6{
+          margin-top: 16px;
+          margin-left: 16px;
+          font-size: 12px;
+          color: #333333;
+          span{
+            font-size: 12px;
+            color: #999999;
+          }
+        }
+      }
+
+      .promotion-buttom{
+        @extend .float-left;
+        margin: 50px 0 0 200px;
+        .promotion-btn-primary{
+          background: $background-color-red;
+        }
+      }
+  }
+  }
+
+}
+/*优惠券说明*/
+.promotionInstructions{
+  @extend .float-left;
+  margin-top: 20px;
+  .promotion-divider-line aside{
+    padding: 16px 16px;
+    h4{
+      font-size: 16px;
+      color: #217a33;
+      margin-bottom: 4px !important;
+    }
+    span{
+      font-size: 12px;
+      color:#666;
+    }
+  }
+}
+
+.promotion-money{
+  color: #fff;
+  padding-top: 10px;
+  margin-bottom: 8px !important;
+}
+.promotion-time{
+  color:#7d2b2d;
+  font-size: 14px;
+}
+.promotion-title{
+  span {
+    color: $background-color-red;
+  }
+}
+
+.promotion-rules{
+  margin-top: 16px;
+  margin-left: 16px;
+  font-size: 12px;
+  color: #333333;
+  span{
+    font-size: 12px;
+    color: #999999;
+  }
+}
+.promotion-divider-line{
+  width: 1000px;
+  border-top: 2px solid #237935;
+  border-left: 1px solid $promotion-divider-line;
+  border-right: 1px solid $promotion-divider-line;
+  border-bottom: 1px solid $promotion-divider-line;
+}
+
+.next-button,.prev-button{
+  background: #fff;
+  width: 25px;
+  height: 0px;
+  margin-top: 150px;
+  i{
+    font-size: 40px;
+    color: #d35b58;
+  }
+}
+.next-button,.prev-button:hover{
+  background: #fff;
+}

@@ -1,0 +1,53 @@
+<% include ./header.ejs %>
+<div style="position:relative;width:100%;height:100%;">
+    <style>
+        #newsContent p img {
+            display: inline;
+        }
+    </style>
+    <!--Layout-->
+    <div class="site-layout">
+
+
+        <% include ./_nav_top.ejs %>
+
+        <% var active = "aboutUs";%>
+        <% include ./_nav_head.ejs %>
+
+        <div class="page" style="margin-bottom:60px;">
+
+            <div class="container page-content">
+                <div class="row"  style="background-color: white;min-height:725px">
+                    <div style="margin-top:20px"></div>
+                    <div id="newsContent" style="padding:20px 50px 50px 20px">
+                        <div id="addressPic" style="float:left">
+                            <img src="/static/img/MAP.jpg" alt="" style="width:600px"/>
+                        </div>
+                        <div id="addressDetail" style="float:left;display:table-cell;padding-left:20px;vertical-align: middle;height:668px">
+
+                            <div style="color:#237935;margin-bottom:20px;margin-top:200px">新疆神木药业股份有限公司</div>
+                            <div style="font-size:13px">
+                                <span>联系地址:新疆阿克苏地区阿克苏纺织工业城(开发区)温州路一号</span><br/>
+                                <p></p>
+                                <span>邮编:843000</span><br/>
+                                <p></p>
+                                <span>客服电话:40002125441</span><br/>
+                                <p></p>
+                                <span>邮箱:sjsm@163.com</span><br/>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div style="width:100%">
+            <% include ./_nav_bottom.ejs%>
+        </div>
+    </div>
+
+</div>
+<% include ./footer.ejs %>
+

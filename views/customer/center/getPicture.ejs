@@ -1,0 +1,10 @@
+<% if(url == null){%>
+<img src="/static/img/shop/cart/01.jpg" style="width:150px;height: 150px">
+<% } else if(url instanceof Array){%>
+    <span style="color: red"><%= status%></span>
+    <% for(var i in url){%>
+        <img src="<%= url[i] %>" style="width:150px;height: 130px;display: none">
+    <% } %>
+<% } else{ %>
+<img src="<%= url %>" style="width:150px;height: 130px">
+<% } %>

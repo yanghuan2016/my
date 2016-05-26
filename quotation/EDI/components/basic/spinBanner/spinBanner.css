@@ -1,0 +1,20 @@
+:local(.banner) {
+    height: 40px;
+    position: relative;
+}
+
+:local(.banner i) {
+    color: #2db7f5;
+    display: inline-block;
+    zoom: 1;
+    font-size: 30px;
+    vertical-align: middle;
+}
+
+:local(.banner span) {
+    display: inline-block;
+    margin-left: 10px;
+    zoom: 1;
+    height: 40px;
+    line-height: 40px;
+}

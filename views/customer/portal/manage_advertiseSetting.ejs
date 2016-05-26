@@ -1,0 +1,82 @@
+<% include ../header.ejs%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+        <% include ../center/_nav_head.ejs%>
+            <div class="page double-padding-bottom" style="min-height:801px">
+                <!--Breadcrumbs-->
+                <div class="container page-content">
+                    <div class="row space-top" >
+                        <!-- Sidebar-->
+                        <% var active = "carousel"; %>
+                        <% include ../center/_nav_customer_left.ejs%>
+                        <!-- Sidebar CLose-->
+                        <section class="col-md-10 pull-right space-bottom">
+                            <div class="filterDivTab">
+                                <% var curtTab = 'carousel';%>
+                                <% include portalTab.ejs %>
+                            </div>
+                            <table class="sm-page-table">
+                                <%var listLength=data.carousels.length%>
+                                <thead>
+                                <tr>
+                                    <td><strong>缩略图</strong></td>
+                                    <td><strong>名称</strong></td>
+                                    <td><strong>链接地址</strong></td>
+                                    <td><strong>备注</strong></td>
+                                    <td><a class="btn btn-primary" href="/page/customer/portal/carousel/item/add">新增</a></td>
+                                </tr>
+                                </thead>
+                                <%for(var i=0;i<listLength;i++){%>
+                                <%var currentCarousel=data.carousels[i]%>
+                                <tr>
+                                    <td>
+                                        <input type="hidden" value="<%=currentCarousel.id%>"  data-id="hiddenId"/>
+                                        <input type="hidden" value="<%=currentCarousel.orderSeq%>"  data-orderSq="orderSeq"/>
+                                        <img style="margin:0 auto;cursor:pointer" src="<%=currentCarousel.imgurl%>" alt=""  width="60" height="120"/>
+                                    </td>
+                                    <td class="portal_text_overflow">
+                                            <span title="<%= currentCarousel.name;%>">
+                                                <%= currentCarousel.name;%>
+                                            </span>
+                                    </td>
+                                    <td class="portal_text_overflow">
+                                        <a target="_blank" title="<%=currentCarousel.url%>"  href="<%= currentCarousel.url%>"><span><%=currentCarousel.url%></span></a>
+                                    </td>
+                                    <td class="portal_text_overflow">
+                                        <span title="<%=currentCarousel.remark%>"><%=currentCarousel.remark?currentCarousel.remark:"无"%></span>
+                                    </td>
+                                    <td>
+                                        <a  href="/page/customer/portal/carousel/<%=currentCarousel.id%>">
+                                            <i class="fa fa-pencil-square-o tooltipped" data-toggle="tooltip" data-placement="left" title="修改" style="margin-right: 2px"></i>
+                                        </a>
+                                        <!--待定-->
+                                        <a  href="javascript:void(0)" class="carousel_UpOrder">
+                                            <i class="fa fa-arrow-circle-up tooltipped " data-toggle="tooltip" data-placement="left" title="置顶" style="margin-right: 2px"></i>
+                                        </a>
+                                        <!--delete方式传递要用ajax请求-->
+                                        <a  href="javascript:void(0)" class="delete_carousel">
+                                            <i class="fa fa-remove tooltipped" data-toggle="tooltip" data-placement="left" title="删除" style="margin-right: 2px"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <%}%>
+                                <tr style="display:none">
+                                    <td colspan="5" style="text-align:right"> <span style="color: #dddddd;margin-right:40px">亲,排序之后请点击右方的保存按钮更新</span><a href="javascript:void(0)" id="CarouselSaveOrderBtn" class="btn btn-primary">保存</a></td>
+                                </tr>
+                            </table>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% include ../_nav_bottom.ejs%>
+</div>
+<% include  ../footer.ejs %>
+<script src="/static/source/js/portal.js"></script>

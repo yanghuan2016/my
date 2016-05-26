@@ -1,0 +1,258 @@
+<% include ../../header.ejs%>
+<%
+var goodsType = data._goodsTypes.children;
+%>
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page double-padding-bottom">
+            <div class="container page-content">
+                <div class="row space-top">
+                    <% var active = "product_setting"; %>
+                    <% include ../_nav_customer_left.ejs%>
+
+                    <section class="col-md-10 pull-right space-bottom">
+                        <div class="filterDivTab">
+                            <div class="tabList">
+                                <a href="/customer/system/product" class="itemActive">商品类别</a>
+                                <a href="/customer/system/inventory">库存方案</a>
+                                <a href="/customer/system/customer">客户类</a>
+                                <a href="/customer/system/domainSetting">客户区域</a>
+                                <a href="/customer/system/packUnit">包装单位</a>
+                                <a href="/customer/system/erpSetting">ERP</a>
+                                <a href="/customer/system/productJX">剂型</a>
+                                <a href="/customer/system/productGSP">GMP/GSP类别</a>
+                                <a href="/customer/system/paymentType">收款方式</a>
+                                <a href="/customer/system/smsGetway">短信网关</a>
+                                <a href="/customer/system/others">其他</a>
+                            </div>
+                        </div>
+                        <table class="sm-page-table">
+                            <thead>
+                            <tr>
+                                <td style="text-align: start;color: red;padding-left: 17px;">注: 首页只显示前十条分类信息</td>
+                                <td style="text-align: right"><a style="cursor: pointer" class="btn btn-primary addrootcategory">新增根类别</a></td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <% if(JSON.stringify(goodsType) != "{}"){ %>
+                        <ul class="goodscategory" parentId="0" parentName="" style="border: 1px solid #e6e6e6;padding-right: 17px;">
+                            <% for(var key in goodsType) { %>
+                            <li class="rootCategory" level="1" erpid="<%= goodsType[key].erpId%>" name="<%= goodsType[key].name%>">
+                                <div class="categoryDiv">
+                                    <div style="display: inline;float: left;" class="categoryContent">
+                                        <a class="click-link" style="cursor: pointer" name="productcategory<%= goodsType[key].name%>">
+                                            <% if(goodsType[key].children != 0) { %>
+                                            <i class="fa fa-plus-square-o"></i>&nbsp;&nbsp;
+                                            <% } %>
+                                            <span><%= goodsType[key].name%></span>
+                                        </a>
+                                    </div>
+                                    <div style="display: inline; float: right;" class="categoryAction">
+                                        <a name="addproductcategory"><i class="fa fa-plus tooltipped" data-toggle="tooltip" data-placement="left" title="添加" style="margin-right: 8px"></i></a>
+                                        <a name="updateproductcategory"><i class="fa fa-pencil-square-o tooltipped" data-toggle="tooltip" data-placement="top" title="修改" style="margin-right: 8px"></i></a>
+                                        <a name="stickTop"><i class="fa fa-arrow-circle-up tooltipped" data-toggle="tooltip" data-placement="top" title="置顶" style="margin-right: 8px"></i></a>
+                                        <% if(goodsType[key].isDeleted == 0 ){%>
+                                        <a name="deleteproductcategory"><i class="fa fa-lock tooltipped" data-toggle="tooltip" data-placement="left" title="禁用"></i></a>
+                                        <% } else {%>
+                                        <a name="deleteproductcategory"><i class="fa fa-unlock tooltipped" data-toggle="tooltip" data-placement="left" title="启用"></i></a>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="categoryDiv" style="display: none">
+                                    <div style="display: inline;float: left;">
+                                        <input type="text"/>
+                                    </div>
+                                    <div style="display: inline; float: right;">
+                                        <a class="btn btn-primary" name="updateProductCategory">修改</a>
+                                        <a class="btn btn-primary" name="cancelCategory">取消</a>
+                                    </div>
+                                </div>
+                                <% if(goodsType[key].children.length > 0) { %>
+                                <ul style="display: none" id="productcategory<%= goodsType[key].name%>" parentId="<%= goodsType[key].erpId%>" parentName="<%= goodsType[key].name%>">
+                                    <% for(var element in goodsType[key].children){%>
+                                    <li class="secondChildren" level="2" erpid="<%= goodsType[key].children[element].erpId%>" name="<%= goodsType[key].children[element].name%>">
+                                        <div class="categoryDiv">
+                                            <div style="display: inline;float: left;">
+                                                <a class="click-link" style="cursor: pointer" name="productcategory<%= goodsType[key].children[element].name%>">
+                                                    <% if(goodsType[key].children[element].children != 0){ %>
+                                                    <i class="fa fa-plus-square-o"></i>&nbsp;&nbsp;
+                                                    <% }　%>
+                                                    <span><%= goodsType[key].children[element].name %></span>
+                                                </a>
+                                            </div>
+                                            <div style="display: inline; float: right;">
+                                                <a name="addproductcategory"><i class="fa fa-plus tooltipped" data-toggle="tooltip" data-placement="left" title="添加" style="margin-right: 8px"></i></a>
+                                                <a name="updateproductcategory"><i class="fa fa-pencil-square-o tooltipped" data-toggle="tooltip" data-placement="top" title="修改" style="margin-right: 8px"></i></a>
+                                                <% if(goodsType[key].isDeleted == 1 ){%>
+                                                <a><i class="fa fa-unlock tooltipped" data-toggle="tooltip" data-placement="left" title="已禁用"></i></a>
+                                                <% } else if(goodsType[key].children[element].isDeleted ==0 ){%>
+                                                <a name="deleteproductcategory"><i class="fa fa-lock tooltipped" data-toggle="tooltip" data-placement="left" title="禁用"></i></a>
+                                                <% } else {%>
+                                                <a name="deleteproductcategory"><i class="fa fa-unlock tooltipped" data-toggle="tooltip" data-placement="left" title="启用"></i></a>
+                                                <% } %></div>
+                                        </div>
+                                        <div class="categoryDiv" style="display: none">
+                                            <div style="display: inline;float: left;">
+                                                <input type="text"/>
+                                            </div>
+                                            <div style="display: inline; float: right;">
+                                                <a class="btn btn-primary" name="updateProductCategory">修改</a>
+                                                <a class="btn btn-primary" name="cancelCategory">取消</a>
+                                            </div>
+                                        </div>
+                                        <% if(goodsType[key].children[element].children.length > 0){ %>
+                                        <ul style="display: none" id="productcategory<%= goodsType[key].children[element].name%>" parentId="<%= goodsType[key].children[element].erpId%>" parentName="<%= goodsType[key].children[element].name%>">
+                                            <% for(var ele in goodsType[key].children[element].children){%>
+                                            <li class="ThreeChildren" level="3"  erpid="<%= goodsType[key].children[element].children[ele].erpId%>" name="<%= goodsType[key].children[element].children[ele].name%>">
+                                                <div class="categoryDiv">
+                                                    <div style="display: inline;float: left;">
+                                                        <a class="click-link" style="cursor: pointer" name="productcategory<%= goodsType[key].children[element].children[ele].name%>">
+                                                                <span>
+                                                                    <%= goodsType[key].children[element].children[ele].name %>
+                                                                </span>
+                                                        </a>
+                                                    </div>
+                                                    <div style="display: inline; float: right;">
+                                                        <a name="updateproductcategory"><i class="fa fa-pencil-square-o tooltipped" data-toggle="tooltip" data-placement="top" title="修改" style="margin-right: 8px"></i></a>
+                                                        <% if(goodsType[key].isDeleted == 1 ){%>
+                                                        <a><i class="fa fa-unlock tooltipped" data-toggle="tooltip" data-placement="left" title="已禁用"></i></a>
+                                                        <% } else if(goodsType[key].children[element].children[ele].isDeleted ==0 ){%>
+                                                        <a name="deleteproductcategory"><i class="fa fa-lock tooltipped" data-toggle="tooltip" data-placement="left" title="禁用"></i></a>
+                                                        <% } else {%>
+                                                        <a name="deleteproductcategory"><i class="fa fa-unlock tooltipped" data-toggle="tooltip" data-placement="left" title="启用"></i></a>
+                                                        <% } %></div>
+                                                </div>
+                                                <div class="categoryDiv" style="display: none">
+                                                    <div style="display: inline;float: left;">
+                                                        <input type="text"/>
+                                                    </div>
+                                                    <div style="display: inline; float: right;">
+                                                        <a class="btn btn-primary" name="updateProductCategory">修改</a>
+                                                        <a class="btn btn-primary" name="cancelCategory">取消</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <% } %>
+                                            <li style="display: none" class="addproductcategory">
+                                                <div class="categoryDiv">
+                                                    <div style="display: inline;float: left;">
+                                                        <input type="text"/>
+                                                    </div>
+                                                    <div style="display: inline; float: right;">
+                                                        <a class="btn btn-primary" name="addProductCategory">添加</a>
+                                                        <a class="btn btn-primary" name="cancelProductCategory">取消</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <% } else {%>
+                                        <ul style="display: none" id="productcategory<%= goodsType[key].children[element].name%>" parentId="<%= goodsType[key].children[element].erpId%>" parentName="<%= goodsType[key].children[element].name%>">
+                                            <li style="display: none" class="addproductcategory">
+                                                <div class="categoryDiv">
+                                                    <div style="display: inline;float: left;">
+                                                        <input type="text"/>
+                                                    </div>
+                                                    <div style="display: inline; float: right;">
+                                                        <a class="btn btn-primary" name="addProductCategory">添加</a>
+                                                        <a class="btn btn-primary" name="cancelProductCategory">取消</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <% } %>
+                                    </li>
+                                    <% } %>
+                                    <li style="display: none" class="addproductcategory">
+                                        <div class="categoryDiv">
+                                            <div style="display: inline;float: left;">
+                                                <input type="text"/>
+                                            </div>
+                                            <div style="display: inline; float: right;">
+                                                <a class="btn btn-primary" name="addProductCategory">添加</a>
+                                                <a class="btn btn-primary" name="cancelProductCategory">取消</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <% } else{%>
+                                <ul style="display: none"  id="productcategory<%= goodsType[key].name%>" parentId="<%= goodsType[key].erpId%>" parentName="<%= goodsType[key].name%>">
+                                    <li style="display: none" class="addproductcategory">
+                                        <div class="categoryDiv">
+                                            <div style="display: inline;float: left;">
+                                                <input type="text"/>
+                                            </div>
+                                            <div style="display: inline; float: right;">
+                                                <a class="btn btn-primary" name="addProductCategory">添加</a>
+                                                <a class="btn btn-primary" name="cancelProductCategory">取消</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <% } %>
+                            </li>
+                            <% } %>
+                            <li style="display: none" name="addrootcategory">
+                                <div class="categoryDiv">
+                                    <div style="display: inline;float: left;">
+                                        <input type="text"/>
+                                    </div>
+                                    <div style="display: inline; float: right;">
+                                        <a class="btn btn-primary" name="addProductCategory">添加</a>
+                                        <a class="btn btn-primary" name="cancelProductCategory">取消</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li style="display: none" class="template" name="">
+                                <div class="categoryDiv">
+                                    <div style="display: inline;float: left;">
+                                        <a class="click-link" style="cursor: pointer" name="productcategory">
+                                            <span></span>
+                                        </a>
+                                    </div>
+                                    <div style="display: inline; float: right;">
+                                        <a name="addproductcategory"><i class="fa fa-plus tooltipped" data-toggle="tooltip" data-placement="left" title="" style="margin-right: 8px" data-original-title="添加"></i></a>
+                                        <a name="updateproductcategory"><i class="fa fa-pencil-square-o tooltipped" data-toggle="tooltip" data-placement="top" title="" style="margin-right: 8px" data-original-title="修改"></i></a>
+                                        <a name="stickTop"><i class="fa fa-arrow-circle-up tooltipped" data-toggle="tooltip" data-placement="top" title="" style="margin-right: 8px" data-original-title="置顶"></i></a>
+                                        <a name="deleteproductcategory"><i class="fa fa-lock tooltipped" data-toggle="tooltip" data-placement="left" title="禁用"></i></a>
+                                    </div>
+                                </div>
+                                <div class="categoryDiv" style="display: none">
+                                    <div style="display: inline;float: left;">
+                                        <input type="text">
+                                    </div>
+                                    <div style="display: inline; float: right;">
+                                        <a class="btn btn-primary" name="updateProductCategory">修改</a>
+                                        <a class="btn btn-primary" name="cancelCategory">取消</a>
+                                    </div>
+                                </div>
+                                <ul style="display: none" id="productcategory">
+                                    <li style="display: none" class="addproductcategory">
+                                        <div class="categoryDiv">
+                                            <div style="display: inline;float: left;">
+                                                <input type="text">
+                                            </div>
+                                            <div style="display: inline; float: right;">
+                                                <a class="btn btn-primary" name="addProductCategory">添加</a>
+                                                <a class="btn btn-primary" name="cancelProductCategory">取消</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <% } %>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>

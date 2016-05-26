@@ -1,0 +1,20 @@
+:local(.AlertInfo) {
+    color: red;
+    padding: 20px 0 5px 0;
+}
+
+:local(.DescribeInfo) {
+    padding: 5px 0;
+}
+
+:local(.btMargin) {
+    margin-right: 15px;
+}
+
+:local(.Sync) {
+    margin-left: 50px;
+}
+
+:local(.Sync div) {
+    margin-top: 10px;
+}

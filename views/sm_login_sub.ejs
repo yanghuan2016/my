@@ -1,0 +1,59 @@
+<% include customer/header.ejs %>
+<!--Off-Canvas-->
+
+<div style="position:relative;width:100%;min-height:100%;">
+    <!--Layout-->
+    <div class="site-layout login-page">
+        <% var paginator = data.paginator || {}; %>
+        <div>
+            <div class="sm-nav-head sm-nav-head_sub ">
+                <div class="container">
+                    <div class="col-md-2 sm-nav-head-logo">
+                        <a href="/">
+                            <img src="/static/img/smlogo_png.png" alt="神木医药网"/>
+                        </a>
+                    </div>
+                    <div class="col-md-3 sm-nav-head-logo">
+                        <a>神木医药网监管子系统</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container sm-page-login">
+            <div class="sm-page-login-img">
+                <div class="sub_login">
+                    <div>
+                        <label>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="请输入用户名"/>
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="请输入密码"/>
+                        </label>
+                    </div>
+                    <div>
+                        <input onkeyup="checkCaptcha(this,event)" type="text" class="form-control col-sm-9"
+                               name="captcha" id="captcha"
+                               placeholder="请输入验证码, 点击右侧图片刷新" required style="font-size:14px"/>
+                        <span>
+                            <a onclick="$('img[id=captcha]').attr('src','/captcha?' + (new Date()).getTime());"
+                               id="reloadCaptcha"
+                               href="javascript:void(0)">
+                                <img id="captcha" src="/captcha"/>
+                            </a>
+                        </span>
+                    </div>
+                    <div id="codeTip">
+                        <span id="loginTip"></span>
+                    </div>
+                    <div>
+                        <a class="btn btn-md btn-primary" type="button" id="login">登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include customer/footer.ejs %>
+    <script src="/static/source/js/login.js"></script>
+</div>

@@ -1,0 +1,581 @@
+<% include ../header.ejs %>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout" style="margin-bottom: 60px;">
+        <!--If you add class "boxed" to .site-layout it wraps the whole document in a box, than you can simply add pattern background to body or leave it white. Please note in a "boxed" mode header doesn't stick to the top.-->
+
+        <% include ../_nav_top.ejs %>
+
+        <% var display = "true";%>
+        <% var active = "goods";%>
+        <% include ../_nav_head.ejs %>
+        <!--Page Content--><!-- InstanceBeginEditable name="content" -->
+        <div class="page">
+            <div style="position: fixed;z-index: 1023;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+            </div>
+            <iframe src="" name="selectGoods" scrolling="auto" style="width: 500px;height: 350px;background-color: transparent;z-index: 1023;display: none" allowTransparency="true" id="selectGoods">
+            </iframe>
+            <div class="container page-content">
+                <div class="row">
+                    <!--Catalog List-->
+                    <%
+                    var hasSubNodes=false,
+                            TypeName=data.currentTypeName,
+                            lastIndex=TypeName.lastIndexOf('>')+1;
+                    if(lastIndex!=-1){
+                        hasSubNodes=true;
+                    }
+                    %>
+                    <div class="col-md-10 pull-right space-top space-sm-bottom">
+                        <% if(TypeName==''){%>
+                            <a href="/goods">所有商品</a>
+                        <%} else {%>
+                            <%var fullname = data.currentTypeName.split(">")%>
+                            <% for(var j=0; j<fullname.length; j++){%>
+                            <% var temperpId = fullname[j].split("{")%>
+                            <% var paginatorData = {
+                                url : "/goods?",
+                                caf : "产品类别",
+                                cav : typeof(temperpId[1])!='undefined'?temperpId[1]:paginator.cav,
+                                kav : "",
+                                kbv : "",
+                                p : 1,
+                                paginator : {}
+                            };
+                            %>
+                                <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)" value="<%- temperpId[0] %>"><%= temperpId[0]%></a>
+                            <% if(j != (fullname.length-1)){%>
+                                <label for="">&#62;</label>
+                            <% } %>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <div class="col-md-10 pull-right space-top space-bottom">
+                    <div class="page-content-right">
+                            <aside class="page-content-right-head" style="margin-top: -30px;height: 43.4px;">
+                                <div class="page-content-sort sort-left" id="sort-menu" style="float:left;">
+                                    <div><a href="/goods" style="color:#666666;">默认</a></div>
+                                    <ul class="nav pull-right">
+                                        <li id="fat-menu" class="dropdown" style="border-right: 1px solid #e6e6e6;">
+
+                                            <% if(typeof(data['sf'])== 'undefined') {%>
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#666666;">按名称<i class="caret"></i></a>
+                                            <% } %>
+
+                                            <% if(typeof(data['sf'])!= 'undefined' && data['sf']!= '商品名') {%>
+                                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"  style="color:#666666;">按名称<i class="caret"></i></a>
+                                            <% } %>
+
+                                            <% if(typeof(data['sf'])!= 'undefined' && data['sf']== '商品名') {%>
+                                                <% if(paginator.sv != "ASC" && paginator.sf == "商品名") {%>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#237935;">按名称<i class="fa fa-long-arrow-down"></i><i class="caret"></i></a>
+                                                <% } else {%>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#237935;">按名称<i class="fa fa-long-arrow-up"></i><i class="caret"></i></a>
+                                                <% } %>
+                                            <% } %>
+
+                                            <ul class="dropdown-menu">
+                                                <% var paginatorData = {
+                                                    url : "goods?",
+                                                    sf : "商品名",
+                                                    p : 1,
+                                                    sv : "ASC",
+                                                    paginator : paginator
+                                                };
+                                                %>
+                                                <li><a class="<%= decodeURIComponent(paginator.sf)=='商品名'?'activeSort sortDown':'' %> sortBtn " onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">
+                                                        按名称  <i class="fa fa-long-arrow-up"></i>
+                                                    </a>
+                                                </li>
+                                                <% var paginatorData = {
+                                                    url : "goods?",
+                                                    sf : "商品名",
+                                                    sv : "DESC",
+                                                    p : 1,
+                                                    paginator : paginator
+                                                };
+                                                %>
+                                                <li><a class="<%= decodeURIComponent(paginator.sf)=='商品名'?'activeSort sortUp':'' %> sortBtn "data="1" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">
+                                                        按名称  <i class="fa fa-long-arrow-down"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li id="fat-menu" class="dropdown" style="border-right: 1px solid #e6e6e6;">
+
+                                            <% if(typeof(data['sf'])== 'undefined') {%>
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"  style="color:#666666;">按厂家<i class="caret"></i></a>
+                                            <% } %>
+
+                                            <% if(typeof(data['sf'])!= 'undefined' && data['sf']!= '生产企业') {%>
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"  style="color:#666666;">按厂家<i class="caret"></i></a>
+                                            <% } %>
+
+                                            <% if(typeof(data['sf'])!= 'undefined' && data['sf']== '生产企业') {%>
+                                                <% if(paginator.sv != "ASC" && paginator.sf == "生产企业") {%>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#237935;">按厂家<i class="fa fa-long-arrow-down"></i><i class="caret"></i></a>
+                                                <% } else {%>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#237935;">按厂家<i class="fa fa-long-arrow-up"></i><i class="caret"></i></a>
+                                                <% } %>
+                                            <% } %>
+
+                                            <ul class="dropdown-menu">
+                                                <% var paginatorData = {
+                                                    url : "goods?",
+                                                    sf : "生产企业",
+                                                    sv : "ASC",
+                                                    p : 1,
+                                                    paginator : paginator
+                                                };
+                                                %>
+                                                <li><a class="<%= decodeURIComponent(paginator.sf)=='生产企业'?'activeSort sortDown':'' %> sortBtn " onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">
+                                                        按厂家  <i class="fa fa-long-arrow-up"></i>
+                                                    </a>
+                                                </li>
+                                                <% var paginatorData = {
+                                                    url : "goods?",
+                                                    sf : "生产企业",
+                                                    p : 1,
+                                                    sv : "DESC",
+                                                    paginator : paginator
+                                                };
+                                                %>
+                                                <li><a class="<%= decodeURIComponent(paginator.sf)=='生产企业'?'activeSort sortUp':'' %> sortBtn " onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">
+                                                        按厂家  <i class="fa fa-long-arrow-down"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li id="fat-menu" class="dropdown" style="border-right: 1px solid #e6e6e6;">
+
+                                            <% if(typeof(data['sf'])== 'undefined') {%>
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"  style="color:#666666";>按人气<i class="caret"></i></a>
+                                            <% } %>
+
+                                            <% if(typeof(data['sf'])!= 'undefined' && data['sf']!= '人气') {%>
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"  style="color:#666666;">按人气<i class="caret"></i></a>
+                                            <% } %>
+
+                                            <% if(typeof(data['sf'])!= 'undefined' && data['sf']== '人气') {%>
+                                                <% if(paginator.sv != "ASC" && paginator.sf == "人气") {%>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#237935;">按人气<i class="fa fa-long-arrow-down"></i><i class="caret"></i></a>
+                                                <% } else {%>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#237935;">按人气<i class="fa fa-long-arrow-up"></i><i class="caret"></i></a>
+                                                <% } %>
+                                            <% } %>
+
+                                            <ul class="dropdown-menu">
+                                                <% var paginatorData = {
+                                                    url : "goods?",
+                                                    sf : "人气",
+                                                    sv : "ASC",
+                                                    p : 1,
+                                                    paginator : paginator
+                                                };
+                                                %>
+                                                <li><a class="<%= decodeURIComponent(paginator.sf)=='人气'?'activeSort sortDown':'' %> sortBtn " onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">
+                                                        按人气  <i class="fa fa-long-arrow-up"></i>
+                                                    </a>
+                                                </li>
+                                                <% var paginatorData = {
+                                                    url : "goods?",
+                                                    sf : "人气",
+                                                    p : 1,
+                                                    sv : "DESC",
+                                                    paginator : paginator
+                                                };
+                                                %>
+                                                <li><a class="<%= decodeURIComponent(paginator.sf)=='人气'?'activeSort sortUp':'' %> sortBtn " onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">
+                                                        按人气  <i class="fa fa-long-arrow-down"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li id="fat-menu" class="dropdown fat-menu-newbox" style="border-right: 1px solid #e6e6e6;">
+
+                                            <% if(typeof(data['sf'])== 'undefined') {%>
+                                                <a  href="#" class="dropdown-toggle" data-toggle="dropdown"  style="color:#666666;">按价格<i class="caret"></i></a>
+                                            <% } %>
+
+                                            <% if (typeof(data._userInfo) === "undefined"  || data._userInfo.clientId == null){ %>
+
+                                                <% if(typeof(data['sf'])!= 'undefined' && data['sf']!= '零售价格') {%>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"  style="color:#666666;">按价格<i class="caret"></i></a>
+                                                <% } %>
+
+                                                <% if(typeof(data['sf'])!= 'undefined' && data['sf']== '零售价格') {%>
+                                                    <% if(paginator.sv != "ASC" && paginator.sf == "零售价格") {%>
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#237935;">按价格<i class="fa fa-long-arrow-down"></i><i class="caret"></i></a>
+                                                    <% } else {%>
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#237935;">按价格<i class="fa fa-long-arrow-up"></i><i class="caret"></i></a>
+                                                    <% } %>
+                                                <% } %>
+
+                                            <% } else {%>
+
+                                                <% if(typeof(data['sf'])!= 'undefined' && data['sf']!= '客户价格') {%>
+                                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"  style="color:#666666;">按价格<i class="caret"></i></a>
+                                                <% } %>
+
+                                                <% if(typeof(data['sf'])!= 'undefined' && data['sf']== '客户价格') {%>
+                                                    <% if(paginator.sv != "ASC" && paginator.sf == "客户价格") {%>
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#237935;">按价格<i class="caret"></i><i class="fa fa-long-arrow-down"></i></a>
+                                                    <% } else {%>
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#237935;">按价格<i class="caret"></i><i class="fa fa-long-arrow-up"></i></a>
+                                                    <% } %>
+                                                <% } %>
+
+                                            <% } %>
+
+
+                                            <ul class="dropdown-menu">
+                                                <% if (typeof(data._userInfo) === "undefined"  || data._userInfo.clientId == null){ %>
+                                                    <% var paginatorData = {
+                                                        url : "goods?",
+                                                        sf : "零售价格",
+                                                        p : 1,
+                                                        sv : "ASC",
+                                                        paginator : paginator
+                                                    };
+                                                    %>
+                                                    <li><a class="<%= (decodeURIComponent(paginator.sf)=='零售价格') ? 'activeSort sortDown' : '' %> sortBtn" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">
+                                                            按价格  <i class="fa fa-long-arrow-up"></i>
+                                                        </a>
+                                                    </li>
+                                                    <% var paginatorData = {
+                                                        url : "goods?",
+                                                        sf : "零售价格",
+                                                        p : 1,
+                                                        sv : "DESC",
+                                                        paginator : paginator
+                                                    };
+                                                    %>
+                                                    <li><a class="<%= (decodeURIComponent(paginator.sf)=='零售价格') ? 'activeSort sortUp' : '' %> sortBtn" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">
+                                                            按价格  <i class="fa fa-long-arrow-down"></i>
+                                                        </a>
+                                                    </li>
+
+                                                <% } else {%>
+
+                                                    <% var paginatorData = {
+                                                        url : "goods?",
+                                                        sf : "客户价格",
+                                                        sv : "ASC",
+                                                        p : 1,
+                                                        paginator : paginator
+                                                    };
+                                                    %>
+                                                    <li><a class="<%= (decodeURIComponent(paginator.sf)=='客户价格') ? 'activeSort sortDown' : '' %> sortBtn" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">
+                                                            按价格  <i class="fa fa-long-arrow-up"></i>
+                                                        </a>
+                                                    </li>
+                                                    <% var paginatorData = {
+                                                        url : "goods?",
+                                                        sf : "客户价格",
+                                                        sv : "DESC",
+                                                        p : 1,
+                                                        paginator : paginator
+                                                    };
+                                                    %>
+                                                    <li> <a class="<%= (decodeURIComponent(paginator.sf)=='客户价格') ? 'activeSort sortUp' : '' %> sortBtn" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)">
+                                                            按价格  <i class="fa fa-long-arrow-down"></i>
+                                                        </a>
+                                                    </li>
+                                                <% } %>
+                                            </ul>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <div class="sort-right">
+                                    <div>
+                                        <% if(paginator.cbv==true){%>
+                                        <% var paginatorData = {
+                                            url : "goods?",
+                                            cbf : "基药",
+                                            cbv : "",
+                                            p : 1,
+                                            paginator : paginator
+                                        };
+                                        %>
+                                        <a class="activeSort sortBtn" title="基药" style="margin-left:10px" >
+                                            <div class="checkbox" style="padding:0;margin: 0;">
+                                                <label  onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)" style="margin-top: -5px;">
+                                                    <input type="checkbox" value="" checked/>
+                                                </label>
+                                            </div>
+                                            <span>基药标志</span>
+                                        </a>
+                                        <% } else {%>
+                                        <% var paginatorData = {
+                                            url : "goods?",
+                                            cbf : "基药",
+                                            cbv : "true",
+                                            p : 1,
+                                            paginator : paginator
+                                        };
+                                        %>
+                                        <a class="sortBtn sortBtn-border" title="基药" style="margin-left:10px" >
+                                            <div class="checkbox" style="padding: 0;margin: 0;">
+                                                <label  onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)" style="margin-top: -5px;">
+                                                    <input type="checkbox" value=""/>
+                                                </label>
+                                            </div>
+                                            <span>基药标志</span>
+                                        </a>
+                                        <% } %>
+                                    </div>
+
+                                    <div>
+                                        <% if(paginator.ccv==true){%>
+                                        <% var paginatorData = {
+                                            url : "goods?",
+                                            ccf : "医保",
+                                            ccv : "",
+                                            p : 1,
+                                            paginator : paginator
+                                        };
+                                        %>
+                                        <a class="activeSort sortBtn" title="医保" >
+                                            <div class="checkbox" style="padding: 0;margin: 0;">
+                                                <label  onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)" style="margin-top: -5px;">
+                                                    <input type="checkbox" value="" checked/>
+                                                </label>
+                                            </div>
+                                            <span>医保标志</span>
+                                        </a>
+                                        <% } else {%>
+                                        <% var paginatorData = {
+                                            url : "goods?",
+                                            ccf : "医保",
+                                            ccv : "true",
+                                            p : 1,
+                                            paginator : paginator
+                                        };
+                                        %>
+                                        <a class="sortBtn sortBtn-border" title="医保">
+                                            <div class="checkbox" style="padding: 0;margin: 0;">
+                                                <label  onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)" style="margin-top: -5px;">
+                                                    <input type="checkbox" value=""/>
+                                                </label>
+                                            </div>
+                                            <span>医保标志</span>
+                                        </a>
+                                        <% } %>
+                                    </div>
+
+                                    <div>
+                                        <% if(paginator.cdv==true){%>
+                                        <% var paginatorData = {
+                                            url : "goods?",
+                                            cdf : "处方",
+                                            cdv : "",
+                                            p : 1,
+                                            paginator : paginator
+                                        };
+                                        %>
+                                        <a class="activeSort sortBtn" title="处方" >
+                                            <div class="checkbox" style="padding: 0;margin: 0;">
+                                                <label onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)" style="margin-top: -5px;">
+                                                    <input type="checkbox" value="" checked/>
+                                                </label>
+                                            </div>
+                                            <span>处方标志</span>
+                                        </a>
+                                        <% } else {%>
+                                        <% var paginatorData = {
+                                            url : "goods?",
+                                            cdf : "处方",
+                                            cdv : "true",
+                                            p : 1,
+                                            paginator : paginator
+                                        };
+                                        %>
+                                        <a class="sortBtn sortBtn-border" title="处方" >
+                                            <div class="checkbox" style="padding: 0;margin: 0;">
+                                                <label onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)" style="margin-top: -5px;">
+                                                    <input type="checkbox" value=""/>
+                                                </label>
+                                            </div>
+                                            <span>处方标志</span>
+                                        </a>
+                                        <% } %>
+                                    </div>
+
+                                    <div>
+                                        <% if(paginator.cfv==true){%>
+                                        <% var paginatorData = {
+                                            url : "goods?",
+                                            cff : "可拆零",
+                                            cfv : "",
+                                            p : 1,
+                                            paginator : paginator
+                                        };
+                                        %>
+                                        <a class="activeSort sortBtn" title="可拆零" >
+                                            <div class="checkbox" style="padding: 0;margin: 0;">
+                                                <label onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)" style="margin-top: -5px;">
+                                                    <input type="checkbox" value="" checked/>
+                                                </label>
+                                            </div>
+                                            <span>可拆零</span>
+                                        </a>
+                                        <% } else {%>
+                                        <% var paginatorData = {
+                                            url : "goods?",
+                                            cff : "可拆零",
+                                            cfv : "true",
+                                            p : 1,
+                                            paginator : paginator
+                                        };
+                                        %>
+                                        <a class="sortBtn sortBtn-border" title="可拆零" >
+                                            <div class="checkbox" style="padding: 0;margin: 0;">
+                                                <label onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)" style="margin-top: -5px;">
+                                                    <input type="checkbox" value=""/>
+                                                </label>
+                                            </div>
+                                            <span>可拆零</span>
+                                        </a>
+                                        <% } %>
+                                    </div>
+                                    <%
+                                    paginator.kav = (paginator.kav == "%") ? "" : paginator.kav;
+                                    paginator.kbv = (paginator.kbv == "%") ? "" : paginator.kbv;
+                                    %>
+                                </div>
+                            </aside>
+                            <!--Item-->
+
+                            <table class="sm-page-table">
+                                <thead class="head-wight">
+                                <tr>
+                                    <td class="goods-info"><strong>商品信息</strong></td>
+                                    <td><strong>单价/库存</strong></td>
+                                    <td><strong>批发包装</strong></td>
+                                    <td><strong>购买数量</strong></td>
+                                    <td><strong>操作</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% for(var i in data.products ){ %>
+                                <% var item = data.products[i]; %>
+                                <tr>
+                                    <td class="goods-info" style="width: 45%">
+                                        <div class="goods-img">
+                                            <img src="<%=(typeof(item.imageUrl)=="undefined"||item.imageUrl==null)?"/static/img/shop/cart/01.jpg":item.imageUrl %>"/>
+                                        </div>
+                                        <div class="goods-name-info" style="width: 40%">
+                                            <h6 style="width: 200%"><a href="/goods/detail?goodsId=<%=item.id%>"><%=item.commonName%></a></h6>
+                                            <h6 style="width: 150%;"><%=item.producer%></h6>
+                                            <h6><%= item.spec%>/<%= item.measureUnit %></h6>
+                                            <div class="goods-name-box">
+                                                <%if(item.isNationalMedicine == "1"){%>
+                                                    <div class="base-medical-sign" title="国家基本药品">基</div>
+                                                <% } else {%>
+                                                <% } %>
+
+                                                <%if(item.isMedicalInsuranceDrugs == "1"){%>
+                                                    <div class="medical-sign" title="医保药品">医</div>
+                                                <% } else {%>
+                                                <% } %>
+
+                                                <%if(item.isPrescriptionDrugs == "1"){%>
+                                                    <div class="prescriptions-sign" title="处方药品">处</div>
+                                                <% } else {%>
+                                                <% } %>
+
+                                                <% if (item.isSplit=="1") { %>
+                                                    <div class="dismantle-sign" title="可拆零">拆</div>
+                                                <% } else {%>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-mcolor">
+                                        <%if(item.refRetailPrice || item.clientGoodsPrice){%>
+                                        <% if (typeof(data._userInfo) === "undefined" || data._userInfo.clientId == null){ %>
+                                        <% if(Number(item.refRetailPrice) != 0){%>
+                                        &yen;<label id="price_<%= i %>" style="font-size: 14px"><%= Number(item.refRetailPrice).toFixed(data.pointDigit.DEFAULT) %></label>
+                                        <% } else {%>
+                                        暂无
+                                        <% } %>
+                                        <% }else{ %>
+                                        <% if(Number(item.clientGoodsPrice) != 0){%>
+                                        &yen;<label id="price_<%= i %>" style="font-size: 14px"><%= Number(item.clientGoodsPrice).toFixed(data.pointDigit.DEFAULT) %></label>
+                                        <% } else {%>
+                                        暂无
+                                        <% } %>
+                                        <% } %>
+                                        <% } else {%>
+                                        暂无
+                                        <% } %>
+                                        <h6 class="goods_storage">库存：<%= item.content %></h6>
+                                    </td>
+                                    <td>
+                                        <%= item.middlePackNum %><%= item.measureUnit %> / 件
+                                    </td>
+                                    <td>
+                                        <div class="goods-number">
+                                            <div class="qnt-count qnt-count-res">
+                                                <% var defaultNum = item.isSplit == 1 ? 1 : item.middlePackNum %>
+                                                <div class="box-left">
+                                                    <input storage="<%= (item.negSell == 1)?"-1":item.storage %>" defaultNum="<%= defaultNum%>" isSplit = "<%=item.isSplit %>" id="quantity_<%= i %>" type="text" value="<%= defaultNum %>">
+                                                </div>
+                                                <div class="box-right">
+                                                    <div>
+                                                        <a class="fa fa-plus" defaultNum="<%= defaultNum%>" isSplit=<%= item.isSplit%> pack="1" id="changeQuantity_<%= i %>" type="increase"></a>
+                                                    </div>
+                                                    <div>
+                                                        <a class="fa fa-minus inactive" defaultNum="<%= defaultNum%>" isSplit=<%= item.isSplit%> pack="1"   id="changeQuantity_<%= i %>" type="decrease"></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <% var isLogin = !(typeof(data._userInfo) === "undefined"); %>
+                                    <td class="goods-shopping">
+                                        <%if(data._userInfo&&data._userInfo.operatorType =="CUSTOMER"){%>
+                                        <div class="operationList">
+                                            <a class="tooltipped" title="加入购物车" data-toggle="tooltip" data-placement="left">
+                                                <i class="fa fa-shopping-cart" style="color:grey"></i>
+                                            </a>
+                                            <a class="tooltipped" title="加入常购清单" data-toggle="tooltip" data-placement="bottom">
+                                                <i class="fa fa-star-o text-gcolor"></i>
+                                            </a>
+                                        </div>
+                                        <%}else{%>
+                                        <div class="operationList">
+                                            <a data-checkLogin="<%= isLogin%>" goodsId="<%= item.id %>" class="tooltipped" id="goodsToCart_<%= i %>" title="加入购物车" data-toggle="tooltip" data-placement="left">
+                                                <i class="fa fa-shopping-cart text-primary"></i>
+                                            </a>
+                                            <a data-checkLogin="<%= isLogin%>" goodsId="<%= item.id %>" class="tooltipped addList" title="加入常购清单" data-toggle="tooltip" data-placement="bottom">
+                                                <i class="fa fa-star-o text-gcolor"></i>
+                                            </a>
+                                        </div>
+                                        <%}%>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <% var url = "goods?"%>
+                    <% include ../_paginator.ejs%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% include ../_nav_bottom.ejs%>
+</div>
+<% include ../footer.ejs %>

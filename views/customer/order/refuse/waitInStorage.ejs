@@ -1,0 +1,264 @@
+<% include ../../header.ejs%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../../_nav_head.ejs%>
+        <!--Header Close-->
+
+        <!--Page Content--><!-- InstanceBeginEditable name="content" -->
+        <div class="page double-padding-bottom">
+
+            <div class="container page-content">
+                <div class="row">
+                    <div style="position: fixed;z-index: 111;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+                    </div>
+                    <div style="font-size: 14px;padding: 4px;display:none;width:700px;height:900px" id="selectGoods">
+                        <div class="page-content space-top">
+                            <section class="page-content-right">
+                                <aside class="page-content-right-head">
+                                    <label>添加拒收发货</label>
+                                </aside>
+                                <div class="form" style="padding:30px">
+                                    <div class="row" style="margin-top:10px">
+                                        <span class="col-sm-3">批次号:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                        <input class="col-sm-9 inputBatchNum" type="text"  disabled/>
+                                    </div>
+                                    <div class="row" style="margin-top:20px">
+                                        <span class="col-sm-3">生产日期:</span>
+                                        <input class="col-sm-9  waitShipGoodsProducedDate inputGoodsProduceDate"  disabled type="text" id="productDate" />
+                                    </div>
+                                    <div class="row" style="margin-top:20px">
+                                            <span class="col-sm-3">
+                                                有效期至:
+                                            </span>
+                                        <input class="col-sm-9  waitShipGoodsValidDate inputGoodsValidDate" disabled type="text"  id="quanlityDate"/>
+                                    </div>
+                                    <div class="row" style="margin-top:20px">
+                                        <div class="col-sm-3" style="display: inline">
+                                            <label style="vertical-align: middle;">数量：</label>
+                                        </div>
+                                        <div class="col-sm-4" style="display: inline;">
+                                            <div style="display:inline-block">
+                                                <!--<div>
+                                                    <a class="incr-btn fa fa-minus-circle inactive subA" data-action="decrease" id="skumin_lgnum_0" href=""></a>
+                                                    <p class="quantity" type="text" style="display: inline-flex;width: auto;margin: 0;line-height: 0;">
+                                                        [<label id="lgNum"></label><label id="lgUnit"></label>/大包]
+                                                    </p>
+                                                    <a class="incr-btn fa fa-plus-circle incA" data-action="increase" id="skuplus_lgnum_0" href="#"></a>
+
+                                                </div>-->
+                                                <div>
+                                                    <a class="incr-btn fa fa-minus-circle inactive subA" data-action="decrease" id="skumin_midnum_0" href="#"></a>
+                                                    <p class="quantity" type="text" style="display: inline-flex;width: auto;margin: 0;line-height: 0;">
+                                                        [<label id="midNum"></label><label id="midUnit"></label>/件]
+                                                    </p>
+                                                    <a class="incr-btn fa fa-plus-circle incA" data-action="increase" id="skuplus_midnum_0" href="#"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4" style="display:inline">
+                                            <div style="display:inline">
+                                                <a  class="quantity_change subNumShip " type="decrease" quantity="1"  href="#"><i class="fa fa-angle-left inactive font"></i></a>
+                                                <input class="inputQuantity" type="text"  value="1" style="width:90px;text-align: center;">
+                                                <a class="quantity_change incNumShip" type="increase" quantity="1"   href="#"> <i class=" fa fa-angle-right font"></i></a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="margin-top:20px">
+                                        <div class="col-sm-3" style="display: inline">
+                                            <label style="vertical-align: top;">电子监管码：</label>
+                                        </div>
+                                        <textarea name="" style="height:150px;resize:none" id="" class="inputDrugESC col-sm-9"></textarea>
+                                    </div>
+
+                                    <div class="row" style="margin-top:20px">
+                                        <div class="col-sm-3" style="display: inline">
+                                            <label style="vertical-align: top;">质检报告(附件):</label>
+                                        </div>
+                                        <div class="col-sm-9" style="padding: 0">
+                                            <form class="form-signin" role="form" method="post" enctype='multipart/form-data' target="picture" style="display: none">
+                                                <div class="fileContainer">
+                                                    <ul>
+                                                    </ul>
+                                                </div>
+                                            </form>
+                                            <span style="display: none">暂无质检报告信息</span>
+                                        </div>
+                                    </div>
+                                    <div class=" pull-right">
+                                        <a class="btn btn-primary" id="confirmRejectItem">确认</a>
+                                        <a class="btn btn-primary closeIframeGuide">取消</a>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar-->
+                    <% include ../../_order_sidebar.ejs%>
+
+                    <% var refuseCommon = data.refuseDetails[0]%>
+
+                    <div class="col-md-10 pull-right  space-bottom">
+                        <section class="space-top">
+                            <div class="page-content-right">
+                                <aside class="page-content-right-head">
+                                    <label>拒收单号：<%=refuseCommon.rejectId%>-拒收待发货</label>
+                                </aside>
+                                <table class="table page-table" style="table-layout: auto">
+                                    <thead>
+                                    <tr>
+                                        <td class="goods-name-info goods-info-img"><strong>商品信息</strong></td>
+                                        <td><strong>货号</strong></td>
+                                        <td><strong>拒收数量</strong></td>
+                                        <td><strong>拒收发货数量</strong></td>
+                                        <td><strong>[批次]/数量/单位</strong></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% var oldGoodsId = "";%>
+                                    <% for(var i in data.refuseDetails){%>
+                                    <% var item = data.refuseDetails[i]%>
+                                    <%if(oldGoodsId != item.goodsId){%>
+                                        <% oldGoodsId = item.goodsId%>
+                                        <tr id="batch_goods_<%= item.goodsId%>">
+                                            <td>
+                                                <div class="goods-img">
+                                                    <img src="<%=item.imageUrl%>"/>
+                                                </div>
+                                                <div class="goods-info">
+                                                    <h6><a href="/goods/detail?goodsId=<%=item.goodsId%>"><%=item.commonName%>
+                                                            <%if(item.alias){%>
+                                                            (<%=item.alias%>)
+                                                            <%}%>
+                                                        </a>
+                                                    </h6>
+                                                    <h6><%=item.producer%></h6>
+                                                    <h6><%=item.spec%></h6>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <%=item.goodsNo%>
+                                            </td>
+                                            <% var totalRefuseNum = 0 %>
+                                            <% for(var j in data.refuseDetails){%>
+                                            <%if(data.refuseDetails[j].goodsId == item.goodsId){%>
+                                            <% totalRefuseNum+= data.refuseDetails[j].quantity%>
+                                            <%}%>
+                                            <%}%>
+                                            <td>
+                                                <label id="totalRefuseNum_<%= item.goodsId%>"><%=totalRefuseNum%></label>
+                                                <input type="hidden" class="maxReceivedNum_<%=item.goodsId%>" value="<%=totalRefuseNum%>"
+                                                       largePackNum="<%=item.largePackNum%>" largePackUnit="<%=item.largePackUnit%>"
+                                                       middlePackNum="<%=item.middlePackNum%>" middlePackUnit="<%=item.middlePackUnit%>"
+                                                        >
+                                            </td>
+                                            <td>
+                                                <label class="font-green" id="currentRefuseShipTotalNum_<%= item.goodsId%>"><%= totalRefuseNum%></label>
+                                            </td>
+                                            <td>
+                                                <% for(var k in data.refuseDetails){%>
+                                                <%if(data.refuseDetails[k].goodsId == item.goodsId){%>
+                                                <% var batchItem = data.refuseDetails[k]%>
+                                                <div class="ship-operator" name="batch_<%= item.goodsId%>_<%=batchItem.batchNum%>">
+                                                    <div>
+                                                        [<span><%=batchItem.batchNum%></span>]/
+                                                        <span name="quantity"><%=batchItem.quantity%></span>
+                                                        <span><%=batchItem.measureUnit%></span>
+                                                    </div>
+                                                    <div>
+                                                        <a class="tooltipped click-link" id="clientDisplayRejectInfo_<%= item.goodsId%>_<%= batchItem.batchNum%>" title="修改" data-toggle="tooltip" data-placement="left"
+                                                           batchnum="<%=batchItem.batchNum%>"
+                                                           goodsid="<%=item.goodsId%>"
+                                                           applyrejectbatchqty="<%=batchItem.quantity%>"
+                                                           currentrefuseshiptotal="<%= totalRefuseNum%>"
+                                                           currentbatchqty="<%=batchItem.quantity%>"
+                                                           produceDate="<%=batchItem.goodsProduceDate%>"
+                                                           validDate="<%=batchItem.goodsValidDate%>"
+                                                           drugESC="<%=batchItem.drugESC%>"
+                                                           inspectReportURL="<%=batchItem.inspectReportURL%>">
+                                                            <i class="fa fa-pencil-square-o-square-o"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                                <% } %>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                    <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                        <section class="page-content-right space-top">
+                            <aside class="page-content-right-head panel-title" style="font-size: inherit">
+                                <label>拒收信息</label>
+                            </aside>
+                                <div class="row" style="margin-bottom:20px;">
+                                    <div class="col-sm-4" style="padding-left:23px">［发货单号］
+                                        <%=refuseCommon.shipId%>
+                                    </div>
+                                    <div class="col-sm-4" style="padding-left:23px">［拒收日期］
+                                        <%=refuseCommon.createdOn%>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:20px">
+                                    <div class="col-sm-2" style="padding-left:23px">［物流公司］</div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <input type="text" id="inputLogisticsCompany"/>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-2">［物流单号］</div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <input type="text" id="inputLogisticsNo"/>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:20px">
+                                    <div class="col-sm-2" style="padding-left:23px">［拒收备注］</div>
+                                    <div class="col-sm-10">
+                                        <label for="shipRemark" style="width: 80%">
+                                            <textarea name="" id="shipRemark" placeholder="添加备注" style="resize:none;width: 100%" rows="6"></textarea>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2" style="display: inline">
+                                        <label style="vertical-align: top;padding-left:23px">［附件］</label>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <% include ../../inportFile.ejs %>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:20px">
+                                    <div class="col-sm-2" style="padding-left:23px"></div>
+                                    <div class="col-sm-10">
+                                        <span style="color:red">*如收货数量与发货数量不同,请备注原因</span>
+                                    </div>
+                                </div>
+                        </section>
+                        <div class="pull-right">
+                            <a class="btn btn-primary" href="/order/refuse?type=create">暂存</a>
+                            <button class="btn btn-primary " id="refuseSend" orderId="<%= refuseCommon.orderId%>" rejectId="<%= refuseCommon.rejectId%>">确认发货</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Page Content Close-->
+    </div><!--Layout Close-->
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include ../../footer.ejs %>
+<script type="text/javascript" src="/static/source/js/client/reject.js"></script>

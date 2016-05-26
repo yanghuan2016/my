@@ -1,0 +1,152 @@
+<%
+/*
+ # Copyright © 2015
+ # -----------------------------------------------------------------
+ */
+%>
+<% var active = "product_setting"; %>
+<% include ../../header.ejs%>
+<style>
+    body{
+        background-color: transparent !important;
+    }
+</style>
+<div style="font-size: 14px;padding: 4px;">
+    <div class="page-content space-top">
+        <section class="page-content-right">
+            <aside class="page-content-right-head">
+                <label>新增方案</label>
+            </aside>
+            <div style="padding: 10px;">
+                <h5>方案名称:</h5>
+                <input type="text" name="" id="planName" class="input-sm" style="height: 30px" placeholder="请输入方案的名称">
+                <h5>阈值修改:</h5>
+                <form style="border: 1px solid #999999;padding: 10px; overflow-y:auto;height:195px ">
+                    <label>当数量低于</label>
+                    <input type="text" id="numLv0" class="input-sm" style="height: 30px" value="0" disabled="disabled">
+                    <label>时显示</label>
+                    <input type="text"  id="textLv0" class="input-sm" style="height: 30px" placeholder="缺货" value=""><br/>
+                    <label>当数量低于</label>
+                    <input type="text"  id="numLv1" class="input-sm" style="height: 30px" placeholder="请输入数字，例如50">
+                    <label> 时显示</label>
+                    <input type="text" id="textLv1" class="input-sm" style="height: 30px" placeholder="紧张"><br/>
+                    <label >当数量低于</label>
+                    <input type="text"  id="numLv2" class="input-sm" style="height: 30px" placeholder="请输入数字，例如100">
+                    <label >时显示</label>
+                    <input type="text"  id="textLv2" class="input-sm" style="height: 30px" placeholder="少量"><br/>
+                    <a class="btn btn-primary addCustomerInventoryPlay"><i class="fa fa-plus">添加</i> </a><br/>
+                    <label >其他数量时显示</label><input type="text"  id="textLvX" class="input-sm" style="height: 30px" placeholder="充足">
+                </form>
+                <br/>
+                <a class="btn btn-primary addInventoryPlan" style="padding: 10px !important;">确定</a>
+                <a class="btn btn-primary closeIframeGuide" style="padding: 10px !important;">取消</a>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="/static/js/jquery1.11.3/jquery.min.js"></script>
+<script src="/static/js/dialog-min.js"></script>
+<script src="/static/source/js/dialog.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $(document).delegate(".addInventoryPlan", "click", function () {
+            var data = {};
+            var planName = $("#planName").val();
+            data.planName = planName;
+            var num0 = $("#numLv0").val();
+            var text0 = $("#textLv0").val();
+            var keys = [num0];
+            var vals = [text0];
+            $("*[id^=numLv]").each(function(){
+                var index = (this.id).split("Lv")[1];
+                if(index>0 && index != "X"){
+                    keys.push($("#numLv"+index).val());
+                }
+            });
+            $("*[id^=textLv]").each(function(){
+                var index = (this.id).split("Lv")[1];
+                if(index>0 && index != "X"){
+                    vals.push($("#textLv"+index).val());
+                }
+            });
+            var numX = "X";
+            var textX = $("#textLvX").val();
+            keys.push(numX);
+            vals.push(textX);
+            if(planName ==""||text0 == "" || textX ==""){
+                artDialogAlertModal('方案名，数量低于0与其他数量显示内容不能为空');
+                return;
+            }
+            data.inventoryKeys = keys;
+            data.inventoryVals = vals;
+            $.ajax({
+                data:data,
+                url: "/customer/system/inventory/add",
+                type: 'post',
+                dataType: 'json',
+                cache: false,
+                timeout: 5000,
+                success: function (feedback) {
+                    if(feedback.status == "200"){
+                        artDialogAlertModal(feedback.msg,function(){
+
+                            $(window.parent.document).find('.fadeDiv').css('display', 'none');
+                            $(window.parent.document).find("#selectGoods").css('display', 'none');
+                            $(window.parent.document).find("#addSubCategory").css('display', 'none');
+                            $(window.parent.document).find("#editSubCategory").css('display', 'none');
+                            window.parent.location.reload();
+                        })
+                    }else{
+                        artDialogAlertModal(feedback.msg,function(){
+                            $(window.parent.document).find('.fadeDiv').css('display', 'none');
+                            $(window.parent.document).find("#selectGoods").css('display', 'none');
+                            $(window.parent.document).find("#addSubCategory").css('display', 'none');
+                            $(window.parent.document).find("#editSubCategory").css('display', 'none');
+                        })
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    artDialogAlertModal('error ' + jqXHR.readyState + " " + jqXHR.responseText);
+                }
+            });
+
+        });
+        $(document).delegate('.addCustomerInventoryPlay','click',function(){
+            var self =$(this);
+            var inputTag;
+            if(self.prev('div').length==0)
+            {
+                inputTag=self.prevAll('input').eq(0);
+            }
+            else{
+                inputTag=self.prev().find('input').eq(1);
+            }
+
+            //get Id
+            var inputTagId=inputTag.attr('id');
+            var numStr=inputTagId.substr(inputTagId.indexOf('v')+1,inputTagId.length);
+            var newElementNumId=Number(numStr)+1;
+            var str=
+                    '<div><label>当数量低于</label>&nbsp;'+
+                    '<input type="text"  id="numLv'+newElementNumId+'" class="input-sm" style="height: 30px" placeholder="请输入数字，例如100">'+
+                    '&nbsp;<label>时显示</label>&nbsp;'+
+                    '<input type="text"  id="textLv'+newElementNumId+'" class="input-sm" style="height: 30px" placeholder="少量">'+
+                    '<a class="deleteCustomerInventoryPlan" href="javascript:void(0)"><i class="fa fa-remove" title="删除该条阀值设置"></i></a></div>';
+
+            self.before($(str));
+
+        });
+        $(document).delegate('.closeIframeGuide','click', function(){
+            $(this).closest("li").removeClass("active");
+            $(this).closest("ul").find("li").first().addClass("active");
+            $(window.parent.document).find('.fadeDiv').css('display', 'none');
+            $(window.parent.document).find("#selectGoods").css('display', 'none');
+            $(window.parent.document).find("#addSubCategory").css('display', 'none');
+            $(window.parent.document).find("#editSubCategory").css('display', 'none');
+        });
+    })
+</script>
+
+
+

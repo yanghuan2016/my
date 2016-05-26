@@ -1,0 +1,176 @@
+<% include ../../customer/header.ejs %>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div>
+        <!--Layout-->
+    <div class="site-layout">
+            <!--If you add class "boxed" to .site-layout it wraps the whole document in a box, than you can simply add pattern background to body or leave it white. Please note in a "boxed" mode header doesn't stick to the top.-->
+            <!--Header Toolbar-->
+            <% include ../../customer/_nav_top.ejs %>
+            <!--Header Toolbar Close-->
+            <% include ../../customer/_nav_head.ejs %>
+            <!--Page Content--><!-- InstanceBeginEditable name="content" -->
+            <div class="page">
+
+                <div class="container">
+                    <div class="row">
+
+                        <!--Sidebar-->
+                        <% var active = "order"; %>
+                        <% include ../../customer/_order_sidebar.ejs %>
+                        <!--Sidebar Close-->
+
+                        <section class="col-md-10 space-top space-bottom">
+                            <div class="filterDiv">
+                                <div class="filterHead">
+                                    <div>筛选：</div>
+                                    <div class="defaultdropdown">
+                                        <div class="btn-group" data="<%= JSON.stringify(paginator)%>">
+                                            <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span><% if(paginator.cv != "%") {%>
+                                                <%= data._translation.OrderStatus[paginator.cv]%>
+                                                <% } else {%>
+                                                全部状态
+                                                <% } %></span>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <% var paginatorNull = {
+                                                        url: "order",
+                                                        paginator: {}
+                                                    }%>
+                                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorNull)%>)">全部状态</a>
+                                                </li>
+                                                <% for(var key in data._translation.OrderStatus){%>
+                                                <li>
+                                                    <% var paginatorData = {
+                                                        url : "order?",
+                                                        cf : "diliveryStatus",
+                                                        cv : key,
+                                                        p : 1,
+                                                        paginator : paginator
+                                                    };
+                                                    %>
+                                                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%= data._translation.OrderStatus[key]%></a>
+                                                </li>
+                                                <% } %>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%
+                                var paginator_keywordsValue = '';
+                                if (typeof paginator != 'undefined') {
+                                    if (typeof paginator.kv != 'undefined') {
+                                        paginator_keywordsValue = (paginator.kv == "%") ? "" : paginator.kv;
+                                    }
+                                }
+                                %>
+                                <% var placeholder = "请输入订单号"%>
+                                <% var paginatorData = {
+                                    url : "order?",
+                                    p : 1,
+                                    kv : 'keywordsValueToBeReplaced',
+                                    paginator : paginator
+                                };
+                                %>
+                                <% include ../../customer/public/filterInput.ejs%>
+                            </div>
+                            <div class="space-top">
+                                <table class="sm-page-table">
+                                    <thead>
+                                    <tr>
+                                        <td><strong>订单号</strong></td>
+                                        <td><strong>订单时间</strong></td>
+                                        <td><strong>支付金额</strong></td>
+                                        <%if(data._client.paymentType=="ONLINE"){%>
+                                        <td style="display:none"><strong>支付状态</strong></td>
+                                        <%}%>
+                                        <td><strong>订单状态</strong></td>
+                                        <td class="text-end"><strong>操作</strong></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% if(data.orders.length > 0){ %>
+                                    <% for(var i in data.orders){ %>
+                                    <% var item = data.orders[i]; %>
+                                    <tr>
+                                        <%if(data._client.paymentType=="ONLINE"){%>
+                                        <td>
+                                            <a href="/order/detail?orderId=<%= item.id %>&paystatus=<%= item.paymentStatus%>"><%= item.displayOrderId %></a>
+                                        </td>
+                                        <%}else{%>
+                                        <td>
+                                            <a href="/order/detail?orderId=<%= item.id %>&paystatus=<%= data._client.paymentType%>"><%= item.displayOrderId %></a>
+                                        </td>
+                                        <%}%>
+                                        <td>
+                                            <%= item.createdTime %>
+                                        </td>
+                                        <td>
+                                            &yen;<%= item.total.toFixed(2) %>
+                                        </td>
+                                        <%if(data._client.paymentType=="ONLINE"){%>
+                                        <td style="display:none">
+                                            <%if(item.paymentStatus=="PAID"){%>
+                                            已支付
+                                            <%}else{%>
+                                            待支付
+                                            <%}%>
+                                        </td>
+                                        <%}%>
+                                        <td>
+                                            <%= data._translation.OrderStatus[item.status]%>
+                                        </td>
+                                        <td class="fa-icon text-end">
+                                            <a href="/order/detail?orderId=<%= item.id %>&paystatus=<%= item.paymentStatus%>" class="tooltipped" title="查看" data-toggle="tooltip" data-placement="left">
+                                                <i class="fa fa-binoculars"></i>
+                                            </a>
+                                            <% if (item.status == "UNPAID"){%>
+                                            <a href="/order/payment?o=<%= item.id%>" class="tooltipped" title="去付款" data-toggle="tooltip" data-placement="left">
+                                                <i class="fa fa-credit-card"></i>
+                                            </a>
+                                            <a class="tooltipped clientCancelDialog" type="client" title="取消"  orderId="<%= item.id %>" data-toggle="tooltip" data-placement="left">
+                                                <i class="fa fa-times-circle"></i>
+                                            </a>
+                                            <% } else if(item.status == "SHIPPED") {%>
+                                            <a href="/order/detail?orderId=<%= item.id %>&paystatus=<%= item.paymentStatus%>" class="tooltipped" title="确认收货" data-toggle="tooltip" data-placement="left">
+                                                <i class="fa fa-archive"></i>
+                                            </a>
+                                            <a href="/order/detail?orderId=<%= item.id %>&paystatus=<%= item.paymentStatus%>" class="tooltipped" title="我要退货" data-toggle="tooltip" data-placement="bottom">
+                                                <i class="fa fa-truck"></i>
+                                            </a>
+                                            <% } else if(item.status == "FINISHED" || item.status == "RETURNED") {%>
+                                            <a href="/order/detail?orderId=<%= item.id %>&paystatus=<%= item.paymentStatus%>" class="tooltipped" title="我要退货" data-toggle="tooltip" data-placement="bottom">
+                                                <i class="fa fa-truck"></i>
+                                            </a>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                    <% } else { %>
+                                    <tr>
+                                        <td colspan="5" style="height: 200px">
+                                            <h4 class="blank-content">您目前没有新的订单信息</h4>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                        <% var url = "order?"%>
+                        <% include ../../customer/_paginator.ejs%>
+                    </div>
+                </div>
+            </div>
+            <!--Page Content Close-->
+        </div>
+    <% include ../../customer/_nav_bottom.ejs %>
+</div><!--Off-Canvas Close-->
+<% include ../../customer/footer.ejs %>

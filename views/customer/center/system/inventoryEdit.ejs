@@ -1,0 +1,102 @@
+<%
+/*
+ # Copyright © 2015
+ # -----------------------------------------------------------------
+ */
+%>
+<% var active = "product_setting"; %>
+<% include ../../header.ejs%>
+<style>
+    body{
+        background-color: transparent !important;
+    }
+</style>
+<div style="font-size: 14px;padding: 4px;">
+    <div class="page-content space-top">
+        <section class="page-content-right">
+            <aside class="page-content-right-head">
+                <label>修改方案</label>
+            </aside>
+            <div style="padding: 10px;">
+                <h5>方案名称:</h5>
+                <input type="text" name="" id="planName"  class="input-sm" style="height: 30px" placeholder="请输入方案的名称">
+                <h5>阀值修改:</h5>
+                <form style="border: 1px solid #999999;padding: 10px;" id="planForm">
+                </form>
+                <a class="btn btn-primary editInventoryPlan"style="padding: 10px !important;">修改</a>
+                <a class="btn btn-primary closeIframeGuide" style="padding: 10px !important;">取消</a>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="/static/js/jquery1.11.3/jquery.min.js"></script>
+<script src="/static/js/dialog-min.js"></script>
+<script src="/static/source/js/dialog.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $(document).delegate('.closeIframeGuide','click', function(){
+            $(this).closest("li").removeClass("active");
+            $(this).closest("ul").find("li").first().addClass("active");
+            $(window.parent.document).find('.fadeDiv').css('display', 'none');
+            $(window.parent.document).find("#selectGoods").css('display', 'none');
+            $(window.parent.document).find("#addSubCategory").css('display', 'none');
+            $(window.parent.document).find("#editSubCategory").css('display', 'none');
+        });
+        $(document).delegate(".editInventoryPlan", "click", function () {
+            var data = {};
+            var planName = $("#planName").val();
+            var planId = $("#planName").attr("planid");
+            var length = $("#planName").attr("length");
+            data.planName = planName;
+            data.planId = planId;
+            data.items = [];
+            for(var i=0;i<length-1;i++){
+                var item=[];
+                var element = $("#textLv"+i);
+                item.push(element.attr("detailsId"));
+                item.push(element.attr("threshold"));
+                item.push(element.val());
+                data.items.push(item)
+            }
+            var itemX = [$("#textLvX").attr("detailsId"),$("#textLvX").attr("threshold"),$("#textLvX").val()];
+            data.items.push(itemX);
+
+            if(planName ==""||$("#textLv0").val() == "" || $("#textLvX").val() ==""){
+                artDialogAlertModal('方案名，数量低于0与其他数量显示内容不能为空');
+                return;
+            }
+            $.ajax({
+                data:data,
+                url: "/customer/system/inventory/editSubCate",
+                type: 'post',
+                dataType: 'json',
+                cache: false,
+                timeout: 5000,
+                success: function (feedback) {
+                    if(feedback.status == "200"){
+                        artDialogAlertModal(feedback.msg,function(){
+
+                            $(window.parent.document).find('.fadeDiv').css('display', 'none');
+                            $(window.parent.document).find("#selectGoods").css('display', 'none');
+                            $(window.parent.document).find("#addSubCategory").css('display', 'none');
+                            $(window.parent.document).find("#editSubCategory").css('display', 'none');
+                            window.parent.location.reload();
+                        })
+                    }else{
+                        artDialogAlertModal(feedback.msg,function(){
+                            $(window.parent.document).find('.fadeDiv').css('display', 'none');
+                            $(window.parent.document).find("#selectGoods").css('display', 'none');
+                            $(window.parent.document).find("#addSubCategory").css('display', 'none');
+                            $(window.parent.document).find("#editSubCategory").css('display', 'none');
+                        })
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    artDialogAlertModal('error ' + jqXHR.readyState + " " + jqXHR.responseText);
+                }
+            });
+
+        });
+    })
+</script>

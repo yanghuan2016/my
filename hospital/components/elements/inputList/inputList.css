@@ -1,0 +1,15 @@
+:local(.leftItem){
+    width:19%;
+    display:inline-block;
+}
+:local(.rightItem){
+    width:81% !important;
+}
+:local(.container){
+    padding:0;
+    height:33px;
+    margin-bottom:3px;
+}
+:local(.subContainer){
+    margin-bottom:3px;
+}

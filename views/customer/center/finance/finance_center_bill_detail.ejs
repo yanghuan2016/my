@@ -1,0 +1,206 @@
+<% include ../../header.ejs%>
+<%
+var goodsType = data._goodsTypes.children;
+
+%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page double-padding-bottom">
+            <div class="container page-content">
+                <div class="row space-top">
+                    <% var active = "financeCenter"; %>
+                    <% include ../_nav_customer_left.ejs%>
+
+                    <section class="col-md-10 pull-right space-bottom">
+                        <div class="filterDivTab">
+                            <div class="tabList">
+                                <a href="/customer/bill/financecenter" class="itemActive">授信客户结款</a>
+                                <a href="/customer/bill/cod">货到付款结款</a>
+                                <a href="/customer/bill/bonusReports">红冲记录</a>
+                                <a href="/customer/bill/refundCheck">退款审核</a>
+                                <a href="/customer/bill/refundPerform">退款执行</a>
+                                <a href="/customer/bill/tradeDetail">交易明细</a>
+                            </div>
+                        </div>
+                        <div class="detail-client-name-container">
+                            <div class=" vertical-middle pull-left" >
+                                客户名称:
+                                <span class="detail-client-name"><%= data.clientCreditDetail.clientName%></span>
+                            </div>
+                            <div class=" vertical-middle pull-right">
+                                <div class="defaultdropdown" style="display:inline-block">
+                                    <div class="btn-group">
+                                        <button type="button" class="dropdown-toggle filter-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span id="spanGetStartYear"><%= data.chooseYear%></span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu getYears" style="height: 250px;overflow: scroll;overflow-x: hidden;">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="defaultdropdown" style="display:inline-block">
+                                    <div class="btn-group">
+                                        <button type="button" class="dropdown-toggle filter-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span id="spanGetStartMonth"><%= data.chooseMonth %></span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu getMonth" style="height: 250px;overflow: scroll;overflow-x: hidden;">
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <button  id="creditUserReceivableBtn"  class="btn">查询</button>
+
+                                <span class="tip-color">报表生成时间: <%= data.clientCreditDetail.createdOn%> </span>
+
+                                <button class="btn export-btn"> 导出</button>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="detail-sum margin-top-md">
+
+                            <div class="pull-left detail-header-left">
+                              <span>合计
+                                  </span>
+
+                            </div>
+                            <div class="pull-left detail-header-right">
+                                <table>
+                                      <tr>
+                                          <td>授信额度</td>
+                                          <td>授信余额</td>
+                                          <td>出库金额</td>
+                                          <td>红冲金额</td>
+                                          <td>结款金额</td>
+                                          <td>结款状态</td>
+                                      </tr>
+                                    <tr>
+                                        <td class="font-color-blue font-weight-bold">&yen;<span >1000</span></td>
+                                        <td class="font-color-blue font-weight-bold">&yen;<span>10000.0</span></td>
+                                        <td class="font-color-blue font-weight-bold">&yen;<span>2000.0</span></td>
+                                        <td class="font-color-red font-weight-bold">&yen;<span>50000.0</span></td>
+                                        <td class="font-color-green font-weight-bold">&yen;<span>4000.0</span></td>
+                                        <td class="font-color-orange font-weight-bold"><span>已结款</span></td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="space-top">
+                            <table class="sm-page-table ">
+                                <thead class="finance-table-head">
+                                <tr>
+                                    <td><strong>订单编号</strong></td>
+                                    <td><strong>下单时间</strong></td>
+                                    <td><strong>出库时间</strong></td>
+                                    <td><strong>出库金额</strong></td>
+                                    <td><strong>红冲金额</strong></td>
+                                    <td><strong>结款金额</strong></td>
+
+                                </tr>
+                                </thead>
+                                <tbody class="finance-table-body">
+
+                                <tr>
+                                    <td>201516546465</td>
+                                    <td>2016-3</td>
+                                    <td>2016-3</td>
+                                    <td>&yen;<span>10000.5</span></td>
+                                    <td class="font-color-red">&yen;<span >10000.5</span></td>
+                                    <td class="font-color-blue-green">&yen;<span>10000.5</span></td>
+                                </tr>
+                                <tr>
+                                    <td>201516546465</td>
+                                    <td>2016-3</td>
+                                    <td>2016-3</td>
+                                    <td>&yen;<span>10000.5</span></td>
+                                    <td class="font-color-red">&yen;<span >10000.5</span></td>
+                                    <td class="font-color-blue-green">&yen;<span>10000.5</span></td>
+                                </tr>
+                                <tr>
+                                    <td>201516546465</td>
+                                    <td>2016-3</td>
+                                    <td>2016-3</td>
+                                    <td>&yen;<span>10000.5</span></td>
+                                    <td class="font-color-red">&yen;<span >10000.5</span></td>
+                                    <td class="font-color-blue-green">&yen;<span>10000.5</span></td>
+                                </tr>
+                                <tr>
+                                    <td>201516546465</td>
+                                    <td>2016-3</td>
+                                    <td>2016-3</td>
+                                    <td>&yen;<span>10000.5</span></td>
+                                    <td class="font-color-red">&yen;<span >10000.5</span></td>
+                                    <td class="font-color-blue-green">&yen;<span>10000.5</span></td>
+                                </tr>
+                                <tr>
+                                    <td>201516546465</td>
+                                    <td>2016-3</td>
+                                    <td>2016-3</td>
+                                    <td>&yen;<span>10000.5</span></td>
+                                    <td class="font-color-red">&yen;<span >10000.5</span></td>
+                                    <td class="font-color-blue-green">&yen;<span>10000.5</span></td>
+                                </tr>
+                                <tr>
+                                    <td>201516546465</td>
+                                    <td>2016-3</td>
+                                    <td>2016-3</td>
+                                    <td>&yen;<span>10000.5</span></td>
+                                    <td class="font-color-red">&yen;<span >10000.5</span></td>
+                                    <td class="font-color-blue-green">&yen;<span>10000.5</span></td>
+                                </tr>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="creditClientPage"  class="margin-top-md">
+                            <button class="btn btn-primary">返回</button>
+
+
+                            <% var url = "/customer/bill/creditReceive?"%>
+                            <% include ../../_paginator.ejs%>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>
+<script type="text/javascript">
+    var myDate = new Date().getUTCFullYear();
+    var str1 = "";
+    for (var i = myDate; i > 1990; i--) {
+        str1 += "<li><a>" + i + "</a></li>";
+    }
+    var str2 = "";
+    for (var i = 1; i <=12; i++) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        str2 += "<li><a>" + i + "</a></li>";
+    }
+    $(".getYears").append(str1);
+    $(".getMonth").append(str2);
+</script>

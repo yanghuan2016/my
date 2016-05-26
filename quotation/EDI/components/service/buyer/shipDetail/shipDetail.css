@@ -1,0 +1,21 @@
+:local(.table){
+    background-color: #fff;
+}
+:local(.orderInfo){
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+:local(.batch){
+    cursor: pointer;
+}
+
+:local(.fixedBanner){
+    position: fixed;
+    bottom:0px;
+    left:100px;
+    z-index: 99;
+    width: 95%;
+    background: #fff;
+    opacity: 0.8;
+}

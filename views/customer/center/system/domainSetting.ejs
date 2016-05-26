@@ -1,0 +1,89 @@
+<% include ../../header.ejs%>
+<link href="/static/source/css/page/domainSetting.css" rel="stylesheet" media="screen">
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page double-padding-bottom">
+            <div class="container page-content">
+                <div class="row space-top">
+                    <% var active = "product_setting"; %>
+                    <% include ../_nav_customer_left.ejs%>
+
+                    <section class="col-md-10 pull-right space-bottom">
+                        <div class="filterDivTab">
+                            <div class="tabList">
+                                <a href="/customer/system/product">商品类别</a>
+                                <a href="/customer/system/inventory">库存方案</a>
+                                <a href="/customer/system/customer">客户类</a>
+                                <a href="/customer/system/domainSetting" class="itemActive">客户区域</a>
+                                <a href="/customer/system/packUnit">包装单位</a>
+                                <a href="/customer/system/erpSetting">ERP</a>
+                                <a href="/customer/system/productJX">剂型</a>
+                                <a href="/customer/system/productGSP">GMP/GSP类别</a>
+                                <a href="/customer/system/paymentType">收款方式</a>
+                                <a href="/customer/system/smsGetway">短信网关</a>
+                                <a href="/customer/system/others">其他</a>
+                            </div>
+                        </div>
+                        <section class="page-content-right">
+                            <table class="sm-page-table" id="domainTable" style="border-top: 1px solid #e6e6e6">
+                                <thead>
+                                <tr>
+                                    <td><strong>区域</strong></td>
+                                    <td><strong>操作</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <button class="btn btn-primary" data-attr="customer" id="addNewDoamin">
+                                            添加新的区域
+                                            <i class="fa fa-plus-circle"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr id="addContentTr" style="display:none">
+                                    <td class="input-item">
+                                        <input type="text" id="newDomainName" class="input-edit form-control" style="width: 100%"/>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary" id="cancelSaveDomain">取消</a>
+                                        <a class="btn btn-primary" id="saveDomain">保存</a>
+                                    </td>
+                                </tr>
+                                <% var clientAreas=data.clientAreas; %>
+                                <% for(var i=0;i<clientAreas.length;i++){%>
+                                <% var currentClientArea=clientAreas[i]; %>
+                                <tr>
+                                    <td class="input-item">
+                                        <input data-id="<%= currentClientArea.id %>" style="width: 100%" type="text" class="input-read form-control" readonly value="<%= currentClientArea.name %>" />
+                                    </td>
+                                    <td>
+                                        <a onclick="editDomain(this)" title="编辑" style="margin-right: 20px;">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                        </a>
+                                        <a onclick="deleteDomain(this)" title="删除" style="margin-right: 8px;">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <%}%>
+                                </tbody>
+                                </table>
+                        </section>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>
+<script src="/static/source/js/domainSetting.js"></script>

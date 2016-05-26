@@ -1,0 +1,22 @@
+:local(.buttonContainer){
+    width:97% !important;
+    text-align:center;
+}
+:local(.buttonSelf){
+    width:100%;
+    background-color:#2BAF2B;
+    border-color:#2BAF2B;
+    color:white;
+}
+:local(.buttonSelf:active){
+    width:100%;
+    background-color:#2BAF2B;
+    border-color:#2BAF2B;
+    color:white;
+}
+:local(.buttonSelf:hover){
+    width:100%;
+    background-color:#2BAF2B;
+    border-color:#2BAF2B;
+    color:white;
+}

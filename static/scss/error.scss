@@ -1,0 +1,86 @@
+.notFound{
+  display: -webkit-flex;
+  display:         flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.notFound>ul{
+  list-style : none;
+  position: relative;
+  padding: 0;
+  text-align: left;
+}
+
+.notFound>ul>li:nth-child(2){
+  font-size: 16px;
+  color: #7C8086;
+  margin-bottom: 0;
+}
+
+.notFound>ul>li:nth-child(3){
+  font-size: 16px;
+  color: #7C8086;
+}
+
+.notFound>ul>li{
+  margin-bottom: 20px;
+}
+
+.notFoundFour:before{
+  content: "";
+  background-image: url("/static/img/error/404_01.png");
+  width: 400px;
+  height: 400px;
+  float: left;
+  margin-right: 60px;
+}
+.notFoundNoRight:before{
+  content: "";
+  background-image: url("/static/img/error/no_right_01.png");
+  width: 400px;
+  height: 400px;
+  float: left;
+  margin-right: 60px;
+}
+
+.notFoundWrong:before{
+  content: "";
+  background-image: url("/static/img/error/wrong_01.png");
+  width: 400px;
+  height: 400px;
+  float: left;
+  margin-right: 60px;
+}
+
+.notFoundFive:before{
+  content: "";
+  background-image: url("/static/img/error/500_01.png");
+  width: 400px;
+  height: 400px;
+  float: left;
+  margin-right: 60px;
+}
+
+.notFoundBuild:before{
+  content: "";
+  background-image: url("/static/img/error/building_01.png");
+  width: 400px;
+  height: 400px;
+  float: left;
+  margin-right: 60px;
+}
+
+.notFound>ul>li>a{
+  border: 1px solid #3496F7;
+  -webkit-border-radius: 100px;
+  border-radius: 6px;
+  background-color: #3496F7;
+  padding: 9px 16px;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  word-spacing: 1px;
+}

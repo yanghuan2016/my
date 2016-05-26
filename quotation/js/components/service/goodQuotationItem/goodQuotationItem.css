@@ -1,0 +1,41 @@
+:local(.goodQuotationContainer){
+    background-color:#F5F5F5;
+    height:100%;
+}
+:local(.imgContainer){
+    height:120px;
+    display:flex;
+
+    justify-content:center;
+}
+:local(.imgDiv){
+    height:120px;
+}
+:local(.keyWord){
+    color:#999
+}
+:local(.goodInfoContainer){
+    margin-bottom:10px;
+    background-color:white;
+}
+:local(.contentSpanDivText){
+    color:#999999;
+    background-color:#F0F0F2;
+    height:38px;
+    font-size:16px;
+    display:flex;
+    align-items: center;
+}
+:local(.contentSpanLabelText){
+    margin-left:5px;
+}
+:local(.spaceUpAndLeft){
+    margin-bottom:7px;
+    padding-left:5px;
+}
+:local(.extraFont){
+    font-size:14px;
+}
+:local(.buttonGroup){
+    position: static;
+}

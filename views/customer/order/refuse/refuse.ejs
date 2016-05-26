@@ -1,0 +1,98 @@
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+        <% include ../../_nav_top.ejs %>
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../../_nav_head.ejs%>
+        <div class="page">
+            <div class="container page-content">
+                <div class="row">
+
+                    <!-- Sidebar-->
+                    <% include ../../_order_sidebar.ejs%>
+                    <!-- Sidebar CLose-->
+                    <section class="col-md-10 pull-right space-top space-bottom">
+                        <div class="filterDivTab">
+                            <div class="tabList">
+                                <a href="/order/refuse?type=create" class="<%= (data.type == "create" ? "itemActive" : "")%>">拒收待发货
+                                    <% var hasCheckedNum= data["oppositerefuseDatas"].length>0; %>
+                                    <div style="<%= hasCheckedNum?"":'display:none' %>"><div class="checkListCircle"></div></div>
+                                </a>
+                                <a href="/order/refuse?type=receive" class="<%= (data.type == "receive" ? "itemActive" : "")%>">拒收已发货</a>
+                                <a href="/order/refuse?type=received" class="<%= (data.type == "received" ? "itemActive" : "")%>">拒收已入库</a>
+                            </div>
+                            <%
+                            var paginator_keywordsValue = '';
+                            if (typeof paginator != 'undefined') {
+                                if (typeof paginator.kv != 'undefined') {
+                                    paginator_keywordsValue = (paginator.kv == "%") ? "" : paginator.kv;
+                                }
+                            }
+                            %>
+                            <% var placeholder = "请输入拒收单号"%>
+                            <% var paginatorData = {
+                                url : "ship?",
+                                kv : 'keywordsValueToBeReplaced',
+                                p : 1,
+                                paginator : paginator
+                            };
+                            %>
+                            <% include ../../public/filterInput.ejs%>
+                        </div>
+                        <table class="sm-page-table">
+                            <thead>
+                                <tr>
+                                    <td><strong>拒收单号</strong></td>
+                                    <td><strong>发货单号</strong></td>
+                                    <td><strong>拒收时间</strong></td>
+                                    <td><strong>笔数/数量/金额</strong></td>
+                                    <td><strong>操作</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% for(var i in data.refuseList){%>
+                            <% var item = data.refuseList[i] %>
+                            <tr>
+                                <td><a href="/order/refuse/detail?refuseId=<%= item.refuseId%>"><%= item.refuseId%></a></td>
+                                <td><a href="/order/ship/details?shipId=<%= item.shipId%>"><%= item.shipId%></a></td>
+                                <td><%= item.createdOn%></td>
+                                <td>
+                                    <%= item.countBatch %>
+                                    /
+                                    <%= item.quantity %>
+                                    /
+                                    &#165;<%= item.subtotal || "金额" %>
+                                </td>
+                                <td>
+                                    <a href="/order/refuse/detail?refuseId=<%= item.refuseId%>">
+                                        <% if (data.type=="create"){%>
+                                        <i class="fa fa-paper-plane" title="发货"></i>
+                                        <% } else {%>
+                                        <i class="fa fa-binoculars"></i>
+                                        <% } %>
+                                    </a>
+                                </td>
+                            </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </section>
+                    <% var url = ""%>
+                    <% include ../../_paginator.ejs%>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>

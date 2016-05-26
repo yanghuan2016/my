@@ -1,0 +1,81 @@
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page" style="min-height:801px;">
+            <!--Breadcrumbs-->
+
+            <div class="container page-content">
+                <div class="row space-top">
+                    <!-- Sidebar-->
+                    <% var active = "verifyRefund"; %>
+                    <% include ../_nav_customer_left.ejs%>
+                    <!-- Sidebar CLose-->
+                    <section class="col-md-10 pull-right space-bottom">
+                        <div class="filterDivTab">
+                            <div class="tabList">
+                                <a href="/customer/complaints" class="itemActive">投诉管理</a>
+                                <a href="/customer/bill/verifyRefund">退款确认</a>
+                            </div>
+                            <form class="filterInputItem approvedClientsForm" method="get">
+                                <input placeholder="请输入客户名称" type="text"  data-edit="complain" class="filterInput complainsListSearch" value="<%=data.clientCodeOrName %>" />
+                                <button type="submit" class="filterInputButton searchComplainBtn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                        <table class="sm-page-table">
+                            <thead>
+                            <tr>
+                                <td><strong>客户名</strong></td>
+                                <td><strong>客户编号</strong></td>
+                                <td><strong>最新消息</strong></td>
+                                <td><strong>发送时间</strong></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% var clientsCompList=data.comlainsList; %>
+                            <% for(var i=0;i<clientsCompList.length;i++){%>
+                            <% var currentCo=clientsCompList[i] ;%>
+                            <tr>
+                                <td>
+                                    <%= currentCo.clientName %>
+                                </td>
+                                <td>
+                                    <%= currentCo.clientCode%>
+                                </td>
+                                <td>
+                                    <div>
+                                        <div style="display:<%= currentCo.hasBeenRead==1?'none':'inline-block'%>;width:10px;height:10px;background-color:red;border-radius: 5px"></div>
+                                        <a href="/customer/certainClientCom?clientId=<%=currentCo.clientId%>&hasBeenRead=<%=currentCo.hasBeenRead%>#complaint-last">
+                                            <%= currentCo.content%>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <%= currentCo.createdOn %>
+                                </td>
+
+                            </tr>
+                            <%}%>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>

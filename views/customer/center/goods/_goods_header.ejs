@@ -1,0 +1,164 @@
+<aside class="page-content-right-head" style="background: rgb(236, 236, 236);">
+    <label style="margin-right: 30px;margin-left: 8px;">
+        <a class="<%= data.handlerType=='available'?'active':'click-link' %>" href="/customer/goods/available/list">已上架的商品</a>
+    </label>
+    <label style="margin-right: 30px;">
+        <a class="<%= data.handlerType=='unavailable'?'active':'click-link' %>" href="/customer/goods/unavailable/list">仓库中的商品</a>
+    </label>
+    <label style="margin-right: 30px;">
+        <a class="<%= data.handlerType=='setInventory'?'active':'click-link' %>" href="/customer/goods/inventory/list">库存设定</a>
+    </label>
+    <label style="margin-right: 30px;">
+        <a class="<%= data.handlerType=='setprice'?'active':'click-link' %>" href="/customer/priceset/setprice">价格设定</a>
+    </label>
+
+
+
+
+
+
+    <% var url='',
+       extraStyle='';
+    %>
+
+    <% if(data.handlerType=='available'){
+        url='list?';
+    }else if(data.handlerType=='unavailable'){
+        url='list?';
+        extraStyle='';
+    }
+    else if(data.handlerType=='setInventory'){
+        url='list?';
+    }
+    else{
+        url='setprice?';
+    }%>
+    <div class="goodsCatagoryDropDown">
+        <div class="btn-group">
+            <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                全部类别
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <% var paginatorNull = {
+                        url: url,
+                        caf: paginator.caf,
+                        cav: paginator.cav,
+                        paginator: {}
+                    }%>
+                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorNull)%>)">全部类别</a>
+                </li>
+                <% var index = 0;%>
+                <% var goodsType = data._goodsTypes.children;%>
+                <% var length1 = goodsType.length;%>
+                <% for(var item = 0; item < length1; item++){%>
+                <% var key = goodsType[item]%>
+                <% index++;%>
+                <li>
+                    <% var paginatorData = {
+                        url : url,
+                        cbf : "产品类别",
+                        cbv : key.erpId,
+                        p : 1,
+                        paginator : paginator
+                    };
+                    %>
+                    <a class="click-link" onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%=key.name%></a>
+                    <% if(key.children.length != 0) { %>
+                    <i class="fa fa-angle-right"></i>
+                    <div class="subItem" style="min-height: <%= ((length1+1) * 40 + 10)+'px'%>">
+                        <ul>
+                            <% for(var itemTwo in key.children){%>
+                            <% var ele = key.children[itemTwo]%>
+                            <li>
+                                <% var paginatorData = {
+                                    url :url,
+                                    cbf : "产品类别",
+                                    cbv : ele.erpId,
+                                    p : 1,
+                                    paginator : paginator
+                                };
+                                %>
+                                <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%= ele.name%></a>
+                                <% if(ele.children.length > 0){ %>
+                                <i class="fa fa-angle-right"></i>
+                                <div class="subItem" style="min-height: <%= (key.children.length * 40)+'px'%>">
+                                    <ul>
+                                        <% for(var tempThree in ele.children){%>
+                                        <% var element = ele.children[tempThree]%>
+                                        <li>
+                                            <% var paginatorData = {
+                                                url : url,
+                                                cbf : "产品类别",
+                                                cbv : element.erpId,
+                                                p : 1,
+                                                paginator : paginator
+                                            };
+                                            %>
+                                            <a onclick="joinPaginator(<%= JSON.stringify(paginatorData)%>)"><%= element.name%></a>
+                                        </li>
+                                        <% } %>
+                                    </ul>
+                                </div>
+                                <% } %>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                    <% } %>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+
+    <% if(data.handlerType=='unavailable'){%>
+        <div style="display:inline-block;float:right;">
+            <a href="/customer/product/edit" class="btn btn-primary ">添加</a>
+        </div>
+    <% }%>
+
+
+
+    <aside class="sidebar no-devider" style="display: inline-flex;float: right;margin-top: 7px;width: auto;background-color:rgb(236, 236, 236);height:35px">
+        <div class="widget search" style="margin-bottom: 0px;">
+            <form method="get" role="search" action="" style="margin-right: 10px;">
+                <label class="sr-only" for="blog-search"></label>
+                <%
+                var paginator_keywordsValue = '';
+                if (typeof paginator != 'undefined') {
+                    if (typeof paginator.kv != 'undefined') {
+                        paginator_keywordsValue = (paginator.kv == "%") ? "" : paginator.kv;
+                    }
+                }
+                %>
+                <input class="form-control <%= data.handlerType=='unavailable'?'unavailableInput':'commonInput' %>" type="text" placeholder="请输入商品名..." value="<%= paginator_keywordsValue%>">
+                <% var paginatorData = {
+                    url : url,
+                    p : 1,
+                    kv : 'keywordsValueToBeReplaced',
+                    paginator : paginator
+                };
+                %>
+                <button type="submit" class="search_goods" style="right: 0px;top: -12px;" data-url="<%= JSON.stringify(paginatorData)%>">
+                    <i class="fa fa-filter" style="font-size: 20px;"></i>
+                </button>
+            </form>
+        </div>
+    </aside>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</aside>

@@ -1,0 +1,11 @@
+:local(.flow) {
+    background: #fff;
+    text-align: center;
+    height: 100px;
+    line-height: 80px;
+    padding: 10px;
+}
+
+:local(.border) {
+    border-right: 1px solid #999;
+}

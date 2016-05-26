@@ -1,0 +1,193 @@
+<% include ../header.ejs %>
+<!--Off-Canvas-->
+<div style="position:relative;width:100%;height:100%;">
+    <% include ../_nav_top.ejs %>
+    <% include ../_nav_head.ejs %>
+    <style type="text/css">
+        .ui-dialog-header {
+            background-color: #237935;
+            color: #fff;
+        }
+
+        .ui-dialog-close {
+            color: #fff;
+            opacity: 1;
+        }
+    </style>
+    <!--Layout-->
+    <div class="page blog  double-padding-bottom">
+        <div class="container">
+            <div class="row">
+                <section class="col-md-12 pull-right space-top space-bottom page-content">
+                    <!--Item-->
+                    <% var Credit = data.paymentData.finaceData %>
+                    <div class="payment">
+                        <div style="float:left;margin-left: 15px">
+                            订单号 :
+                                <span class="orderId" style="color: #237935">
+                                    <%= data.paymentData.datas[0].dealOrder %>
+                                </span>
+                                <span class="state">
+                                    <a href="/order/detail?orderId= <%= data.orderId %>">查看详情 ></a>
+                                       </span>
+
+                        </div>
+                        <div style="float:right;font-size:14px;color: #666666;margin-right: 15px">应付金额：<span
+                                    style="color: #dd3131;font-size: 18px">&yen;<%= data.paymentData.datas[0].dealFee %></span>
+                        </div>
+                    </div>
+                    <div class="page-content-right page-content-border">
+                        <table class="table page-table table-center">
+                            <tbody>
+                            <% if(Credit.paymentType == 'CREDIT'){ %>
+                            <tr class="showcredit" style="border-bottom: none">
+                                <td style="width: 25%;border-bottom: none">
+                                    <strong>授信额度</strong>
+                                    <h6><strong><%= Credit.credits %></strong></h6>
+                                </td>
+                                <td style="width: 25%;border-bottom: none">
+                                    <strong>可用余额</strong>
+                                    <h6><strong><%= Credit.arrearsBalance %></strong></h6>
+                                </td>
+                                <td style="width: 25%;border-bottom: none">
+                                    <strong>结款日期</strong>
+                                    <h6><strong>每月<%= Credit.checkoutDays %>日</strong></h6>
+                                </td>
+                                <td style="border-bottom: none"></td>
+                            </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% var height = (data.paymentData.payments.length) / 4 * 60; %>
+                    <ul class="clientPayTable" style="height: <%= height + 'px' %>">
+                        <% var payments = data.paymentData.payments %>
+                        <% if(Credit.paymentType == 'CREDIT'){ %>
+                        <% for(var i = 0; i < payments.length;i++){ %>
+                        <% var payment = payments[i] %>
+                        <% if(i === 3){ %>
+                        <li style="border-right: 1px solid #e6e6e6;">
+                            <% } else { %>
+                        <li>
+                            <% } %>
+                            <label class="radio clientSelectPay" style="font-size: 15px">
+                                <input type="radio" name="paytype"
+                                       payId="<%= payment.id %>"
+                                       baseUrl="<%= payment.baseUrl %>"
+                                       payName="<%= payment.name %>"
+                                       paytype="<%= payment.payType %>"><%= payment.name %>
+                            </label>
+                        </li>
+                        <% } %>
+                        <% }else{ %>
+                        <% for(var i = 0; i < payments.length;i++){ %>
+                        <% var payment = payments[i] %>
+                        <% if(payment.payType !== "CRT"){ %>
+                        <% if(i === 3){ %>
+                        <li style="border-right: 1px solid #e6e6e6;">
+                            <% } else { %>
+                        <li>
+                            <% } %>
+                            <label class="radio clientSelectPay" style="font-size: 15px">
+                                <input type="radio" name="paytype"
+                                       payId="<%= payment.id %>"
+                                       baseUrl="<%= payment.baseUrl %>"
+                                       payName="<%= payment.name %>"
+                                       paytype="<%= payment.payType %>"><%= payment.name %>
+                            </label>
+                        </li>
+                        <% } %>
+                        <% } %>
+                        <% } %>
+                    </ul>
+                </section>
+            </div>
+
+            <% for(var index = 0; index < data.paymentData.datas.length;index++){ %>
+            <% var ele = data.paymentData.datas[index]; %>
+            <% if(ele.paymentName.indexOf('联行') > -1){ %>
+            <div class="islook" style="display: none">
+                <% var payInfo = ele %>
+                <form method="post" action="<%= payInfo.baseUrl %>paygate.html">
+                    <input type=hidden name=merId id="merID" value="<%= payInfo.merId %>">
+                    <input type=hidden name=dealName id="dealName" value="<%= payInfo.dealName %>">
+                    <input type=hidden name=dealOrder id="dealOrder" value="<%= payInfo.dealOrder %>">
+                    <input type=hidden name=dealFee id="dealFee" value="<%= payInfo.dealFee %>">
+                    <input type=hidden name=dealReturn id="dealReturn" value="<%= payInfo.dealReturn %>">
+                    <input type=hidden name=dealNotify id="dealNotify" value="<%= payInfo.dealNotify %>">
+                    <input type=hidden name=dealSignure id="dealSignure" value="<%= payInfo.dealSignure %>">
+                    <button class="btn btn-primary" paymentType="<%= data._client.paymentType %>" id="pay" payId="1"
+                            orderId="<%= data.orderId %>" type="submit">确认支付
+                    </button>
+                    <span style="font-size : 14px;color: #dd3131;vertical-align:bottom ">请您在提交订单后24小时之内完成支付,否则订单会自动失效.</span>
+                </form>
+            </div>
+            <% } else if(ele.paymentName.indexOf('微信') > -1){ %>
+            <div class="lookWexin" style="display: none">
+                <button class="btn btn-primary"
+                        id="wechatPayButton"
+                        url=<%= ele.wechat_pay_url %>
+                        total="<%= data.paymentData.datas[0].dealFee %>">确认支付
+                </button>
+                <span style="font-size : 14px;color: #dd3131;vertical-align:bottom ;">请您在提交订单后24小时之内完成支付,否则订单会自动失效.</span>
+            </div>
+            <% } %>
+            <% } %>
+            <div style="display: none" class="look">
+                <button class="btn btn-primary" data-displayId="<%= data.paymentData.datas[0].dealOrder %>" payId="2"
+                        id="payment" data-type="<%= data.orderId %>">确认支付
+                </button>
+                <span style="font-size : 14px;color: #dd3131;vertical-align:bottom ;">请您在提交订单后24小时之内完成支付,否则订单会自动失效.</span>
+            </div>
+            <div style="display: none" class="look2">
+                <button class="btn btn-primary" data-displayId="<%= data.paymentData.datas[0].dealOrder %>" id="payment"
+                        data-type="<%= data.orderId %>">确认支付
+                </button>
+                <span style="font-size : 14px;color: #dd3131;vertical-align:bottom ;">请您在提交订单后24小时之内完成支付,否则订单会自动失效.</span>
+            </div>
+            <div class="firstHidden">
+                <button class="btn btn-primary" disabled>确认支付</button>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../_nav_bottom.ejs %>
+<% include ../footer.ejs %>
+<script type="text/javascript">
+    $(".clientSelectPay").on("click", function () {
+        var paytype = $(this).find('input').attr('paytype');
+        var name = $(this).find('input').attr('payName');
+        if (paytype && paytype == 'CRT') {
+            $('.islook').css('display', 'none');
+            $('.look2').css('display', 'none');
+            $('.lookWexin').css('display', 'none');
+            $('.firstHidden').css('display', 'none');
+            $('.look').css('display', 'block');
+            $('.look').find("button").attr('baseUrl', $(this).find('input').attr('baseUrl'));
+        }
+        if (paytype && paytype == 'COD') {
+            $('.islook').css('display', 'none');
+            $('.look').css('display', 'none');
+            $('.lookWexin').css('display', 'none');
+            $('.firstHidden').css('display', 'none');
+            $('.look2').css('display', 'block');
+            $('.look2').find("button").attr('baseUrl', $(this).find('input').attr('baseUrl'));
+        }
+        if (paytype && paytype == 'ONLINE') {
+            $('.look').css('display', 'none');
+            $('.look2').css('display', 'none');
+            $('.lookWexin').css('display', 'none');
+            $('.firstHidden').css('display', 'none');
+            $('.islook').css('display', 'block');
+            $('.islook').find("button").attr('baseUrl', $(this).find('input').attr('baseUrl'));
+        }
+        if (name && name.indexOf('微信') > -1) {
+            $(".lookWexin").css('display', 'block');
+            $('.islook').css('display', 'none');
+            $('.firstHidden').css('display', 'none');
+            $('.look').css('display', 'none');
+            $('.look2').css('display', 'none');
+        }
+    });
+</script>
+<script type="text/javascript" src="/static/source/js/client/order.js"></script>

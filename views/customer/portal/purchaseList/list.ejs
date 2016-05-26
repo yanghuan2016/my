@@ -1,0 +1,100 @@
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header Toolbar-->
+        <% include ../../_nav_top.ejs %>
+        <!--Header Toolbar Close-->
+
+        <!--Header-->
+        <% include ../../_nav_head.ejs%>
+        <div class="page">
+            <div class="container page-content">
+                <div style="position: fixed;z-index: 1006;left: 0;top: 0;background: #000;opacity:0.5;width: 100%;height: 100%;display: none" class="fadeDiv">
+                </div>
+
+                <div id = 'selectGoods'  style="width: 450px;height: 300px;background-color: transparent;position: fixed;z-index: 99999;display: none; font-size: 14px;padding: 4px;"  scrolling="auto"  allowTransparency="true">
+                    <div class="page-content space-top">
+                        <section class="page-content-right">
+                            <aside class="page-content-right-head">
+                                <label>新增常够清单</label>
+                            </aside>
+                            <table class="table page-table">
+                                <tbody>
+                                <tr>
+                                    <td>输入清单名称：<input type="text" id="listName"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: end;">
+                                        <a class="btn btn-primary addPurchaseList" style="padding:5px 15px !important;">确定</a>
+                                        <a class="btn btn-primary closeIframeGuide" style="padding:5px 15px !important;">取消</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <!-- Sidebar-->
+                    <% var active = "purchaseList"; %>
+                    <% include ../../_order_sidebar.ejs%>
+                    <!-- Sidebar CLose-->
+                    <section class="col-md-10 pull-right space-top space-bottom page-content-right">
+                            <div style = 'margin-bottom: 5px;' class="text-right">
+                                <a class="btn btn-primary displaySelect">新增</a>
+                            </div>
+                            <table class=" sm-page-table">
+                                <thead>
+                                <tr style="font-weight: bold;">
+                                    <td style="text-align:left;padding-left:35px;">清单名字</td>
+                                    <td style="text-align:left;">商品种类</td>
+                                    <td style="text-align: right;">总金额</td>
+                                    <td style="text-align:right;padding-right: 70px;">操作</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% for(var i in data.lists){%>
+                                <% var goodsTypeCount=data.lists[i].goodsTypeCount %>
+                                <tr>
+                                    <td style="text-align:left;padding-left:45px;"><%= data.lists[i].name%></td>
+                                    <td style="text-align:left;padding-left:25px;"><%= goodsTypeCount %></td>
+                                    <td style="text-align: right;padding-right:10px;"><%= data.lists[i].goodsPriceSum.toFixed(2)%></td>
+                                    <td style="color:#237935;text-align:right;padding-right: 40px;">
+                                        <!--<a href="/portal/purchaseList/edit?type=look&listId=<%= data.lists[i].clientFavorId%>" class="tooltipped click-link" title="查看" data-toggle="tooltip" data-placement="left" style="margin-right: 5px;color:#237935"><i class="fa fa-eye"></i></a>-->
+                                        &nbsp;&nbsp;<a href="/portal/purchaseList/edit?type=edit&listId=<%= data.lists[i].clientFavorId%>" class="tooltipped click-link" title="编辑" data-toggle="tooltip" data-placement="bottom" style="margin-right: 5px;color:#237935"><i class="fa fa-pencil-square-o"></i></a>
+                                        <% if(goodsTypeCount!=0){ %>
+                                        &nbsp;<a class="tooltipped click-link addcart" href="/portal/purchaseList/addToCart?listId=<%= data.lists[i].clientFavorId%>" data-type="<%= data.lists[i].clientFavorId%>" title="加入购物车" data-toggle="tooltip" data-placement="top" style="margin-right: 5px;color:#237935">
+                                            <% }%>
+                                            <i style="<%= goodsTypeCount==0?'margin-right:5px;margin-left:5px':null %>"  class="fa fa-shopping-cart"></i>
+                                            <% if(goodsTypeCount!=0){ %>
+                                        </a>
+                                        <% } %>
+                                        &nbsp;<a class="tooltipped removePurchaseOne click-link" href="javascript:void(0)"   listId="<%= data.lists[i].clientFavorId%>" title="删除" data-toggle="tooltip" data-placement="left" style="color:#237935">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                </tbody>
+                            </table>
+                    </section><!--Catalog List Close-->
+                    <section class="col-md-10 space-top pull-right">
+
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>
+<script src="/static/source/js/portal.js"></script>

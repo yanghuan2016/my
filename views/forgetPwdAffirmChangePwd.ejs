@@ -1,0 +1,35 @@
+
+<% include customer/header.ejs%>
+
+<div style="height: 80%;">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+            <% include customer/_nav_top.ejs %>
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+            <% include customer/_nav_head.ejs%>
+            <!--Header Close-->
+            <!--Page Content--><!-- InstanceBeginEditable name="content" -->
+            <div class="page page-content">
+                <!--Breadcrumbs-->
+                <div style="margin-top: 200px;">
+                    <div class="container page-center" style="font-size: 30px;">
+                        <div><a><i style="color: #008800" class="fa fa-smile-o"></i></a>修改成功</div>
+                    </div>
+                    <div class="container page-center" style="font-size: 20px;">
+                        <div>密码已发至您的手机，请查收</div>
+                    </div>
+                    <div class="container page-center space-top">
+                        <div>
+                            <a href="/login" class="btn btn-primary">去登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% include customer/_nav_bottom.ejs%>
+</div>
+
+<% include customer/footer.ejs %>

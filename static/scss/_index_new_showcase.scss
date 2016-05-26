@@ -1,0 +1,268 @@
+.icon_sc_leftContainer {
+  width: 26%;
+  float: left;
+}
+
+.icon_sc_rightContainer {
+  width: 74%;
+  //border-top:1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.icon_sc_imgContainer {
+  height: 100%;
+  border: 1px solid #e6e6e6;
+  border-top:0;
+  border-left:0;
+}
+
+.icon_sc_img {
+  height: 100%;
+}
+
+.icon_sc_goodsRow {
+  width: 100%;
+  height: 50% !important;
+}
+
+.icon_sc_firstRow_goodCell {
+  height: 50%;
+  width: 25%;
+  border-right: 1px solid $borer-default-color;
+  //float: left;
+}
+
+.icon_sc_firstRow_goodCell_topBorder {
+  height: 50%;
+  width: 25%;
+  border-right: 1px solid $borer-default-color;
+  border-top: 1px solid $borer-default-color;
+  //float:left;
+}
+
+.icon_sc_secondRow_goodCell {
+  height: 100%;
+  width: 25%;
+  border-right: 1px solid $borer-default-color;
+  border-top: 1px solid $borer-default-color;
+  float: left;
+}
+
+.icon_sc_cell_imgContainer {
+  width: 80%;
+  padding-top: 15px;
+  margin: 0 auto;
+  height: 43%;
+  vertical-align: middle
+}
+
+.goodCell_img {
+  height: 100%;
+  margin: 0 auto;
+  width: 104px;
+}
+
+.icon_sc_cell_infoContainer {
+  position: relative;
+  width: 80%;
+  height: 57%;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+.icon_sc_cell_price {
+  font-size: 14px;
+  color: $base-red-color;
+  font-weight: bold
+}
+
+.icon_sc_cell_commonName {
+  font-size: 14px;
+  color: $base-color;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.icon_sc_cell_company_spec {
+  font-size: 14px;
+  color: $table-head-font-color;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.icon_sc_cell_bottom {
+  vertical-align: middle;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.icon_sc_cell_deIcon {
+  background-color: #F2FFF5;
+  border: 1px solid $borer-default-color;
+  float: left;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.icon_sc_cell_deIcon:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.index_space_down {
+  margin-bottom: 10px;
+}
+
+.index_space_up {
+  margin-top: 7px;
+}
+
+.input_container {
+  float: left;
+  //margin-top: 1px;
+  border-left: none;
+  border-right: none;
+  /*  border-bottom:1px solid #e6e6e6;
+    border-top:1px solid #e6e6e6;*/
+}
+
+.input_nu {
+  text-align: center;
+  width: 50px;
+  border: none;
+  height: 30px;
+  border-bottom: 1px solid $borer-default-color;
+  border-top: 1px solid $borer-default-color;
+  outline:0;
+}
+
+.icon_sc_cell_cart_container {
+  width: 30px;
+  float: right;
+  margin-left: 21px;
+  display: table-cell;
+  height: 30px;
+  font-size: 21px;
+}
+
+.iconCartColor {
+  color: $button-base-default-background-color;
+}
+
+.iconCartDisabled {
+  color: #6E6565;
+}
+
+.icon_sc_cell_cart_container:hover {
+  cursor: pointer
+}
+
+.icon_sc_cell_font {
+  font-size: 27px !important;
+}
+
+.icon_sc_cell_font:hover {
+  cursor: pointer
+}
+
+.icon_sc_cell_iconSet {
+  display: flex;
+  align-items: center;
+}
+
+.iconColor {
+  color: $table-head-font-color;
+}
+
+/*
+.cartIcon{
+  color:#217a33;
+  font-size:18px
+}*/
+.borderGreen {
+  border-bottom: 3px solid green;
+}
+
+.sc_header {
+  display: inline-block
+}
+
+/** 轮播图的样式控制  start */
+.index-carousel-container {
+  position: absolute;
+  display: none;
+  left: 0;
+  bottom: 0;
+  height: 50px;
+  width: 750px;
+  .index-carousel-background-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    width: 750px;
+    background-color: black;
+    opacity: 0.6;
+    z-index: 5;
+  }
+  .index-carousel-text-container {
+    display: table-cell;
+    vertical-align: middle;
+    position: absolute;
+    width:750px;
+    height: 50px;
+    z-index: 6;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    > .index-carousel-text-ultimate-container {
+      position: relative;
+      height: 100%;
+    }
+
+  }
+
+}
+
+.index-carousel-text {
+  word-break: break-all;
+  font-size: 14px;
+  color: white;
+  width: 98%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.space-up-sm{
+  margin-top:10px;
+}
+.space-bottom-sm{
+  margin-bottom:10px;
+}
+.font-set:hover{
+  font-size:17px !important;
+}
+/** 轮播图的样式控制  end*/
+.padding-left-sm{
+  padding-left:3px;
+}
+.padding-right-sm{
+  padding-right:3px;
+}
+.padding-two-side{
+  padding-left:3px;
+  padding-right:3px;
+}

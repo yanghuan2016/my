@@ -1,0 +1,79 @@
+<!doctype html>
+<html style="height:100%;min-height:100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/vendors.css"/>
+</head>
+<body>
+<div id="app"></div>
+</body>
+
+<script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="//cdn.bootcss.com/socket.io/1.3.7/socket.io.min.js"></script>
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/lodash.js/4.6.1/lodash.min.js"></script>
+<script src="//cdn.bootcss.com/moment.js/2.13.0/moment-with-locales.js"></script>
+
+<script type="text/javascript" src="js/vendors.js"></script>
+<script type="text/javascript">
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent;
+            return {
+                /*IE内核*/
+                trident: u.indexOf('Trident') > -1,
+                /*opera内核*/
+                presto: u.indexOf('Presto') > -1,
+                /*苹果、谷歌内核*/
+                webKit: u.indexOf('AppleWebKit') > -1,
+                /*火狐内核*/
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,
+                /*是否为移动终端*/
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+                /*ios终端*/
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+                /*android终端*/
+                android: u.indexOf('Android') > -1,
+                /*是否为iPhone或者QQHD浏览器*/
+                iPhone: u.indexOf('iPhone') > -1,
+                /*是否iPad*/
+                iPad: u.indexOf('iPad') > -1,
+                /*是否web应该程序，没有头部与底部*/
+                webApp: u.indexOf('Safari') == -1
+            };
+        }()
+    };
+    if (browser.versions.mobile || browser.versions.ios || browser.versions.android || browser.versions.iPhone || browser.versions.iPad) {
+        document.write("<link rel=\"stylesheet\" href=\"css/app.css\" />");
+        /*为移动设备时则引入css*/
+        document.write("<script type=\"text/javascript\" src=\"js/app.bundle.min.js\"><\/script>");
+        /*为移动设备时则引入js*/
+    } else {
+        document.write("<link rel=\"stylesheet\" href=\"css/edi.css\" />");
+        /*为PC设备时则引入css*/
+        document.write("<script type=\"text/javascript\" src=\"js/edi.bundle.min.js\"><\/script>");
+        /*为PC设备时则引入js*/
+    }
+    document.onkeydown = function enterToTab(event) {
+        var inputs = [];
+        var buttons = [];
+        if (event.keyCode == 13) {
+            inputs = document.getElementsByTagName('input');
+            buttons = document.getElementsByTagName('button');
+            var indexInput = Array.prototype.indexOf.call(inputs, event.target) + 1;
+            var indexButton = Array.prototype.indexOf.call(buttons, event.target) + 1;
+            if (inputs[indexInput]) {
+                inputs[indexInput].focus();
+            } else if (buttons[indexButton]) {
+                buttons[indexButton].click();
+            }
+        }
+    };
+</script>
+</html>

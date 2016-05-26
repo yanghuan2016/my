@@ -1,0 +1,86 @@
+<% var active = "clients"; %>
+<% include ../../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+        <!--Header-->
+        <% include ../_nav_head.ejs%>
+        <div class="page">
+
+            <div class="container page-content">
+                <div class="row space-top">
+                    <!-- Sidebar-->
+                    <% include ../_nav_customer_left.ejs%>
+                    <% var clientSumsGroupByStatus=data.clientsSumsGroupByStatus %>
+                    <!-- Sidebar CLose-->
+
+                    <section class="col-md-10 pull-right space-bottom">
+                        <div class="filterDivTab">
+                            <div class="tabList">
+                                <a href="/customer/client">已开通客户</a>
+                                <a href="/customer/client/toReview">
+                                    待审核客户
+                                    <% var hasCheckedNum=clientSumsGroupByStatus.sumsInCREATED>0; %>
+                                    <div style="<%= hasCheckedNum?"":'display:none' %>"><div class="checkListCircle"></div></div>
+                                </a>
+                                <a href="/customer/client/reject" class="itemActive">
+                                    已退回客户
+                                </a><!--
+                                <a href="/customer/client/updateInfoClient">
+                                    资料更新审核
+                                    <% var hasCheckedNum=clientSumsGroupByStatus.sumsInUPDATEINFO>0; %>
+                                    <div style="<%= hasCheckedNum?"":'display:none' %>"><div class="checkListCircle"></div></div>
+                                </a>-->
+                            </div>
+                            <div class="filterInputItem">
+                                <form class="rejectedClientsForm" style="height: 30px">
+                                    <input placeholder="请输入客户名称" type="text" class="filterInput checkedClientSearchInput" value="<%=data.clientName %>"/>
+                                    <button type="button" class="filterInputButton checkedClientBtn" ><i class="fa fa-search"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        <table class="sm-page-table">
+                            <thead>
+                            <tr>
+                                <td><strong>客户名称</strong></td>
+                                <td><strong>手机号码</strong></td>
+                                <td><strong>申请时间</strong></td>
+                                <td><strong>状态</strong></td>
+                                <td><strong>操作</strong></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                            <% var clients = data.clients; %>
+                            <% for(var i = 0; i < clients.length; i += 1){ %>
+                            <% var item = clients[i]; %>
+                            <td><%= item.clientName %></td>
+                            <td><%= item.mobile %></td>
+                            <% var d = new Date(item.createdOn); %>
+                            <td><%= d.getFullYear() + "-" + (d.getMonth() +1) + "-" + d.getDate() %></td>
+                            <td>已退回</td>
+                            <td>
+                                <a href="/customer/client/review?id=<%= item.id %>" class="tooltipped" title="查看" data-toggle="tooltip" data-placement="left"><i class="fa fa-search"></i></a>
+                            </td>
+                            </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                        <div class="space-top">
+                            <% var url = "/customer/client/reject?" %>
+                            <% include ../../_paginator.ejs%>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_nav_bottom.ejs%>
+</div>
+<% include  ../../footer.ejs %>

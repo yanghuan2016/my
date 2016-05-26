@@ -1,0 +1,35 @@
+:local(.table){
+    background-color: #fff;
+}
+:local(.total){
+    font-size:18px;
+    text-align: end;
+    margin:10px 0px 10px 0px ;
+}
+:local(.sum){
+    margin-right: 100px;
+    display: inline-block;
+}
+:local(.tax){
+    margin-right: 100px;
+    display: inline-block;
+}
+:local(.amount){
+    margin-right: 50px;
+    display: inline-block;
+}
+:local(.amount  span){
+    color: red;
+}
+:local(.fixBt) {
+    height: 60px;
+    line-height: 60px;
+    padding-left: 15px;
+    position: fixed;
+    bottom:0px;
+    left:100px;
+    z-index: 99;
+    width: 95%;
+    background: #fff;
+    opacity: 0.8;
+}

@@ -1,0 +1,387 @@
+.ship-operator {
+  width: 70%;
+  margin: 0 auto;
+  margin-bottom: 3px;
+  display: flex;
+  justify-content: space-around;
+  -webkit-justify-content: space-between;
+}
+
+.sm-ship-operator {
+  width: 70%;
+  margin: 0 auto;
+  margin-bottom: 3px;
+}
+
+.tips {
+  font-size: 10px;
+  color: $table-head-font-color;
+}
+
+.sm-page-table {
+  width: 100%;
+  max-width: 100%;
+  tr {
+    box-sizing: border-box;
+  }
+  table-layout: auto;
+  margin-top: -1px;
+}
+
+.sm-page-table thead tr {
+  border: $border-default-size solid $borer-default-color;
+  h3 {
+    margin-bottom: 0;
+  }
+}
+
+.sm-page-table thead tr td {
+  height: $table-head-height;
+  line-height: $table-head-height;
+  background-color: $table-head-background-color;
+  color: $table-head-font-color;
+  font-size: $table-head-font-size;
+  text-align: center;
+}
+
+.sm-page-table thead tr .text-end {
+  text-align: end;
+}
+
+.sm-page-table tr .input-item {
+  text-align: start;
+  padding-left: 15px;
+}
+
+.sm-page-table tr .text-wrap {
+  width: 200px;
+  word-wrap: break-word;
+  word-break: normal;
+}
+
+.sm-page-table .tips {
+  color: $base-red-color;
+}
+
+.sm-page-table tr .input-item input {
+  line-height: 30px;
+  width: 60%;
+  display: inline-block;
+  zoom: 1;
+  margin-right: 2%;
+}
+
+.sm-page-table tbody .operationList {
+  display: inline-block;
+  zoom: 1;
+  vertical-align: middle;
+  border: 1px solid $borer-default-color;
+  border-bottom: none;
+  width: 40px;
+  height: 60px;
+  > a {
+    width: 40px;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    border-bottom: 1px solid $borer-default-color;
+  }
+}
+
+.sm-page-table .head-wight tr td {
+  background-color: #fff;
+}
+
+.sm-page-table tbody {
+  border-left: $border-default-size solid $borer-default-color;
+  border-right: $border-default-size solid $borer-default-color;
+  border-bottom: $border-default-size solid $borer-default-color;
+}
+
+.sm-page-table tbody tr {
+  background-color: $table-content-background-color;
+  color: $table-content-font-color;
+  font-size: $table-content-font-size;
+  text-align: center;
+  border-bottom: $border-default-size solid $borer-default-color;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.sm-page-table tbody tr td {
+  height: $table-content-height;
+  //line-height: $table-content-height;
+  border-bottom: $border-default-size solid $borer-default-color;
+}
+
+.sm-page-table .fa {
+  cursor: pointer;
+  font-size: 17px;
+  margin-right: 8px;
+}
+
+.sm-page-table tbody .fa-pulse {
+  cursor: pointer;
+  font-size: 30px;
+  margin-left: 10px;
+}
+
+.sm-page-table tbody .fa-icon a {
+  margin-left: 8px;
+}
+
+.sm-page-table .goods-info {
+  text-align: start;
+  //min-width: 300px;
+  padding-left: 10px;
+  h3 {
+    margin-bottom: 0;
+  }
+}
+
+.sm-page-table .goods-info .goods-img {
+  float: left;
+  width: 80px;
+  height: 80px;
+  margin: 20px 10px 10px 10px;
+}
+
+.sm-page-table .text-end {
+  text-align: end;
+  padding-right: 10px;
+  margin-left: 8px;
+}
+
+.sm-page-table .goods-info .goods-img img {
+  width: 80px;
+  height: 80px;
+}
+
+.sm-page-table .goods-info .goods-name-info {
+  float: left;
+  margin: 10px;
+  margin-left: none;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.sm-page-table .goods-info .goods-name-info h6 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  word-wrap: break-word;
+  width: 150px;
+}
+
+.sm-page-table .goods-info .goods-name-info .goods-info h6 a {
+  margin-left: 0;
+}
+
+.sm-page-table-remark {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.td-per-10 {
+  width: 10%;
+}
+
+.td-per-15 {
+  width: 15%;
+}
+
+.td-per-20 {
+  width: 20%;
+}
+
+.td-per-25 {
+  width: 25%;
+}
+
+.td-per-30 {
+  width: 30%;
+}
+
+.td-per-35 {
+  width: 35%;
+}
+
+.td-per-40 {
+  width: 40%;
+}
+
+.td-per-55 {
+  width: 55%;
+}
+
+.td-per-60 {
+  width: 60%;
+}
+
+.td-per-65 {
+  width: 65%;
+}
+
+.td-per-70 {
+  width: 70%;
+}
+
+.td-per-75 {
+  width: 75%;
+}
+
+.td-per-80 {
+  width: 80%;
+}
+
+.td-per-85 {
+  width: 85%;
+}
+
+.td-per-90 {
+  width: 90%;
+}
+
+//.sm-page-table img {
+//  width: 90px;
+//  height: 90px;
+//  border: 1px solid #e6e6e6;
+//}
+
+//.sm-page-table tbody .fa:hover {
+//  font-size: 20px;
+//}
+
+.erp-setting-tab {
+  .text-input {
+    width: 100%;
+    height: 16px;
+  }
+}
+
+.erp-setting-tab tbody tr > td:nth-of-type(2) {
+  text-align: start;
+  input {
+    width: 100%;
+    height: 30px;
+    border: solid 1px #e6e6e6;
+    line-height: 20px;
+
+  }
+}
+
+.erp-setting-tab tbody tr > td:nth-of-type(1) {
+  text-align: right;
+  padding-right: 15px;
+}
+
+.erp-setting-tab tbody tr > td:nth-of-type(3) {
+  padding-left: 15px;
+  text-align: left;
+  padding-right: 15px;
+}
+
+.td-2-align-left {
+  tr td:nth-child(2) {
+    text-align: start;
+    font-size: 14px;
+  }
+}
+
+.td-1-align-right {
+  tr td:nth-child(1) {
+    padding-right: 15px;
+    text-align: right;
+    font-size: 14px;
+  }
+  h5 {
+    text-align: right;
+  }
+}
+
+.td-3-align-right {
+  tr td:nth-child(3) {
+    padding-right: 15px;
+    text-align: right;
+    font-size: 14px;
+  }
+  h5 {
+    text-align: right;
+  }
+}
+
+.td-4-align-right {
+  tr td:nth-child(3) {
+    text-align: right;
+  }
+  h5 {
+    text-align: right;
+  }
+}
+
+.none-td-bottom {
+  tbody tr td {
+    border-bottom: none;
+    border-top: none;
+    line-height: 40px;
+    height: 40px;
+  }
+  tbody tr:last-child {
+    border-bottom: $border-default-size solid $borer-default-color;
+  }
+}
+
+.none-tr-bottom {
+  tbody tr {
+    border-bottom: none !important;
+    border-top: none !important;
+    line-height: 40px;;
+    height: 50px !important;
+  }
+}
+
+.link-btn {
+  font-size: 14px;
+  display: inline-block;
+  margin: 5px 10px;
+}
+
+.cart-total-display {
+  border: $border-default-size solid $borer-default-color;
+  border-top: none;
+  padding: 3%;
+  margin-bottom: 10px;
+}
+
+.cart-total-display-address {
+  border-top: $border-default-size solid $borer-default-color;
+  height: 60px;
+  line-height: 60px;
+  .form-control {
+    width: 88%;
+    display: inline-block;
+  }
+  .checkbox {
+    margin: 0;
+    label {
+      margin: 0;
+    }
+  }
+  label {
+    font-weight: bold;
+    color: #999;
+    margin-right: 10px;
+  }
+  span {
+    font-size: 14px;
+  }
+  .tikles {
+    display: none;
+    zoom: 1;
+    margin-left: 5%;
+    color: #999;
+  }
+}

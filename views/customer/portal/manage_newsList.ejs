@@ -1,0 +1,72 @@
+<% include ../header.ejs%>
+<%
+var paginator = data.paginator || {};
+var pageSize = parseInt(paginator.ps) || 10;
+var page = parseInt(paginator.p) || 1;
+%>
+
+<div style="position:relative;width:100%;height:100%;">
+    <!--Layout-->
+    <div class="site-layout">
+            <!--Header Toolbar-->
+            <!--Header Toolbar Close-->
+
+            <!--Header-->
+        <% include ../center/_nav_head.ejs%>
+            <div class="page double-padding-bottom">
+                <div class="container page-content">
+                    <div class="row space-top" >
+                        <!-- Sidebar-->
+                        <% var active = "carousel"; %>
+                        <% include ../center/_nav_customer_left.ejs%>
+                        <!-- Sidebar CLose-->
+                        <section class="col-md-10 pull-right space-bottom">
+                            <div class="filterDivTab">
+                                <% var curtTab = 'news';%>
+                                <% include portalTab.ejs %>
+                            </div>
+                            <table class="sm-page-table">
+                                <thead>
+                                <tr>
+                                    <td>标题</td>
+                                    <td>时间</td>
+                                    <td><a class="btn btn-primary" href="/page/customer/portal/news/item/add">新增</a></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <%var newslength=data.news==null?0:data.news.length%>
+                                <%for(var i=0;i<newslength;i++){%>
+                                <% var currentNew=data.news[i]%>
+                                <tr>
+                                    <td>
+                                        <input type="hidden" val="<%=currentNew.id%>" data-id="hiddenId"/>
+                                        <span><%=currentNew.title%></span>
+                                    </td>
+                                    <td>
+                                        <span><%=currentNew.date%></span>
+                                    </td>
+                                    <td>
+                                        <a  href="/page/customer/portal/news/<%=currentNew.id%>">
+                                            <i class="fa fa-pencil-square-o tooltipped" data-toggle="tooltip" data-placement="left" title="修改" style="margin-right: 2px"></i>
+                                        </a>
+                                        <a class="delete_news" data-newId="<%=currentNew.id%>">
+                                            <i class="fa fa-remove tooltipped" data-toggle="tooltip" data-placement="left" title="删除" style="margin-right: 2px"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <%}%>
+                                </tbody>
+                            </table>
+                            <div class="space-top pull-right">
+                                <% var url = "/page/customer/portal/news?" %>
+                                <% include ../_paginator.ejs%>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% include ../_nav_bottom.ejs%>
+</div>
+<% include  ../footer.ejs %>
+<script src="/static/source/js/portal.js"></script>
