@@ -9,18 +9,22 @@
 # 2016-05-16      yanghuan@romenscd.cn         创建文件
 ###############################################################################
 
+source /etc/profile
+ulimit -n 65530
 TODAY=`date +%Y-%m-%d`
 INCDIR="/var/data/mysqlback/inc"
 FULLDIR="/var/data/mysqlback/full/"
 FULLBACKDIR="/var/data/mysqlback/full/$TODAY"
 INCREMENTDIR="/var/data/mysqlback/inc/$TODAY"
 BACKUSER="root"
-BACKPASSWD="romens@2015"
-MYSQLCNF="/etc/my.cnf"
-FILEPASSWORD="romens@2016"
-BACKHOST="cd"
+BACKPASSWD="password"
+MYSQLCNF="/etc/mysql/my.cnf"
+FILEPASSWORD="password"
+BACKHOST="remote host"
 BACKPORT="22"
 BACKHOSTUSER="yh"
+LOGFILE="/tmp/mysqlback.log"
+INDEXFILE="/var/data/mysqlback/index"
 FULL=0
 INCREMENTAL=0
 INITTIME="1980-01-01"
@@ -91,6 +95,18 @@ checkIncrementalDir() {
     fi
 }
 
+checkLogFile() {
+    if [ ! -f $1 ]
+    then
+        touch $1
+    fi
+}
+
+writeIndex() {
+    cat << EOF >> $INDEXFILE
+{time:$1,   type:$2,    issucess:$3}
+EOF
+}
 tarFile() {
     pwd
     if [ $2 -eq 1 ]
@@ -104,32 +120,51 @@ tarFile() {
 }
 
 fullBack() {
+    checkLogFile ${INDEXFILE}
+    checkLogFile ${LOGFILE}
     #checkFullDir
-    sudo innobackupex --defaults-file=$MYSQLCNF --user=$BACKUSER --password=$BACKPASSWD $FULLBACKDIR --no-timestamp
+    sudo innobackupex --defaults-file=$MYSQLCNF --user=$BACKUSER --password=$BACKPASSWD $FULLBACKDIR --no-timestamp >> $LOGFILE
+    time_now=`date +%Y-%m-%d_%H-%M-%S`
     if [ $? -eq 0 ]
     then
         echo "Full backup success!"
+        writeIndex ${time_now} full Yes
     else
         echo "Full backup failed！"
+        writeIndex ${time_now} full No
     fi
 }
 
 incrementalBack() {
+    checkLogFile ${INDEXFILE}
+    checkLogFile ${LOGFILE}
     checkIncrementalDir
     countPre=`ls ${INCREMENTDIR} | wc -l`
     countNext=$(($countPre+1))
     getLastFullTime
+    time_now=`date +%Y-%m-%d_%H-%M-%S`
     if [ $countPre -eq 0 ]
     then
-        sudo innobackupex --defaults-file=$MYSQLCNF --user=$BACKUSER --password=$BACKPASSWD --incremental --no-timestamp --incremental-basedir=$FULLDIR/$INITTIME $INCREMENTDIR/$countNext
+        sudo innobackupex --defaults-file=$MYSQLCNF --user=$BACKUSER --password=$BACKPASSWD --incremental --no-timestamp --incremental-basedir=$FULLDIR/$INITTIME $INCREMENTDIR/$countNext 2>&1 >> $LOGFILE
+        echo $time_now
         if [ $? -eq 0 ]
         then
             echo "Incremental backup success!"
+            writeIndex ${time_now} inc Yes
         else
             echo "Incremental backup failed！"
+            writeIndex ${time_now} inc No
         fi
     else
-        sudo innobackupex --defaults-file=$MYSQLCNF --user=$BACKUSER --password=$BACKPASSWD --incremental --no-timestamp --incremental-basedir=$INCREMENTDIR/$countPre $INCREMENTDIR/$countNext
+        sudo innobackupex --defaults-file=$MYSQLCNF --user=$BACKUSER --password=$BACKPASSWD --incremental --no-timestamp --incremental-basedir=$INCREMENTDIR/$countPre $INCREMENTDIR/$countNext 2>&1 >> $LOGFILE
+        if [ $? -eq 0 ]
+        then
+            echo "Incremental backup success!"
+            writeIndex ${time_now} inc Yes
+        else
+            echo "Incremental backup failed！"
+            writeIndex ${time_now} inc No
+        fi
     fi
 }
 
@@ -154,7 +189,35 @@ uploadFile() {
     cd $1
     tarFile $2 $3
     cd ../
-    sudo scp -P $BACKPORT  $filename.romens $BACKHOSTUSER@$BACKHOST:~/
+    sudo scp -P $BACKPORT  $filename.romens $BACKHOSTUSER@$BACKHOST:~/mysqlbak
+    if [ $3 -eq 1 ]
+    then
+        checkFullPointFile $filename.romens
+    else
+        checkIncPointFile $filename.romens
+    fi
+}
+
+checkFullPointFile() {
+    if [ -f $FULLDIR/$TODAY/xtrabackup_checkpoints ]
+    then
+        for i in `ls $FULLDIR$TODAY/ | grep -v "xtrabackup*"`
+        do
+           rm -rf $FULLDIR$TODAY/$i
+        done
+        mv $1 $FULLDIR/$TODAY/
+    fi
+}
+
+checkIncPointFile() {
+    if [ -f $INCREMENTDIR/$countNext/xtrabackup_checkpoints ]
+    then
+        for i in `ls $INCREMENTDIR/$countNext/ | grep -v "xtrabackup*"`
+        do
+            rm -rf $INCREMENTDIR/$countNext/$i
+        done
+        mv $1 $INCREMENTDIR/$countNext/
+    fi
 }
 
 checkName() {
@@ -164,6 +227,7 @@ checkName() {
         exit 3
     fi
 }
+
 checkName
 if [ $FULL -eq 1 ]
 then
